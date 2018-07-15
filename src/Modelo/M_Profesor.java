@@ -8,18 +8,19 @@ public class M_Profesor {
     private String telefono;
     private String profesion;
     private String direccion;
+    private int carrera;
     
     public M_Profesor(){
     }
     
-    public M_Profesor(String nombre, String apellido, String cedula, String telefono, String profesion, String direccion /*String carrera*/) {
+    public M_Profesor(String nombre, String apellido, String cedula, String telefono, String profesion, String direccion, int carrera){
         this.nombre = nombre;
         this.apellido = apellido;
         this.cedula = cedula;
         this.telefono = telefono;
         this.profesion = profesion;
         this.direccion = direccion;
-        //this.carrera = carrera;
+        this.carrera = carrera;
     }
 
       public String getNombre() {
@@ -68,6 +69,10 @@ public class M_Profesor {
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
+    }
+
+    public int getCarrera() {
+        return carrera;
     }
 
     

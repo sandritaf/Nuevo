@@ -49,7 +49,7 @@ public class ControladorProfesor {
             PreparedStatement ps = null;                
 
             ps = con.prepareCall("INSERT INTO profesor (nombre, apellido, cedula, telefono, "
-                    + "profesion, direccion) VALUES (?,?,?,?,?,?)");
+                    + "profesion, direccion, id_carrera_fk) VALUES (?,?,?,?,?,?,?)");
 
             ps.setString(1, profesor.getNombre());
             ps.setString(2, profesor.getApellido());
@@ -57,6 +57,7 @@ public class ControladorProfesor {
             ps.setString(4, profesor.getTelefono());
             ps.setString(5,profesor.getProfesion());
             ps.setString(6,profesor.getDireccion());
+            ps.setInt(7,profesor.getCarrera());
 
             int res = ps.executeUpdate(); //Ejecutar la consulta
 
@@ -71,7 +72,7 @@ public class ControladorProfesor {
             con.close();
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Ocurrió un error: "+e);
+            JOptionPane.showMessageDialog(null, "Ocurrió un error guardando prof: "+e);
         }
     }
     

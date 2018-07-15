@@ -43,6 +43,7 @@ public class ControladorEstudiante {
         return bandera;
     }
     
+        
     //Ingresa un estudiante en la tabla
     public void ingresar(M_Estudiante alumno){
         try {
@@ -50,19 +51,19 @@ public class ControladorEstudiante {
                 Connection con = conn.getConection();
                 PreparedStatement ps = null;                
                 
-                ps = con.prepareCall("INSERT INTO estudiante (cedula, nombre, apellido, semestre, carrera)"
+                ps = con.prepareCall("INSERT INTO estudiante (cedula, nombre, apellido, semestre, id_carrera)"
                         + " VALUES (?,?,?,?,?)");
                 
                 ps.setString(1, alumno.getCedula());
                 ps.setString(2, alumno.getNombre());
                 ps.setString(3, alumno.getApellido());
                 ps.setString(4, alumno.getSemestre());
-                ps.setString(5, alumno.getCarrera());
+                ps.setInt(5, alumno.getCarrera());
 
                 int res = ps.executeUpdate(); //Ejecutar la consulta
 
                 if (res > 0){
-                    JOptionPane.showMessageDialog(null, "Persona guardada con éxito");
+                    JOptionPane.showMessageDialog(null, "Alumno guardada con éxito");
                 }else{
                     JOptionPane.showMessageDialog(null, "No se pudo guardar");
                 }
@@ -105,22 +106,20 @@ public class ControladorEstudiante {
     }
     
     //Se modifican datos de un estudiante dada su clave primaria, validar que no se ingresan 2 cedulas iguales
-    public void modificar(String pk_alumno, String cedula, String nombre, String apellido, String carrera, String semestre){
+    public void modificar(String pk_alumno, String cedula, String nombre, String apellido, String semestre){
         try {
             Conexion c = new Conexion();
             Connection con = c.getConection();
             int pk = Integer.parseInt(pk_alumno);
-            PreparedStatement ps;
-            
-            ps = con.prepareStatement("UPDATE estudiante SET cedula=?,nombre=?,apellido=?,semestre=?,carrera=?" +
-                                        "WHERE idestudiante=?");
+            PreparedStatement ps;            
+            ps = con.prepareStatement("UPDATE estudiante SET cedula=?, nombre=?, apellido=?, semestre=?" +
+                                        " WHERE idestudiante=?");
             
             ps.setString(1, cedula); 
             ps.setString(2, nombre); 
             ps.setString(3, apellido); 
             ps.setInt(4, Integer.parseInt(semestre)); 
-            ps.setString(5,carrera);
-            ps.setInt(6,pk);
+            ps.setInt(5, pk);
             
             int res = ps.executeUpdate();
             
@@ -135,7 +134,7 @@ public class ControladorEstudiante {
             ps.close();
                  
         } catch (Exception e) {
-             JOptionPane.showMessageDialog(null, "Ocurrió un error: "+e);
+             JOptionPane.showMessageDialog(null, "Ocurrió un error en la modificacion: "+e);
         }
     }
     
