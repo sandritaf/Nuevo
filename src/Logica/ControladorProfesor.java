@@ -41,7 +41,8 @@ public class ControladorProfesor {
         }
         return bandera;
     }
-
+    
+    //Se agrega en tabla un profesor
     public void ingresar(M_Profesor profesor){
         try {
             Conexion conn = new Conexion();
@@ -76,7 +77,7 @@ public class ControladorProfesor {
         }
     }
     
-    //Dada una clave primaria, se elimina un estudiante
+    //Dada una clave primaria, se elimina un profesor
     public void eliminar(String pk_profesor){
         
         try {

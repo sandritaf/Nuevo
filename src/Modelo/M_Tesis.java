@@ -22,6 +22,15 @@ public class M_Tesis {
 
     public M_Tesis(){
     }
+
+    public M_Tesis(String status, String titulo, Date f_inicio, Date f_fin, String observaciones, String departamento) {
+        this.status = status;
+        this.titulo = titulo;
+        this.f_inicio = f_inicio;
+        this.f_fin = f_fin;
+        this.observaciones = observaciones;
+        this.departamento = departamento;
+    }
     
     public M_Tesis(String status, String titulo, int nota_tacademico, int nota_tindustrial, int nota_defensa, 
             String observaciones, String departamento, float nota_final, Date f_inicio, Date f_fin){
