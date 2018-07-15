@@ -483,14 +483,23 @@ public class Tesis extends javax.swing.JPanel {
     }//GEN-LAST:event_cmbProfesor2ActionPerformed
 
     private void GuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GuardarMouseClicked
-        
         if(tituloExiste(txtTitulo.getText())){
             JOptionPane.showMessageDialog(null, "Ya existe una tesis registrada con ese titulo");
         }
         else{
-            //tesis = new M_Tesis(WIDTH, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, f_inicio, f_fin, SOMEBITS, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY)
+            tesis = new M_Tesis(jRadioButton1.getSelectedIcon().toString(),txtTitulo.getText(),txtObservaciones.getText());
+            controlador.ingresar(tesis);
         }
+        limpiarCajas();
     }//GEN-LAST:event_GuardarMouseClicked
+    
+    public void limpiarCajas(){
+        txtFechaF.setText("");
+        txtFechaI.setText("");
+        txtObservaciones.setText("");
+        txtTitulo.setText("");
+        txtPK.setText("");
+    }
     
     public boolean tituloExiste(String titulo){
         return controlador.tituloExiste(titulo);
