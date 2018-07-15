@@ -106,20 +106,21 @@ public class ControladorEstudiante {
     }
     
     //Se modifican datos de un estudiante dada su clave primaria, validar que no se ingresan 2 cedulas iguales
-    public void modificar(String pk_alumno, String cedula, String nombre, String apellido, String semestre){
+    public void modificar(String pk_alumno, String cedula, String nombre, String apellido, String semestre, int carrera){
         try {
             Conexion c = new Conexion();
             Connection con = c.getConection();
             int pk = Integer.parseInt(pk_alumno);
             PreparedStatement ps;            
-            ps = con.prepareStatement("UPDATE estudiante SET cedula=?, nombre=?, apellido=?, semestre=?" +
+            ps = con.prepareStatement("UPDATE estudiante SET cedula=?, nombre=?, apellido=?, semestre=?, id_carrera=?" +
                                         " WHERE idestudiante=?");
             
             ps.setString(1, cedula); 
             ps.setString(2, nombre); 
             ps.setString(3, apellido); 
             ps.setInt(4, Integer.parseInt(semestre)); 
-            ps.setInt(5, pk);
+            ps.setInt(5, carrera);
+            ps.setInt(6, pk);
             
             int res = ps.executeUpdate();
             

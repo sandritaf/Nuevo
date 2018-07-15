@@ -474,7 +474,7 @@ public class Profesor extends javax.swing.JPanel {
     }//GEN-LAST:event_EliminarMouseClicked
 
     private void CargarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CargarMouseClicked
-        String sql = "SELECT idprofesor, nombre, apellido, cedula, profesion, id_carrera_fk FROM profesor";
+        String sql = "SELECT idprofesor, nombre, apellido, cedula, profesion, id_carrera_fk FROM profesor order by apellido";
 
         try{
             DefaultTableModel modelo = new DefaultTableModel();
