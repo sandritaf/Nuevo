@@ -235,7 +235,7 @@ public class Menu extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Latha", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/Empresa.png"))); // NOI18N
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/empresa50.png"))); // NOI18N
         jLabel9.setLabelFor(SidePanel);
         jLabel9.setText("Empresa");
         jLabel9.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);

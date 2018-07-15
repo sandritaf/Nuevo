@@ -66,7 +66,7 @@ public class Estudiante extends javax.swing.JPanel {
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/estudiantebirrete64.png"))); // NOI18N
-        jLabel13.setText("Gestionar Estudiante");
+        jLabel13.setText("Estudiante");
 
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
