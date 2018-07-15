@@ -2,37 +2,27 @@ package Modelo;
 
 public class M_Profesor {
 
-    private int idprofesor;
     private String nombre;
     private String apellido;
     private String cedula;
     private String telefono;
     private String profesion;
-    private String titulo;
-    private String carrera;
+    private String direccion;
     
     public M_Profesor(){
     }
     
-    public M_Profesor(String nombre, String apellido, String cedula, String telefono, String profesion, String titulo/*, String carrera*/) {
+    public M_Profesor(String nombre, String apellido, String cedula, String telefono, String profesion, String direccion /*String carrera*/) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.cedula = cedula;
         this.telefono = telefono;
         this.profesion = profesion;
-        this.titulo = titulo;
+        this.direccion = direccion;
         //this.carrera = carrera;
     }
 
-    public int getIdprofesor() {
-        return idprofesor;
-    }
-
-    public void setIdprofesor(int idprofesor) {
-        this.idprofesor = idprofesor;
-    }
-
-    public String getNombre() {
+      public String getNombre() {
         return nombre;
     }
 
@@ -72,21 +62,15 @@ public class M_Profesor {
         this.profesion = profesion;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
-    public String getCarrera() {
-        return carrera;
-    }
-
-    public void setCarrera(String carrera) {
-        this.carrera = carrera;
-    }
+    
     
     
 }
