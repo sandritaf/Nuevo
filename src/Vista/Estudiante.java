@@ -21,6 +21,7 @@ public class Estudiante extends javax.swing.JPanel {
         initComponents();
         controlador = new ControladorEstudiante();
         cargarCarreras();
+        alumno = new M_Estudiante();
     }
 
 
@@ -437,8 +438,7 @@ public class Estudiante extends javax.swing.JPanel {
         txtID.setText(null);
     }  
     
-    public String filtroCarrera(){
-        
+    public String filtroCarrera(){        
         String codcarrera = cmbCarrera2.getSelectedItem().toString(); 
         codcarrera = codcarrera.substring(0, 1);
         int codigoCarrera = Integer.parseInt(codcarrera);
@@ -512,7 +512,7 @@ public class Estudiante extends javax.swing.JPanel {
             codcarrera = codcarrera.substring(0, 1);
             int codigoCarrera = Integer.parseInt(codcarrera); 
             
-            alumno = new M_Estudiante(txtNombre.getText(), txtApellido.getText(),
+            alumno.actualizar(txtNombre.getText(), txtApellido.getText(),
                     codigoCarrera, txtSemestre.getText(), txtCedula.getText());
             controlador.ingresar(alumno);
         }
@@ -526,8 +526,9 @@ public class Estudiante extends javax.swing.JPanel {
             String codcarrera = cmbCarrera2.getSelectedItem().toString(); 
             codcarrera = codcarrera.substring(0, 1);
             int codigoCarrera = Integer.parseInt(codcarrera);
-            controlador.modificar(txtID.getText(), txtCedula.getText(), txtNombre.getText(),
-                    txtApellido.getText(), txtSemestre.getText(), codigoCarrera); 
+            alumno.actualizar(txtNombre.getText(), txtApellido.getText(),
+                    codigoCarrera, txtSemestre.getText(), txtCedula.getText());
+            controlador.modificar(alumno, txtID.getText()); 
         }
         limpiarCajas();
     }//GEN-LAST:event_ModificarMouseClicked
@@ -551,7 +552,7 @@ public class Estudiante extends javax.swing.JPanel {
         else if (botonFiltroCarrera.isSelected())
             sql = sql + "WHERE "+filtroCarrera();                
 
-        sql = sql + "Order by apellido";
+        sql = sql + " Order by apellido";
         
         try{
             DefaultTableModel modelo = new DefaultTableModel();

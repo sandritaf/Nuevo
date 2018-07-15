@@ -75,7 +75,15 @@ public class M_Profesor {
         return carrera;
     }
 
-    
+    public void actualizar(String nombre, String apellido, String cedula, String telefono, String profesion, String direccion, int carrera){
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.cedula = cedula;
+        this.telefono = telefono;
+        this.profesion = profesion;
+        this.direccion = direccion;
+        this.carrera = carrera;
+    }
     
     
 }

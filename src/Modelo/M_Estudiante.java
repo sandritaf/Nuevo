@@ -38,5 +38,12 @@ public class M_Estudiante {
         return cedula;
     }
     
+    public void actualizar(String nombre, String apellido, int carrera, String semestre, String cedula) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.carrera = carrera;
+        this.semestre = semestre;
+        this.cedula = cedula;
+    }
     
 }
