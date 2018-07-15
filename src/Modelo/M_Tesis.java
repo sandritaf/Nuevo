@@ -23,6 +23,12 @@ public class M_Tesis {
     public M_Tesis(){
     }
 
+    public M_Tesis(String status, String titulo, String observaciones) {
+        this.status = status;
+        this.titulo = titulo;
+        this.observaciones = observaciones;
+    }
+    
     public M_Tesis(String status, String titulo, Date f_inicio, Date f_fin, String observaciones, String departamento) {
         this.status = status;
         this.titulo = titulo;
