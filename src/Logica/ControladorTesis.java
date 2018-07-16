@@ -50,19 +50,11 @@ public class ControladorTesis {
                 PreparedStatement ps = null;                
                 
                 ps = con.prepareCall("INSERT INTO tesis (status,titulo,observaciones) VALUES (?,?,?)");
-                
-//                ps = con.prepareCall("INSERT INTO tesis (status, titulo, observaciones,departamento,"
-//                        + "nota_tacademico, nota_tindustrial, nota_defensa)"
-//                        + " VALUES (?,?,?,?,?)");
-//                
+                  
                 ps.setString(1, tesis.getStatus());
                 ps.setString(2, tesis.getTitulo());
                 ps.setString(3, tesis.getObservaciones());
-//                ps.setString(4, tesis.getDepartamento());
-//                ps.setInt(5,tesis.getNota_tacademico());
-//                ps.setInt(5,tesis.getNota_tindustrial());
-//                ps.setInt(5,tesis.getNota_defensa());
-
+                
                 int res = ps.executeUpdate(); //Ejecutar la consulta
 
                 if (res > 0){
@@ -109,8 +101,7 @@ public class ControladorTesis {
     }
     
     //Se modifican datos de una tesis dada su clave primaria, validar que no se ingresan 2 titulos iguales
-    public void modificar(String pk_tesis, String status, String titulo
-            /*, float nota_tacademico, float nota_tindustrial, float nota_defensa*/, String observaciones){
+    public void modificar(M_Tesis tesis, String pk_tesis){
         try {
             Conexion c = new Conexion();
             Connection con = c.getConection();
@@ -118,15 +109,10 @@ public class ControladorTesis {
             PreparedStatement ps;
             
             ps = con.prepareStatement("UPDATE tesis SET status=?, titulo=?, observaciones=? WHERE idtesis="+pk_tesis);
-                    /*+ "nota_tacademico=?, nota_tindustrial=?"
-                                    + "nota_defensa=?, observaciones=? WHERE idtesis="+pk_tesis);*/
             
-            ps.setString(1, status); 
-            ps.setString(2, titulo); 
-//            ps.setFloat(3, nota_tacademico); 
-//            ps.setFloat(4, nota_tindustrial); 
-//            ps.setFloat(5,nota_defensa);
-            ps.setString(3,observaciones);
+            ps.setString(1, tesis.getStatus()); 
+            ps.setString(2, tesis.getTitulo());
+            ps.setString(3,tesis.getObservaciones());
             
             int res = ps.executeUpdate();
             

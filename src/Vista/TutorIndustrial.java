@@ -31,6 +31,7 @@ public class TutorIndustrial extends javax.swing.JPanel {
     
     public TutorIndustrial() {
         initComponents();
+        controlador = new ControladorTutorIndustrial();
         txtPK.setVisible(false);
         cargarEmpresas();
     }
@@ -92,7 +93,7 @@ public class TutorIndustrial extends javax.swing.JPanel {
         txtPK = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaTutores = new javax.swing.JTable();
+        TablaTutores = new javax.swing.JTable();
         ListaTutores = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -251,8 +252,8 @@ public class TutorIndustrial extends javax.swing.JPanel {
                 .addContainerGap(176, Short.MAX_VALUE))
         );
 
-        tablaTutores.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        tablaTutores.setModel(new javax.swing.table.DefaultTableModel(
+        TablaTutores.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        TablaTutores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -268,7 +269,12 @@ public class TutorIndustrial extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tablaTutores);
+        TablaTutores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaTutoresMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(TablaTutores);
 
         ListaTutores.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         ListaTutores.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/tutores50.png"))); // NOI18N
@@ -368,7 +374,7 @@ public class TutorIndustrial extends javax.swing.JPanel {
 
         try{
             DefaultTableModel modelo = new DefaultTableModel();
-            tablaTutores.setModel(modelo);
+            TablaTutores.setModel(modelo);
 
             PreparedStatement ps = null;
             ResultSet rs = null;
@@ -425,13 +431,42 @@ public class TutorIndustrial extends javax.swing.JPanel {
             String codempresa = cmbEmpresa.getSelectedItem().toString(); 
             codempresa = codempresa.substring(0, 1);
             int codigoEmpresa = Integer.parseInt(codempresa); 
-
             
             controlador.modificar(txtPK.getText(), txtCedula.getText(), txtNombre.getText(),
                     txtApellido.getText(), txtTelefono.getText(), codigoEmpresa);
         }
         limpiarCajas();
     }//GEN-LAST:event_ModificarMouseClicked
+
+    private void TablaTutoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaTutoresMouseClicked
+        Guardar.setEnabled(false);
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try{
+            Conexion conn = new Conexion();
+            Connection con = conn.getConection();
+            
+            int fila = TablaTutores.getSelectedRow();
+            int codigo = (int) TablaTutores.getValueAt(fila, 0);
+            
+            ps = (PreparedStatement) con.prepareStatement("SELECT idtindustrial, nombre, apellido, cedula, telefono, id_empresa "
+                                                + "FROM tutor_industrial WHERE idtindustrial=?");
+            ps.setInt(1, codigo);          
+            rs = ps.executeQuery();                            
+            
+            while(rs.next()){
+                txtPK.setText(rs.getString("idprofesor"));
+                txtNombre.setText(rs.getString("nombre"));
+                txtApellido.setText(rs.getString("apellido"));
+                txtCedula.setText(rs.getString("cedula"));
+                txtTelefono.setText(rs.getString("telefono"));
+                cmbEmpresa.setSelectedIndex(rs.getInt("id_empresa")-1);
+            }
+        }catch(Exception e){
+            System.out.println(e);
+        }
+
+    }//GEN-LAST:event_TablaTutoresMouseClicked
     
     public void limpiarCajas(){
         txtApellido.setText("");
@@ -449,6 +484,7 @@ public class TutorIndustrial extends javax.swing.JPanel {
     private javax.swing.JLabel Guardar;
     private javax.swing.JLabel ListaTutores;
     private javax.swing.JLabel Modificar;
+    private javax.swing.JTable TablaTutores;
     private javax.swing.JLabel Telefono;
     private javax.swing.JLabel TutorIndustrial;
     private javax.swing.JComboBox<String> cmbEmpresa;
@@ -458,7 +494,6 @@ public class TutorIndustrial extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tablaTutores;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtNombre;
