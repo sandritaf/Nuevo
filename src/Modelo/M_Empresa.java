@@ -39,6 +39,12 @@ public class M_Empresa {
         return telefono;
     }
     
-    
+    public void actualizar(String nombre, String rif, String direccion, String gerente, String telefono) {
+        this.nombre = nombre;
+        this.rif = rif;
+        this.direccion = direccion;
+        this.gerente = gerente;
+        this.telefono = telefono;
+    }
     
 }

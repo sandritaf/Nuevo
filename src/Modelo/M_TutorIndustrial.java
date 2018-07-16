@@ -17,6 +17,11 @@ public class M_TutorIndustrial {
     private String telefono;
     private int id_empresa;
 
+    public M_TutorIndustrial() {
+    }
+
+    
+    
     public M_TutorIndustrial(String nombre, String apellido, String cedula, String telefono, int id_empresa) {
         this.nombre = nombre;
         this.apellido = apellido;

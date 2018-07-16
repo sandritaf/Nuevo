@@ -2,7 +2,6 @@ package Logica;
 
 import Conexion.Conexion;
 import Modelo.M_Empresa;
-import Modelo.M_Estudiante;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +11,14 @@ import javax.swing.JOptionPane;
 public class ControladorEmpresa {
 
     public ControladorEmpresa() {
+    }
+    
+    public boolean estaVacio(M_Empresa empresa){
+        if (empresa.getNombre().isEmpty() || empresa.getRif().isEmpty() || empresa.getTelefono().isEmpty())
+            return true;
+        else if (empresa.getDireccion().isEmpty() || empresa.getGerente().isEmpty())
+            return true;
+        return false;
     }
     
     //Comprueba si un rif ya existe en la tabla empresa
@@ -46,14 +53,17 @@ public class ControladorEmpresa {
     
     //Ingresa una empresa en la tabla
     public void ingresar(M_Empresa empresa){
-        try {
+        if (estaVacio(empresa))
+            JOptionPane.showMessageDialog(null, "No pueden haber campos vacíos.");
+        else {
+            try {
                 Conexion conn = new Conexion();
                 Connection con = conn.getConection();
                 PreparedStatement ps = null;                
-                
+
                 ps = con.prepareCall("INSERT INTO empresa (rif, nombre, gerente, direccion, telefono)"
                         + " VALUES (?,?,?,?,?)");
-                
+
                 ps.setString(1, empresa.getRif());
                 ps.setString(2, empresa.getNombre());
                 ps.setString(3, empresa.getGerente());
@@ -75,6 +85,7 @@ public class ControladorEmpresa {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Ocurrió un error guardando empresa: "+e);
             }
+        }
     }
     
     //Dada una clave primaria, se elimina una empresa
@@ -106,37 +117,41 @@ public class ControladorEmpresa {
     }
     
     //Se modifican datos de un estudiante dada su clave primaria, validar que no se ingresan 2 rif iguales
-    public void modificar(String pk_empresa, String rif, String nombre, String gerente, String direccion, String telefono){
-        try {
-            Conexion c = new Conexion();
-            Connection con = c.getConection();
-            int pk = Integer.parseInt(pk_empresa);
-            PreparedStatement ps;
-            
-            ps = con.prepareStatement("UPDATE empresa SET rif=?,nombre=?,gerente=?,direccion=?,telefono=?" +
-                                        "WHERE idempresa=?");
-            
-            ps.setString(1, rif); 
-            ps.setString(2, nombre); 
-            ps.setString(3, gerente); 
-            ps.setString(4, direccion); 
-            ps.setString(5,telefono);
-            ps.setInt(6,pk);
-            
-            int res = ps.executeUpdate();
-            
-            if (res > 0){
-                JOptionPane.showMessageDialog(null, "Empresa modificada con éxito");
-            }else{
-                JOptionPane.showMessageDialog(null, "No se pudo modificar empresa");
+    public void modificar(M_Empresa empresa, String pk_empresa){
+        if (estaVacio(empresa))
+            JOptionPane.showMessageDialog(null, "No pueden haber campos vacíos.");
+        else {
+            try {
+                Conexion c = new Conexion();
+                Connection con = c.getConection();
+                int pk = Integer.parseInt(pk_empresa);
+                PreparedStatement ps;
+
+                ps = con.prepareStatement("UPDATE empresa SET rif=?,nombre=?,gerente=?,direccion=?,telefono=?" +
+                                            "WHERE idempresa=?");
+
+                ps.setString(1, empresa.getRif()); 
+                ps.setString(2, empresa.getNombre()); 
+                ps.setString(3, empresa.getGerente()); 
+                ps.setString(4, empresa.getDireccion()); 
+                ps.setString(5, empresa.getTelefono());
+                ps.setInt(6,pk);
+
+                int res = ps.executeUpdate();
+
+                if (res > 0){
+                    JOptionPane.showMessageDialog(null, "Empresa modificada con éxito");
+                }else{
+                    JOptionPane.showMessageDialog(null, "No se pudo modificar empresa");
+                }
+
+                c.CerrarConexion();
+                con.close();
+                ps.close();
+
+            } catch (Exception e) {
+                 JOptionPane.showMessageDialog(null, "Ocurrió un error: "+e);
             }
-                        
-            c.CerrarConexion();
-            con.close();
-            ps.close();
-                 
-        } catch (Exception e) {
-             JOptionPane.showMessageDialog(null, "Ocurrió un error: "+e);
         }
     }
     
