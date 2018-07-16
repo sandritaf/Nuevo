@@ -5,6 +5,9 @@
  */
 package Vista;
 
+import Logica.ControladorCarrera;
+import Modelo.M_Carrera;
+
 /**
  *
  * @author brenda
@@ -14,9 +17,14 @@ public class Carrera extends javax.swing.JPanel {
     /**
      * Creates new form Carrera
      */
+    
+    M_Carrera carrera;
+    ControladorCarrera controlador;
+    
     public Carrera() {
         initComponents();
         txtPK.setVisible(false);
+        controlador = new ControladorCarrera();
     }
 
     /**
