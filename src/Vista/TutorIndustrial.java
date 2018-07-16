@@ -33,6 +33,7 @@ public class TutorIndustrial extends javax.swing.JPanel {
         initComponents();
         txtPK.setVisible(false);
         cargarEmpresas();
+        controlador = new ControladorTutorIndustrial();
     }
     
     private void cargarEmpresas(){
@@ -348,9 +349,9 @@ public class TutorIndustrial extends javax.swing.JPanel {
     }//GEN-LAST:event_txtApellidoActionPerformed
 
     private void GuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GuardarMouseClicked
-        if(controlador.idExiste(txtCedula.getText())){
-            JOptionPane.showMessageDialog(null, "Ya existe una persona registrada con esa cedula");
-        } else {
+      //  if(controlador.idExiste(txtCedula.getText())){
+       //     JOptionPane.showMessageDialog(null, "Ya existe una persona registrada con esa cedula");
+      //  } else {
             String codempresa = cmbEmpresa.getSelectedItem().toString(); 
             codempresa = codempresa.substring(0, 1);
             int codigoEmpresa = Integer.parseInt(codempresa); 
@@ -358,7 +359,7 @@ public class TutorIndustrial extends javax.swing.JPanel {
             tutor = new M_TutorIndustrial(txtNombre.getText(), txtApellido.getText(),
                 txtCedula.getText(), txtTelefono.getText(), codigoEmpresa);
             controlador.ingresar(tutor);
-        }
+       // }
         limpiarCajas();
     }//GEN-LAST:event_GuardarMouseClicked
 
