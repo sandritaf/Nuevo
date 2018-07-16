@@ -51,7 +51,7 @@ public class Empresa extends javax.swing.JPanel {
         txtDireccion = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         txtGerente = new javax.swing.JTextField();
-        Guardar1 = new javax.swing.JLabel();
+        Guardar = new javax.swing.JLabel();
         Modificar = new javax.swing.JLabel();
         Eliminar = new javax.swing.JLabel();
         txtID = new javax.swing.JTextField();
@@ -111,12 +111,12 @@ public class Empresa extends javax.swing.JPanel {
         jLabel10.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel10.setText("Gerente");
 
-        Guardar1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        Guardar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/guardar.png"))); // NOI18N
-        Guardar1.setText("Guardar");
-        Guardar1.addMouseListener(new java.awt.event.MouseAdapter() {
+        Guardar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        Guardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/guardar.png"))); // NOI18N
+        Guardar.setText("Guardar");
+        Guardar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                Guardar1MousePressed(evt);
+                GuardarMousePressed(evt);
             }
         });
 
@@ -151,7 +151,7 @@ public class Empresa extends javax.swing.JPanel {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(Guardar1)
+                .addComponent(Guardar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Modificar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -185,7 +185,7 @@ public class Empresa extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Guardar1)
+                    .addComponent(Guardar)
                     .addComponent(Modificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(Eliminar))
                 .addGap(11, 11, 11)
@@ -216,10 +216,7 @@ public class Empresa extends javax.swing.JPanel {
         Tabla.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         Tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Código", "Nombre", "RIF", "Gerente", "Teléfono"
@@ -258,7 +255,7 @@ public class Empresa extends javax.swing.JPanel {
 
         Cargar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         Cargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/actualizar.png"))); // NOI18N
-        Cargar.setText("Actualizar");
+        Cargar.setText("Cargar");
         Cargar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 CargarMouseClicked(evt);
@@ -272,22 +269,19 @@ public class Empresa extends javax.swing.JPanel {
             .addGroup(panelDerechoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addGroup(panelDerechoLayout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Cargar))
+                    .addComponent(jLabel7)
+                    .addComponent(Cargar)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelDerechoLayout.setVerticalGroup(
             panelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDerechoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(panelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Cargar)
-                    .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Cargar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -301,7 +295,7 @@ public class Empresa extends javax.swing.JPanel {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(panelDerecho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(385, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -311,11 +305,11 @@ public class Empresa extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panelDerecho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void Guardar1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Guardar1MousePressed
+    private void GuardarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GuardarMousePressed
         //No permite añadir usuarios cuya cedula ya existe en la base de datos ni con campos vacios
         if(idExiste(txtRIF.getText())){
             JOptionPane.showMessageDialog(null, "Ya existe una empresa registrada con ese RIF");
@@ -325,7 +319,7 @@ public class Empresa extends javax.swing.JPanel {
             controlador.ingresar(empresa);
         }
         limpiarCajas();
-    }//GEN-LAST:event_Guardar1MousePressed
+    }//GEN-LAST:event_GuardarMousePressed
 
     private void ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModificarMouseClicked
         if(txtID.getText().isEmpty()){
@@ -425,7 +419,7 @@ public class Empresa extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Cargar;
     private javax.swing.JLabel Eliminar;
-    private javax.swing.JLabel Guardar1;
+    private javax.swing.JLabel Guardar;
     private javax.swing.JLabel Modificar;
     private javax.swing.JTable Tabla;
     private javax.swing.ButtonGroup buttonGroup1;

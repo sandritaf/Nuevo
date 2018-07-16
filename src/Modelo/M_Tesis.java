@@ -11,10 +11,10 @@ public class M_Tesis {
     private Date f_fin;
     private int nota_tacademico;
     private int nota_tindustrial;
-    private int nota_defensa;
+    private float nota_defensa;
     private String observaciones;
     private String departamento;
-    private int nota_final;
+    private float nota_final;
     private int id_tutorAcademico;
     private int id_tutorIndustrial;
     private int estudiante_tesis;
@@ -38,7 +38,7 @@ public class M_Tesis {
         this.departamento = departamento;
     }
     
-    public M_Tesis(String status, String titulo, int nota_tacademico, int nota_tindustrial, int nota_defensa, 
+    public M_Tesis(String status, String titulo, int nota_tacademico, int nota_tindustrial, float nota_defensa, 
             String observaciones, String departamento, float nota_final, Date f_inicio, Date f_fin){
         this.status="";
         this.titulo="";
@@ -109,11 +109,11 @@ public class M_Tesis {
         this.nota_tindustrial = nota_tindustrial;
     }
 
-    public int getNota_defensa() {
+    public float getNota_defensa() {
         return nota_defensa;
     }
 
-    public void setNota_defensa(int nota_defensa) {
+    public void setNota_defensa(float nota_defensa) {
         this.nota_defensa = nota_defensa;
     }
 
@@ -133,11 +133,11 @@ public class M_Tesis {
         this.departamento = departamento;
     }
 
-    public int getNota_final() {
+    public float getNota_final() {
         return nota_final;
     }
 
-    public void setNota_final(int nota_final) {
+    public void setNota_final(float nota_final) {
         this.nota_final = nota_final;
     }
 
@@ -163,6 +163,14 @@ public class M_Tesis {
 
     public void setEstudiante_tesis(int estudiante_tesis) {
         this.estudiante_tesis = estudiante_tesis;
+    }
+    
+    public float nota_final(){
+        float n_ti = (float) (nota_tindustrial*0.35);
+        float n_ta = (float) (nota_tacademico*0.25);
+        float n_defensa = (float) (nota_defensa*0.40); 
+        
+        return nota_final = n_ti + n_ta + n_defensa;
     }
     
 }

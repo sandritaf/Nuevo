@@ -13,16 +13,18 @@ public class M_Calificaciones {
    
     private int idnotas;
     private int id_tesis;
-    private int id_tindustrial;
-    private int id_tacademico;
-    private float promedio_defensa;
+    private int n_tindustrial;
+    private int n_tacademico;
+    private int n_promdefensa;
+    private int n_final;
 
-    public M_Calificaciones(int idnotas, int id_tesis, int id_tindustrial, int id_tacademico, float promedio_defensa) {
+    public M_Calificaciones(int idnotas, int id_tesis, int n_tindustrial, int n_tacademico, int n_promdefensa, int n_final) {
         this.idnotas = idnotas;
         this.id_tesis = id_tesis;
-        this.id_tindustrial = id_tindustrial;
-        this.id_tacademico = id_tacademico;
-        this.promedio_defensa = promedio_defensa;
+        this.n_tindustrial = n_tindustrial;
+        this.n_tacademico = n_tacademico;
+        this.n_promdefensa = n_promdefensa;
+        this.n_final = n_final;
     }
 
     public int getIdnotas() {
@@ -41,30 +43,40 @@ public class M_Calificaciones {
         this.id_tesis = id_tesis;
     }
 
-    public int getId_tindustrial() {
-        return id_tindustrial;
+    public int getN_tindustrial() {
+        return n_tindustrial;
     }
 
-    public void setId_tindustrial(int id_tindustrial) {
-        this.id_tindustrial = id_tindustrial;
+    public void setN_tindustrial(int n_tindustrial) {
+        this.n_tindustrial = n_tindustrial;
     }
 
-    public int getId_tacademico() {
-        return id_tacademico;
+    public int getN_tacademico() {
+        return n_tacademico;
     }
 
-    public void setId_tacademico(int id_tacademico) {
-        this.id_tacademico = id_tacademico;
+    public void setN_tacademico(int n_tacademico) {
+        this.n_tacademico = n_tacademico;
     }
 
-    public float getPromedio_defensa() {
-        return promedio_defensa;
+    public int getN_promdefensa() {
+        return n_promdefensa;
     }
 
-    public void setPromedio_defensa(float promedio_defensa) {
-        this.promedio_defensa = promedio_defensa;
+    public void setN_promdefensa(int n_promdefensa) {
+        this.n_promdefensa = n_promdefensa;
     }
     
+    public void calculoPromedio(){
+        
+    }
     
+    public int calculo_nfinal(){
+        int n_ti = (int) (n_tindustrial*0.35);
+        int n_ta = (int) (n_tacademico*0.25);
+        int n_defensa = (int) (n_promdefensa*0.40); 
+        
+        return n_ti + n_ta + n_defensa;
+    }
     
 }
