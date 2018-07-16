@@ -214,44 +214,30 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="txtDireccion" min="-2" pref="135" max="-2" attributes="0"/>
-                                  <EmptySpace pref="55" max="32767" attributes="0"/>
-                                  <Component id="txtID" min="-2" pref="18" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel11" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel13" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel15" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="txtProfesion" alignment="1" min="-2" pref="135" max="-2" attributes="0"/>
-                                              <Component id="txtTelefono" alignment="1" min="-2" pref="135" max="-2" attributes="0"/>
-                                              <Component id="txtCedula" alignment="1" min="-2" pref="135" max="-2" attributes="0"/>
-                                              <Component id="txtApellido" alignment="1" min="-2" pref="135" max="-2" attributes="0"/>
-                                              <Component id="txtNombre" alignment="1" min="-2" pref="135" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-                                          <Component id="cmbCarrera" min="-2" pref="171" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                              </Group>
+                              <Component id="jLabel16" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel15" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel13" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel11" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="txtTelefono" alignment="0" max="32767" attributes="0"/>
+                              <Component id="cmbCarrera" alignment="0" pref="171" max="32767" attributes="0"/>
+                              <Component id="txtCedula" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtApellido" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtNombre" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtDireccion" alignment="0" max="32767" attributes="0"/>
+                              <Component id="txtProfesion" alignment="0" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="txtPK" min="-2" pref="18" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -262,7 +248,7 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtNombre" alignment="3" min="-2" pref="19" max="-2" attributes="0"/>
-                              <Component id="txtID" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtPK" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -418,7 +404,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtDireccionActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JTextField" name="txtID">
+                <Component class="javax.swing.JTextField" name="txtPK">
                   <Properties>
                     <Property name="editable" type="boolean" value="false"/>
                   </Properties>
@@ -490,7 +476,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Recursos/actualizar.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Actualizar"/>
+                <Property name="text" type="java.lang.String" value="Cargar"/>
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="CargarMouseClicked"/>

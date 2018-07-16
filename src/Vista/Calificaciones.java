@@ -5,13 +5,17 @@
  */
 package Vista;
 
+import Logica.ControladorCalificaciones;
+import Modelo.M_Calificaciones;
+
 /**
  *
  * @author brenda
  */
 public class Calificaciones extends javax.swing.JPanel {
     
-    
+    M_Calificaciones calificaciones;
+    ControladorCalificaciones controlador;
     
     /**
      * Creates new form Calificaciones
@@ -54,7 +58,7 @@ public class Calificaciones extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel4.setBackground(new java.awt.Color(255, 167, 0));
+        jPanel4.setBackground(new java.awt.Color(255, 51, 51));
 
         jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
