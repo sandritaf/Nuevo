@@ -211,9 +211,9 @@ public class Estudiante extends javax.swing.JPanel {
                     .addComponent(ListadoAlumnos)
                     .addComponent(Cargar))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonFiltroCedula)
-                    .addComponent(botonFiltroCarrera))
+                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(botonFiltroCarrera)
+                    .addComponent(botonFiltroCedula))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCedulaFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -523,7 +523,7 @@ public class Estudiante extends javax.swing.JPanel {
         if(txtID.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Error en la modificación");
         } else {        
-            String codcarrera = cmbCarrera2.getSelectedItem().toString(); 
+            String codcarrera = cmbCarrera.getSelectedItem().toString(); 
             codcarrera = codcarrera.substring(0, 1);
             int codigoCarrera = Integer.parseInt(codcarrera);
             alumno.actualizar(txtNombre.getText(), txtApellido.getText(),
@@ -596,7 +596,6 @@ public class Estudiante extends javax.swing.JPanel {
     }//GEN-LAST:event_CargarMouseClicked
 
     private void TablaAlumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaAlumnoMouseClicked
-         //btnModificar.setEnabled(true);
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{

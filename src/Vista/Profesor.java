@@ -23,6 +23,7 @@ public class Profesor extends javax.swing.JPanel {
         controlador = new ControladorProfesor();
         tabla = "profesor";
         cargarCarreras();
+        profesor = new M_Profesor();
     }
 
     private void cargarCarreras(){
@@ -445,7 +446,7 @@ public class Profesor extends javax.swing.JPanel {
             codcarrera = codcarrera.substring(0, 1);
             int codigoCarrera = Integer.parseInt(codcarrera); 
             
-            profesor = new M_Profesor(txtNombre.getText(), txtApellido.getText(),
+            profesor.actualizar(txtNombre.getText(), txtApellido.getText(),
                 txtCedula.getText(), txtTelefono.getText(), txtProfesion.getText(), txtDireccion.getText(), codigoCarrera);
             controlador.ingresar(profesor);
         }
@@ -518,6 +519,7 @@ public class Profesor extends javax.swing.JPanel {
     }//GEN-LAST:event_CargarMouseClicked
 
     private void TablaProfesorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaProfesorMouseClicked
+        Guardar.setEnabled(false);
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
@@ -540,6 +542,7 @@ public class Profesor extends javax.swing.JPanel {
                 txtProfesion.setText(rs.getString("profesion"));
                 txtTelefono.setText(rs.getString("telefono"));
                 txtDireccion.setText(rs.getString("direccion"));
+                cmbCarrera.setSelectedIndex(rs.getInt("id_carrera_fk")-1);
             }
         }catch(Exception e){
             System.out.println(e);
@@ -550,9 +553,12 @@ public class Profesor extends javax.swing.JPanel {
         if(txtID.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Error en la modificación");
         } else {
-            
-            controlador.modificar(txtID.getText(), txtCedula.getText(), txtNombre.getText(),
-                    txtApellido.getText(), txtTelefono.getText(), txtProfesion.getText(), txtDireccion.getText()); 
+            String codcarrera = cmbCarrera.getSelectedItem().toString(); 
+            codcarrera = codcarrera.substring(0, 1);
+            int codigoCarrera = Integer.parseInt(codcarrera);
+            profesor.actualizar(txtNombre.getText(), txtApellido.getText(), txtCedula.getText(), txtTelefono.getText(), 
+                    txtProfesion.getText(), txtDireccion.getText(), codigoCarrera);
+            controlador.modificar(profesor, txtID.getText()); 
         }
         limpiarCajas();
     }//GEN-LAST:event_ModificarMouseClicked
@@ -566,6 +572,7 @@ public class Profesor extends javax.swing.JPanel {
         txtProfesion.setText(null);
         txtDireccion.setText(null);
         cmbCarrera.setSelectedItem(0);
+        Guardar.setEnabled(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
