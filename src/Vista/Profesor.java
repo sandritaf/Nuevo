@@ -53,7 +53,7 @@ public class Profesor extends javax.swing.JPanel {
             ps = (PreparedStatement) con.prepareStatement(sql);
             rs = ps.executeQuery();
             while(rs.next() ){
-               aux = rs.getString("id_carrera") + " - " + rs.getString("nombre");
+               aux = rs.getString("id_carrera") + "- " + rs.getString("nombre");
                aModel.addElement(aux);
             }
             //Cerrar conexiones

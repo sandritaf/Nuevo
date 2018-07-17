@@ -46,7 +46,7 @@ public class ControladorEstudiante {
             con.close();
             
         }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Ocurrió un error");
+            JOptionPane.showMessageDialog(null, "Ocurrió un error: "+e);
         }
         return bandera;
     }

@@ -25,9 +25,26 @@ public class Estudiante extends javax.swing.JPanel {
         alumno = new M_Estudiante();
         txtID.setVisible(false);
         Exportar.setEnabled(false);
+        
     }
 
-
+    private void getComboSelected(int codigoPK, JComboBox combito){
+        //Obtengo la longitud de mi combo
+        int largoCombo = combito.getItemCount();
+        String textoCombo = "";
+        //Recorro el arraycollection
+        for (int i = 0; i < largoCombo; i++) {
+            textoCombo = combito.getItemAt(i).toString();
+            int limite = textoCombo.indexOf("-");
+           //Comparo los objetos de mi combo con el codigo del item que buscaba
+           if (Integer.parseInt(textoCombo.substring(0, limite)) == codigoPK)  {
+              //Si encuentra el item le asigno su index a mi combo
+              combito.setSelectedIndex(i);
+              break;
+           }
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -511,7 +528,7 @@ public class Estudiante extends javax.swing.JPanel {
             ps = (PreparedStatement) con.prepareStatement(sql);
             rs = ps.executeQuery();
             while(rs.next() ){
-               aux = rs.getString("id_carrera") + " - " + rs.getString("nombre");
+               aux = rs.getString("id_carrera") + "- " + rs.getString("nombre");
                aModel.addElement(aux);
                bModel.addElement(aux);
             }
@@ -651,7 +668,8 @@ public class Estudiante extends javax.swing.JPanel {
                 txtApellido.setText(rs.getString("apellido"));
                 txtCedula.setText(rs.getString("cedula"));
                 txtSemestre.setText(rs.getString("semestre"));
-                cmbCarrera.setSelectedIndex(rs.getInt("id_carrera")-1);
+                getComboSelected(rs.getInt("id_carrera"),cmbCarrera);
+               // cmbCarrera.setSelectedIndex(rs.getInt("id_carrera")-1);
             }
         }catch(Exception e){
             System.out.println(e);
@@ -663,7 +681,7 @@ public class Estudiante extends javax.swing.JPanel {
     }//GEN-LAST:event_LimpiarMouseClicked
 
     private void ExportarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ExportarMouseClicked
-        // TODO add your handling code here:
+    
     }//GEN-LAST:event_ExportarMouseClicked
 
 

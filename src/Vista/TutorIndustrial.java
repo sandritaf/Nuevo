@@ -53,7 +53,7 @@ public class TutorIndustrial extends javax.swing.JPanel {
             ps = (PreparedStatement) con.prepareStatement(sql);
             rs = ps.executeQuery();
             while(rs.next() ){
-               aux = rs.getString("idempresa") + " - " + rs.getString("nombre");
+               aux = rs.getString("idempresa") + "- " + rs.getString("nombre");
                aModel.addElement(aux);
             }
             //Cerrar conexiones
