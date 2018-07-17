@@ -63,7 +63,6 @@ public class Empresa extends javax.swing.JPanel {
         panelDerecho = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabla = new javax.swing.JTable();
-        jLabel7 = new javax.swing.JLabel();
         Cargar = new javax.swing.JLabel();
         Limpiar = new javax.swing.JLabel();
 
@@ -252,14 +251,9 @@ public class Empresa extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(Tabla);
 
-        jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(34, 49, 63));
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/rascacielos50.png"))); // NOI18N
-        jLabel7.setText("Listado de Empresas");
-
         Cargar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        Cargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/actualizar.png"))); // NOI18N
-        Cargar.setText("Cargar");
+        Cargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/rascacielos50.png"))); // NOI18N
+        Cargar.setText("Listado de Empresas");
         Cargar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 CargarMouseClicked(evt);
@@ -271,22 +265,23 @@ public class Empresa extends javax.swing.JPanel {
         panelDerechoLayout.setHorizontalGroup(
             panelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelDerechoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel7)
-                    .addComponent(Cargar)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelDerechoLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 503, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelDerechoLayout.createSequentialGroup()
+                        .addGap(163, 163, 163)
+                        .addComponent(Cargar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelDerechoLayout.setVerticalGroup(
             panelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDerechoLayout.createSequentialGroup()
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
                 .addComponent(Cargar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(44, 44, 44))
         );
 
         Limpiar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -328,7 +323,7 @@ public class Empresa extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(panelDerecho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -457,7 +452,6 @@ public class Empresa extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
