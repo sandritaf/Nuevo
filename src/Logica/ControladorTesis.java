@@ -102,22 +102,37 @@ public class ControladorTesis {
         try {
             Conexion c = new Conexion();
             Connection con = c.getConection();
-            String pk = pk_tesis;      
-            PreparedStatement ps;
+            String pk = pk_tesis;
+            int pkEstudiante=0;    
+            ResultSet res = null;
+            PreparedStatement ps1=null;
+            PreparedStatement ps2=null;
+            PreparedStatement ps3=null;
             
-            ps = con.prepareStatement("DELETE FROM tesis WHERE idtesis="+pk);
+            ps1 = (PreparedStatement)con.prepareStatement("SELECT estudiante_tesis FROM tesis WHERE idtesis="+pk);
+            ps2 = con.prepareStatement("UPDATE estudiante SET tesista=0 where idestudiante=?");
+            ps3 = con.prepareStatement("DELETE FROM tesis WHERE idtesis="+pk);
+           
+            res = ps1.executeQuery();
+            while(res.next()){
+                pkEstudiante = res.getInt("estudiante_tesis");
+            }
+            
+            ps2.setInt(1, pkEstudiante);            
+            int res2 = ps2.executeUpdate();
+            int res3 = ps3.executeUpdate();        
                         
-            int res = ps.executeUpdate();
-            
-            if (res > 0){
+            if (res2 > 0 && res3>0){
                 JOptionPane.showMessageDialog(null, "Tesis eliminada con éxito");
             }else{
-                JOptionPane.showMessageDialog(null, "No se pudo eliminar la empresa");
+                JOptionPane.showMessageDialog(null, "No se pudo eliminar la tesis");
               }
                         
             c.CerrarConexion();
             con.close();
-            ps.close();
+            ps1.close();
+            ps2.close();
+            ps3.close();
                  
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocurrió un error eliminando: "+e);

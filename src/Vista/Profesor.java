@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -28,6 +29,16 @@ public class Profesor extends javax.swing.JPanel {
         Exportar.setEnabled(false);
     }
 
+    private int getComboSelected(JComboBox combito){
+        String codigo = combito.getSelectedItem().toString(); 
+        String codigoFinal = "";
+        
+        int guion = codigo.indexOf("-");
+        codigoFinal = codigo.substring(0, guion);
+        
+        return Integer.parseInt(codigoFinal);
+    }
+    
     private void cargarCarreras(){
         DefaultComboBoxModel aModel = new DefaultComboBoxModel();
         String sql = "SELECT id_carrera, nombre FROM carrera";
@@ -442,17 +453,12 @@ public class Profesor extends javax.swing.JPanel {
     }//GEN-LAST:event_txtNombreActionPerformed
 
     private void GuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GuardarMouseClicked
-        String codcarrera = cmbCarrera.getSelectedItem().toString(); 
-        codcarrera = codcarrera.substring(0, 1);
-        int codigoCarrera = Integer.parseInt(codcarrera); 
-        
         if(controlador.idExiste(txtCedula.getText())){
             JOptionPane.showMessageDialog(null, "Ya existe una persona registrada con esa cedula");
         } else {
-            
-            
             profesor.actualizar(txtNombre.getText(), txtApellido.getText(),
-                txtCedula.getText(), txtTelefono.getText(), txtProfesion.getText(), txtDireccion.getText(), codigoCarrera);
+                txtCedula.getText(), txtTelefono.getText(), txtProfesion.getText(), 
+                txtDireccion.getText(), getComboSelected(cmbCarrera));
             controlador.ingresar(profesor);
         }
         limpiarCajas();
@@ -558,11 +564,8 @@ public class Profesor extends javax.swing.JPanel {
         if(txtPK.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Error en la modificación");
         } else {
-            String codcarrera = cmbCarrera.getSelectedItem().toString(); 
-            codcarrera = codcarrera.substring(0, 1);
-            int codigoCarrera = Integer.parseInt(codcarrera);
             profesor.actualizar(txtNombre.getText(), txtApellido.getText(), txtCedula.getText(), txtTelefono.getText(), 
-                    txtProfesion.getText(), txtDireccion.getText(), codigoCarrera);
+                    txtProfesion.getText(), txtDireccion.getText(), getComboSelected(cmbCarrera));
             controlador.modificar(profesor, txtPK.getText()); 
         }
         limpiarCajas();

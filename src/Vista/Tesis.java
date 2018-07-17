@@ -512,6 +512,11 @@ public class Tesis extends javax.swing.JPanel {
         Eliminar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         Eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/eliminar_libro.png"))); // NOI18N
         Eliminar.setText("Eliminar");
+        Eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                EliminarMouseClicked(evt);
+            }
+        });
 
         TablaTesis.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         TablaTesis.setModel(new javax.swing.table.DefaultTableModel(
@@ -533,6 +538,11 @@ public class Tesis extends javax.swing.JPanel {
         TablaTesis.setSelectionBackground(new java.awt.Color(102, 204, 153));
         TablaTesis.setShowHorizontalLines(false);
         TablaTesis.setShowVerticalLines(false);
+        TablaTesis.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaTesisMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(TablaTesis);
 
         Exportar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -648,6 +658,7 @@ public class Tesis extends javax.swing.JPanel {
       
     }//GEN-LAST:event_cmbTutorActionPerformed
 
+    /*Falta asegurarse de que no se ingresan campos vacíos*/
     private void GuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GuardarMouseClicked
         tesis.actualizar(getStatusSelected(), txtTitulo.getText(), txtFechaI.getText(),
                 txtFechaF.getText(), txtObservaciones.getText(), "Departamento", getComboSelected(cmbTutor),
@@ -655,6 +666,7 @@ public class Tesis extends javax.swing.JPanel {
         tesis.imprimir();
         controlador.ingresar(tesis);
         limpiarCajas();
+        cargarAlumnosSinTesis(); 
     }//GEN-LAST:event_GuardarMouseClicked
 
     private void ExportarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ExportarMouseClicked
@@ -708,6 +720,23 @@ public class Tesis extends javax.swing.JPanel {
         limpiarCajas();
         
     }//GEN-LAST:event_LimpiarMouseClicked
+
+    private void EliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EliminarMouseClicked
+        if(txtPK.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Seleccione una tesis a eliminar");
+        } else {
+            controlador.eliminar(txtPK.getText());
+        }
+        limpiarCajas();
+        cargarAlumnosSinTesis();    
+    }//GEN-LAST:event_EliminarMouseClicked
+
+    private void TablaTesisMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaTesisMouseClicked
+        int fila = TablaTesis.getSelectedRow();
+        int codigo = (int)TablaTesis.getValueAt(fila, 0);
+        txtPK.setText(String.valueOf(codigo));
+            
+    }//GEN-LAST:event_TablaTesisMouseClicked
     
     public void limpiarCajas(){
         txtFechaF.setText(null);

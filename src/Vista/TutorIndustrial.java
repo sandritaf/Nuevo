@@ -13,19 +13,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author brenda
- */
 public class TutorIndustrial extends javax.swing.JPanel {
 
-    /**
-     * Creates new form TutorIndustrial
-     */
-    
     M_TutorIndustrial tutor;
     ControladorTutorIndustrial controlador;
     
@@ -34,6 +27,16 @@ public class TutorIndustrial extends javax.swing.JPanel {
         controlador = new ControladorTutorIndustrial();
         txtPK.setVisible(false);
         cargarEmpresas();
+    }
+    
+    private int getComboSelected(JComboBox combito){
+        String codigo = combito.getSelectedItem().toString(); 
+        String codigoFinal = "";
+        
+        int guion = codigo.indexOf("-");
+        codigoFinal = codigo.substring(0, guion);
+        
+        return Integer.parseInt(codigoFinal);
     }
     
     private void cargarEmpresas(){
@@ -371,12 +374,8 @@ public class TutorIndustrial extends javax.swing.JPanel {
         if(controlador.idExiste(txtCedula.getText())){
             JOptionPane.showMessageDialog(null, "Ya existe una persona registrada con esa cedula");
         } else {
-            String codempresa = cmbEmpresa.getSelectedItem().toString(); 
-            codempresa = codempresa.substring(0, 1);
-            int codigoEmpresa = Integer.parseInt(codempresa); 
-
             tutor = new M_TutorIndustrial(txtNombre.getText(), txtApellido.getText(),
-                txtCedula.getText(), txtTelefono.getText(), codigoEmpresa);
+                txtCedula.getText(), txtTelefono.getText(), getComboSelected(cmbEmpresa));
             controlador.ingresar(tutor);
         }
         limpiarCajas();
@@ -440,14 +439,9 @@ public class TutorIndustrial extends javax.swing.JPanel {
     private void ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModificarMouseClicked
         if(txtPK.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Error en la modificación");
-        } else {
-            
-            String codempresa = cmbEmpresa.getSelectedItem().toString(); 
-            codempresa = codempresa.substring(0, 1);
-            int codigoEmpresa = Integer.parseInt(codempresa); 
-            
+        } else { 
             tutor.actualizar(txtNombre.getText(), txtApellido.getText(),
-                    txtCedula.getText(), txtTelefono.getText(), codigoEmpresa);
+                    txtCedula.getText(), txtTelefono.getText(), getComboSelected(cmbEmpresa));
             controlador.modificar(txtPK.getText(),tutor);
         }
         limpiarCajas();

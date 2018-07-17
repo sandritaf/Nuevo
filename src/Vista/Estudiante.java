@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -452,7 +453,15 @@ public class Estudiante extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    
+    private int getComboSelected(JComboBox combito){
+        String codigo = combito.getSelectedItem().toString(); 
+        String codigoFinal = "";
+        
+        int guion = codigo.indexOf("-");
+        codigoFinal = codigo.substring(0, guion);
+        
+        return Integer.parseInt(codigoFinal);
+    }
     
     //Limpia las cajas de texto
     public void limpiarCajas(){
@@ -538,12 +547,8 @@ public class Estudiante extends javax.swing.JPanel {
         if(idExiste(txtCedula.getText())){
             JOptionPane.showMessageDialog(null, "Ya existe una persona registrada con esa cedula");
         } else {            
-            String codcarrera = cmbCarrera.getSelectedItem().toString(); 
-            codcarrera = codcarrera.substring(0, 1);
-            int codigoCarrera = Integer.parseInt(codcarrera); 
-            
             alumno.actualizar(txtNombre.getText(), txtApellido.getText(),
-                    codigoCarrera, txtSemestre.getText(), txtCedula.getText());
+                    getComboSelected(cmbCarrera), txtSemestre.getText(), txtCedula.getText());
             controlador.ingresar(alumno);
         }
         limpiarCajas();
@@ -553,11 +558,8 @@ public class Estudiante extends javax.swing.JPanel {
         if(txtID.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Error en la modificación");
         } else {        
-            String codcarrera = cmbCarrera.getSelectedItem().toString(); 
-            codcarrera = codcarrera.substring(0, 1);
-            int codigoCarrera = Integer.parseInt(codcarrera);
             alumno.actualizar(txtNombre.getText(), txtApellido.getText(),
-                    codigoCarrera, txtSemestre.getText(), txtCedula.getText());
+                    getComboSelected(cmbCarrera), txtSemestre.getText(), txtCedula.getText());
             controlador.modificar(alumno, txtID.getText()); 
         }
         limpiarCajas();
