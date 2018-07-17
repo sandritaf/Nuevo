@@ -18,6 +18,14 @@ import javax.swing.JOptionPane;
  */
 public class ControladorTutorIndustrial {
 
+    public boolean estaVacio(M_TutorIndustrial tutor){
+        if (tutor.getNombre().isEmpty() || tutor.getApellido().isEmpty())
+            return true;
+        else if (tutor.getCedula().isEmpty() || tutor.getTelefono().isEmpty())
+            return true;
+        return false;
+    }
+    
     //Comprueba si una cedula ya existe en la tabla tutor_industrial
     public boolean idExiste(String cedula_tutor){
         boolean bandera = false;
@@ -51,7 +59,10 @@ public class ControladorTutorIndustrial {
         
     //Ingresa un tutor en la tabla
     public void ingresar(M_TutorIndustrial tutor){
-        try {
+        if (estaVacio(tutor))
+            JOptionPane.showMessageDialog(null, "No pueden haber campos vacíos.");
+        else {
+            try {
                 Conexion conn = new Conexion();
                 Connection con = conn.getConection();
                 PreparedStatement ps = null;                
@@ -80,6 +91,7 @@ public class ControladorTutorIndustrial {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Ocurrió un error: "+e);
             }
+        }
     }
     
     //Dada una clave primaria, se elimina un tutor
@@ -111,37 +123,41 @@ public class ControladorTutorIndustrial {
     }
     
     //Se modifican datos de un tutor dada su clave primaria, validar que no se ingresan 2 cedulas iguales
-    public void modificar(String pk_tutor, String cedula, String nombre, String apellido, String telefono, int id_empresa){
-        try {
-            Conexion c = new Conexion();
-            Connection con = c.getConection();
-            int pk = Integer.parseInt(pk_tutor);
-            PreparedStatement ps;            
-            ps = con.prepareStatement("UPDATE tutor_industrial SET cedula=?, nombre=?, apellido=?, telefono=?, id_empresa=?" +
-                                        " WHERE idtindustrial=?");
-            
-            ps.setString(1, cedula); 
-            ps.setString(2, nombre); 
-            ps.setString(3, apellido); 
-            ps.setString(4, telefono); 
-            ps.setInt(5, id_empresa);
-            ps.setInt(6, pk);
-            
-            int res = ps.executeUpdate();
-            
-            if (res > 0){
-                JOptionPane.showMessageDialog(null, "Tutor modificada con éxito");
-            }else{
-                JOptionPane.showMessageDialog(null, "No se pudo modificar");
+    public void modificar(String pk_tutor, M_TutorIndustrial tutor){
+        if (estaVacio(tutor))
+            JOptionPane.showMessageDialog(null, "No pueden haber campos vacíos.");
+        else{
+            try {
+                Conexion c = new Conexion();
+                Connection con = c.getConection();
+                int pk = Integer.parseInt(pk_tutor);
+                PreparedStatement ps;            
+                ps = con.prepareStatement("UPDATE tutor_industrial SET cedula=?, nombre=?, apellido=?, telefono=?, id_empresa=?" +
+                                            " WHERE idtindustrial=?");
+
+                ps.setString(1, tutor.getCedula()); 
+                ps.setString(2, tutor.getNombre()); 
+                ps.setString(3, tutor.getApellido()); 
+                ps.setString(4, tutor.getTelefono()); 
+                ps.setInt(5, tutor.getId_empresa());
+                ps.setInt(6, pk);
+
+                int res = ps.executeUpdate();
+
+                if (res > 0){
+                    JOptionPane.showMessageDialog(null, "Tutor modificada con éxito");
+                }else{
+                    JOptionPane.showMessageDialog(null, "No se pudo modificar");
+                }
+
+                c.CerrarConexion();
+                con.close();
+                ps.close();
+
+            } catch (Exception e) {
+                 JOptionPane.showMessageDialog(null, "Ocurrió un error en la modificacion: "+e);
             }
-                        
-            c.CerrarConexion();
-            con.close();
-            ps.close();
-                 
-        } catch (Exception e) {
-             JOptionPane.showMessageDialog(null, "Ocurrió un error en la modificacion: "+e);
-        }
+        }            
     }
 
     

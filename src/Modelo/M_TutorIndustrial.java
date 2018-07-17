@@ -21,8 +21,15 @@ public class M_TutorIndustrial {
     }
 
     
-    
     public M_TutorIndustrial(String nombre, String apellido, String cedula, String telefono, int id_empresa) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.cedula = cedula;
+        this.telefono = telefono;
+        this.id_empresa = id_empresa;
+    }
+    
+    public void actualizar(String nombre, String apellido, String cedula, String telefono, int id_empresa) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.cedula = cedula;

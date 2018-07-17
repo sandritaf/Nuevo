@@ -21,13 +21,14 @@ public class ControladorCarrera {
     public ControladorCarrera() {
     }
     
-//    public boolean estaVacio(M_Carrera carrera){
-//        if (carrera.getNombre().isEmpty()) || carrera.getSemestres().isEmpty())
-//            return true;
-//        else if (carrera.getUc_totales().isEmpty())
-//            return true;
-//        return false;
-//    }
+    public boolean estaVacio(M_Carrera carrera){
+       if (carrera.getNombre().isEmpty() || carrera.getSemestres().isEmpty())
+            return true;
+        else if (carrera.getUc_totales().toString().isEmpty())
+            return true;
+        return false;
+        
+    }
 
     
     //Comprueba si una carrera ya existe en la tabla carrera
@@ -64,9 +65,9 @@ public class ControladorCarrera {
             
     //Ingresa una carrera en la tabla carrera
     public void ingresar(M_Carrera carrera){
-//        if (estaVacio(alumno))
-//            JOptionPane.showMessageDialog(null, "No pueden haber campos vacíos.");
-//        else {
+        if (estaVacio(carrera))
+            JOptionPane.showMessageDialog(null, "No pueden haber campos vacíos.");
+        else {
             try {
                 Conexion conn = new Conexion();
                 Connection con = conn.getConection();
@@ -76,8 +77,8 @@ public class ControladorCarrera {
                         + " VALUES (?,?,?)");
                 
                 ps.setString(1, carrera.getNombre());
-                ps.setInt(2, carrera.getSemestres());
-                ps.setInt(3, carrera.getUc_totales());
+                ps.setInt(2, Integer.parseInt(carrera.getSemestres()));
+                ps.setInt(3, Integer.parseInt(carrera.getUc_totales()));
                 
                 int res = ps.executeUpdate(); //Ejecutar la consulta
 
@@ -94,7 +95,7 @@ public class ControladorCarrera {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Ocurrió un error: "+e);
             }
-        //}
+        }
     }
     
     //Dada una clave primaria, se elimina una carrera
@@ -127,20 +128,21 @@ public class ControladorCarrera {
     
     //Se modifican datos de un estudiante dada su clave primaria, validar que no se ingresan 2 cedulas iguales
     public void modificar(M_Carrera carrera, String pk_carrera){
-//        if (estaVacio(alumno))
-//            JOptionPane.showMessageDialog(null, "No pueden haber campos vacíos.");
-//        else{
+        if (estaVacio(carrera))
+            JOptionPane.showMessageDialog(null, "No pueden haber campos vacíos.");
+        else{
             try {
             Conexion c = new Conexion();
             Connection con = c.getConection();
             int pk = Integer.parseInt(pk_carrera);
             PreparedStatement ps;            
             ps = con.prepareStatement("UPDATE carrera SET nombre=?, uc_totales=?, semestres=?" +
-                                        " WHERE idcarrera=?");
+                                        " WHERE id_carrera=?");
             
             ps.setString(1, carrera.getNombre()); 
-            ps.setInt(2, carrera.getUc_totales()); 
-            ps.setInt(3, carrera.getSemestres()); 
+            ps.setInt(2, Integer.parseInt(carrera.getUc_totales())); 
+            ps.setInt(3, Integer.parseInt(carrera.getSemestres())); 
+            ps.setInt(4, pk); 
             
             int res = ps.executeUpdate();
             
@@ -157,7 +159,7 @@ public class ControladorCarrera {
             } catch (Exception e) {
                  JOptionPane.showMessageDialog(null, "Ocurrió un error en la modificacion: "+e);
             }
-        //}
+        }
     }
     
 }
