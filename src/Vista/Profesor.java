@@ -442,12 +442,14 @@ public class Profesor extends javax.swing.JPanel {
     }//GEN-LAST:event_txtNombreActionPerformed
 
     private void GuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GuardarMouseClicked
+        String codcarrera = cmbCarrera.getSelectedItem().toString(); 
+        codcarrera = codcarrera.substring(0, 1);
+        int codigoCarrera = Integer.parseInt(codcarrera); 
+        
         if(controlador.idExiste(txtCedula.getText())){
             JOptionPane.showMessageDialog(null, "Ya existe una persona registrada con esa cedula");
         } else {
-            String codcarrera = cmbCarrera.getSelectedItem().toString(); 
-            codcarrera = codcarrera.substring(0, 1);
-            int codigoCarrera = Integer.parseInt(codcarrera); 
+            
             
             profesor.actualizar(txtNombre.getText(), txtApellido.getText(),
                 txtCedula.getText(), txtTelefono.getText(), txtProfesion.getText(), txtDireccion.getText(), codigoCarrera);

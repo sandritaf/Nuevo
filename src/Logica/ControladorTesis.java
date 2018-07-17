@@ -3,6 +3,7 @@ package Logica;
 import Conexion.Conexion;
 import Modelo.M_Tesis;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
@@ -47,20 +48,43 @@ public class ControladorTesis {
         try {
                 Conexion conn = new Conexion();
                 Connection con = conn.getConection();
-                PreparedStatement ps = null;                
+                PreparedStatement ps = null;    
+                PreparedStatement ps2 = null;    
                 
-                ps = con.prepareCall("INSERT INTO tesis (status,titulo,observaciones) VALUES (?,?,?)");
+                ps = con.prepareCall("INSERT INTO tesis (status,titulo,fecha_inicio, fecha_fin,"
+                        + "observaciones,departamento,id_tutorAcademico,id_tutorIndustrial,"
+                        + "estudiante_tesis) VALUES (?,?,?,?,?,?,?,?,?)");
+                
+                ps2 = con.prepareCall("UPDATE estudiante SET id_empresa=?, tesista=? WHERE idestudiante=?");
                   
                 ps.setString(1, tesis.getStatus());
                 ps.setString(2, tesis.getTitulo());
-                ps.setString(3, tesis.getObservaciones());
+                ps.setDate(3, Date.valueOf(tesis.getF_inicio()));
+                ps.setDate(4, Date.valueOf(tesis.getF_inicio()));
+                ps.setString(5, tesis.getObservaciones());
+                ps.setString(6, tesis.getDepartamento());
+                ps.setInt(7, tesis.getId_tutorAcademico());
+                ps.setInt(8, tesis.getId_tutorIndustrial());
+                ps.setInt(9, tesis.getEstudiante_tesis());
+                
+                ps2.setInt(1, tesis.getEmpresa());
+                ps2.setInt(2, 1);
+                ps2.setInt(3, tesis.getEstudiante_tesis());
+                
                 
                 int res = ps.executeUpdate(); //Ejecutar la consulta
+                int rs2 = ps2.executeUpdate();
 
                 if (res > 0){
                     JOptionPane.showMessageDialog(null, "Tesis guardada con éxito");
                 }else{
-                    JOptionPane.showMessageDialog(null, "No se pudo guardar");
+                    JOptionPane.showMessageDialog(null, "No se pudo tesis");
+                }
+                
+                if (rs2 > 0){
+                    JOptionPane.showMessageDialog(null, "Alumno afiliado a tesis con éxito");
+                }else{
+                    JOptionPane.showMessageDialog(null, "No se pudo guardar alumno");
                 }
                 //Cerrar las conexiones
                 ps.close();
