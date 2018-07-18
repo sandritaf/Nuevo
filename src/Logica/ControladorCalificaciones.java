@@ -25,13 +25,15 @@ public class ControladorCalificaciones {
             Connection con = conn.getConection();
             PreparedStatement ps = null;                
 
-            ps = con.prepareCall("INSERT INTO notas (n_tacademico, n_tindustrial, n_promdefensa, n_final)"
+            ps = con.prepareCall("INSERT INTO notas (tutor_academico, tutor_industrial, jurado1, jurado2, promedio_defensa, final)"
                     + " VALUES (?,?,?,?,?,?)");
 
             ps.setInt(1, nota.getN_tacademico());
             ps.setInt(2, nota.getN_tindustrial());
-            ps.setInt(3, nota.getN_promdefensa());
-            ps.setInt(4, nota.getN_final());
+            ps.setInt(3, nota.getN_j1());
+            ps.setInt(4, nota.getN_j2());
+            ps.setInt(5, nota.getN_promdefensa());
+            ps.setInt(6, nota.getN_final());
 
             int res = ps.executeUpdate(); //Ejecutar la consulta
 
@@ -85,14 +87,16 @@ public class ControladorCalificaciones {
             Connection con = c.getConection();
             int pk = Integer.parseInt(pk_calificacion);
             PreparedStatement ps;            
-            ps = con.prepareStatement("UPDATE notas SET n_tacademico, n_tindustrial, n_promdefensa, n_final"
+            ps = con.prepareStatement("UPDATE notas SET tutor_academico, tutor_industrial, jurado1, jurado2, promedio_defensa, final"
                     + " WHERE idnotas="+pk);
             
             ps.setInt(1, nota.getN_tacademico());
             ps.setInt(2, nota.getN_tindustrial());
-            ps.setInt(3, nota.getN_promdefensa());
-            ps.setInt(4, nota.getN_final());
-            ps.setInt(5, pk);
+            ps.setInt(3, nota.getN_j1());
+            ps.setInt(4, nota.getN_j2());
+            ps.setInt(5, nota.getN_promdefensa());
+            ps.setInt(6, nota.getN_final());
+            ps.setInt(7, pk);
             
             int res = ps.executeUpdate();
             

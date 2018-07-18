@@ -373,11 +373,12 @@ public class Calificaciones extends javax.swing.JPanel {
     }//GEN-LAST:event_TablaTesisDefendidasMouseClicked
 
     private void ListaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListaMouseClicked
-        String sql = "SELECT idtesis, titulo, estudiante.nombre, estudiante.apellido, profesor.nombre, profesor.apellido FROM tesis INNER JOIN "
+        String sql = "SELECT idtesis, titulo, estudiante.nombre, estudiante.apellido, profesor.nombre, profesor.apellido,"
+                    + "tutor_industrial.nombre, tutor_industrial.apellido FROM tesis INNER JOIN "
                     + "estudiante ON tesis.estudiante_tesis = estudiante.tesista INNER JOIN "
 //                    + "notas ON tesis.idtesis = notas.id_tesis INNER JOIN "
-                    + "profesor ON tesis.id_tutoracademico = profesor.idprofesor "
-//                    + "tutor_industrial ON tesis.id_tutorindustrial = tutor_industrial.idtindustrial "
+                    + "profesor ON tesis.id_tutoracademico = profesor.idprofesor INNER JOIN "
+                    + "tutor_industrial ON tesis.id_tutorindustrial = tutor_industrial.idtindustrial "
                     //+ "jurado ON tesis.i"
                     + "WHERE tesis.status LIKE 'aprobada'";
 
@@ -400,12 +401,14 @@ public class Calificaciones extends javax.swing.JPanel {
             modelo.addColumn("Título");
             modelo.addColumn("N. Autor");
             modelo.addColumn("A. Autor");
-//            modelo.addColumn("N. T Industrial");
-//            modelo.addColumn("A. T Industrial");
             modelo.addColumn("N. T Académico");
             modelo.addColumn("A. T Académico");
-            modelo.addColumn("Jurado 1");
-            modelo.addColumn("Jurado 2");
+            modelo.addColumn("N. Jurado 1");
+            modelo.addColumn("A. Jurado 1");
+            modelo.addColumn("N. Jurado 2");
+            modelo.addColumn("A. Jurado 2");
+            modelo.addColumn("N. T Industrial");
+            modelo.addColumn("A. T Industrial");
 
             while(rs.next()){ //Carga en la tabla
                 Object[] filas = new Object[cantidadColumnas];
