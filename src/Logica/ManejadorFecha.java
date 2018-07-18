@@ -103,4 +103,14 @@ public class ManejadorFecha {
         return cadena;
     }
     
+    public boolean fechasCorrectas(String finicio, String ffin){
+        Date fechainicio = deStringToDate(finicio);
+        Date fechafin = deStringToDate(ffin);
+        
+        int n = diferenciasDeFechas(fechainicio, fechafin);
+        
+        if(n>=0)
+            return true;
+        return false;
+    }
 }

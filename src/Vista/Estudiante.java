@@ -615,7 +615,6 @@ public class Estudiante extends javax.swing.JPanel {
                 txtCedula.setText(rs.getString("cedula"));
                 txtSemestre.setText(rs.getString("semestre"));
                 getComboSelected(rs.getInt("id_carrera"),cmbCarrera);
-               // cmbCarrera.setSelectedIndex(rs.getInt("id_carrera")-1);
             }
         }catch(Exception e){
             System.out.println(e);
