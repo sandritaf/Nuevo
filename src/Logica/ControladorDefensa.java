@@ -13,27 +13,85 @@ public class ControladorDefensa {
     public ControladorDefensa() {
     }
 
+    public void porDefenderTesis(String PK){
+        try {
+        Conexion c = new Conexion();
+        Connection con = c.getConection();
+        int pk = Integer.parseInt(PK);
+        PreparedStatement ps;            
+        ps = con.prepareStatement("UPDATE tesis SET status=? WHERE idtesis=?");
+
+        ps.setString(1, "Por defender");
+        ps.setInt(2, pk);
+
+        int res = ps.executeUpdate();
+
+        if (res > 0){
+            JOptionPane.showMessageDialog(null, "Tesis actualizada con éxito");
+        }else{
+            JOptionPane.showMessageDialog(null, "No se pudo modificar");
+        }
+
+        c.CerrarConexion();
+        con.close();
+        ps.close();
+
+        } catch (Exception e) {
+             JOptionPane.showMessageDialog(null, "Ocurrió un error en la modificacion: "+e);
+        }
+    }
+    
+    public void enDesarrolloTesis(String PK){
+        try {
+        Conexion c = new Conexion();
+        Connection con = c.getConection();
+        int pk = Integer.parseInt(PK);
+        PreparedStatement ps;            
+        ps = con.prepareStatement("UPDATE tesis SET status=? WHERE idtesis=?");
+
+        ps.setString(1, "En desarrollo");
+        ps.setInt(2, pk);
+
+        int res = ps.executeUpdate();
+
+        if (res > 0){
+            JOptionPane.showMessageDialog(null, "Tesis actualizada con éxito");
+        }else{
+            JOptionPane.showMessageDialog(null, "No se pudo modificar");
+        }
+
+        c.CerrarConexion();
+        con.close();
+        ps.close();
+
+        } catch (Exception e) {
+             JOptionPane.showMessageDialog(null, "Ocurrió un error en la modificacion: "+e);
+        }
+    }
+    
     //Ingresa una defensa en la tabla
-    public void ingresar(M_Defensa defensa){
+    public void ingresar(M_Defensa defensa, String PK_Tesis){
         try {
             Conexion conn = new Conexion();
             Connection con = conn.getConection();
             PreparedStatement ps = null;                
 
-            ps = con.prepareCall("INSERT INTO defensa (fecha, hora, aula, periodo, nota_j1, nota_j2)"
-                    + " VALUES (?,?,?,?,?,?)");
+            ps = con.prepareCall("INSERT INTO defensa (fecha, hora, aula, periodo, id_tesis, id_jurado1, id_jurado2)"
+                    + " VALUES (?,?,?,?,?,?,?)");
 
             ps.setDate(1, defensa.getFecha());
             ps.setTime(2, defensa.getHora());
             ps.setInt(3, defensa.getAula());
             ps.setString(4, defensa.getPeriodo());
-            ps.setInt(5, defensa.getNota_j1());
-            ps.setInt(6, defensa.getNota_j2());
+            ps.setInt(5, defensa.getId_tesis());
+            ps.setInt(6, defensa.getId_jurado1());
+            ps.setInt(7, defensa.getId_jurad2());
 
             int res = ps.executeUpdate(); //Ejecutar la consulta
 
             if (res > 0){
                 JOptionPane.showMessageDialog(null, "Defensa guardada con éxito");
+                porDefenderTesis(PK_Tesis);
             }else{
                 JOptionPane.showMessageDialog(null, "No se pudo guardar");
             }
@@ -45,11 +103,11 @@ public class ControladorDefensa {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocurrió un error: "+e);
         }
+        
     }
     
     //Dada una clave primaria, se elimina una defensa
-    public void eliminar(String pk_defensa){
-        
+    public void eliminar(String pk_defensa, String PK_Tesis){
         try {
             Conexion c = new Conexion();
             Connection con = c.getConection();
@@ -62,6 +120,7 @@ public class ControladorDefensa {
             
             if (res > 0){
                 JOptionPane.showMessageDialog(null, "Defensa eliminada con éxito");
+                enDesarrolloTesis(PK_Tesis);
             }else{
                 JOptionPane.showMessageDialog(null, "No se pudieron realizar los cambios");
               }
@@ -73,6 +132,7 @@ public class ControladorDefensa {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocurrió un error");
         }
+        
     }
     
     //Se modifican datos de una defensa dada su clave primaria
@@ -82,15 +142,15 @@ public class ControladorDefensa {
         Connection con = c.getConection();
         int pk = Integer.parseInt(pk_defensa);
         PreparedStatement ps;            
-        ps = con.prepareStatement("UPDATE defensa SET fecha=?, hora=?, aula=?, periodo=?, nota_j1=?, nota_j2=?" +
-                                    " WHERE iddefensa=?");
+        ps = con.prepareStatement("UPDATE defensa SET fecha=?, hora=?, aula=?, periodo=?, id_jurado1=?, "
+                + "id_jurado2=?  WHERE iddefensa=?");
 
         ps.setDate(1, defensa.getFecha());
         ps.setTime(2, defensa.getHora());
         ps.setInt(3, defensa.getAula());
         ps.setString(4, defensa.getPeriodo());
-        ps.setInt(5, defensa.getNota_j1());
-        ps.setInt(6, defensa.getNota_j2());
+        ps.setInt(5, defensa.getId_jurado1());
+        ps.setInt(6, defensa.getId_jurad2());
         ps.setInt(7, pk);
 
         int res = ps.executeUpdate();
