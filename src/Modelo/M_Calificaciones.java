@@ -18,7 +18,10 @@ public class M_Calificaciones {
     private int n_promdefensa;
     private int n_final;
 
-    public M_Calificaciones(int idnotas, int id_tesis, int n_tindustrial, int n_tacademico, int n_promdefensa, int n_final) {
+    public M_Calificaciones() {
+    }
+    
+    public M_Calificaciones(int id_tesis, int n_tindustrial, int n_tacademico, int n_promdefensa, int n_final) {
         this.idnotas = idnotas;
         this.id_tesis = id_tesis;
         this.n_tindustrial = n_tindustrial;
@@ -66,16 +69,23 @@ public class M_Calificaciones {
     public void setN_promdefensa(int n_promdefensa) {
         this.n_promdefensa = n_promdefensa;
     }
-    
-    public void calculoPromedio(){
-        
+
+    public int getN_final() {
+        int n_ti = (int) (n_tindustrial*0.35);
+        int n_ta = (int) (n_tacademico*0.25);
+        int n_defensa = (int) (n_promdefensa*0.40); 
+        return n_ti + n_ta + n_defensa;
+    }
+
+    public void setN_final(int n_final) {
+        this.n_final = n_final;
     }
     
     public int calculo_nfinal(){
         int n_ti = (int) (n_tindustrial*0.35);
         int n_ta = (int) (n_tacademico*0.25);
         int n_defensa = (int) (n_promdefensa*0.40); 
-        
+                
         return n_ti + n_ta + n_defensa;
     }
     

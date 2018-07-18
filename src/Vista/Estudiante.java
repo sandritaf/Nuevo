@@ -24,7 +24,7 @@ public class Estudiante extends javax.swing.JPanel {
         cargarCarreras();
         alumno = new M_Estudiante();
         txtID.setVisible(false);
-        Exportar.setEnabled(false);
+        ExportarPDF.setEnabled(false);
         
     }
 
@@ -62,7 +62,7 @@ public class Estudiante extends javax.swing.JPanel {
         botonFiltroCedula = new javax.swing.JRadioButton();
         jScrollPane6 = new javax.swing.JScrollPane();
         TablaAlumno = new javax.swing.JTable();
-        Exportar = new javax.swing.JLabel();
+        ExportarPDF = new javax.swing.JLabel();
         jPanel19 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
@@ -77,7 +77,7 @@ public class Estudiante extends javax.swing.JPanel {
         jPanel20 = new javax.swing.JPanel();
         Modificar = new javax.swing.JLabel();
         Guardar = new javax.swing.JLabel();
-        Eliminar2 = new javax.swing.JLabel();
+        Eliminar = new javax.swing.JLabel();
         txtID = new javax.swing.JTextField();
         Limpiar = new javax.swing.JLabel();
 
@@ -196,12 +196,12 @@ public class Estudiante extends javax.swing.JPanel {
         });
         jScrollPane6.setViewportView(TablaAlumno);
 
-        Exportar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        Exportar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/pdf.png"))); // NOI18N
-        Exportar.setText("Exportar a PDF");
-        Exportar.addMouseListener(new java.awt.event.MouseAdapter() {
+        ExportarPDF.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        ExportarPDF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/pdf50.png"))); // NOI18N
+        ExportarPDF.setText("Exportar a PDF");
+        ExportarPDF.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ExportarMouseClicked(evt);
+                ExportarPDFMouseClicked(evt);
             }
         });
 
@@ -227,7 +227,7 @@ public class Estudiante extends javax.swing.JPanel {
             .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel18Layout.createSequentialGroup()
                     .addGap(342, 342, 342)
-                    .addComponent(Exportar, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ExportarPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(31, Short.MAX_VALUE)))
         );
         jPanel18Layout.setVerticalGroup(
@@ -249,7 +249,7 @@ public class Estudiante extends javax.swing.JPanel {
             .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel18Layout.createSequentialGroup()
                     .addGap(20, 20, 20)
-                    .addComponent(Exportar)
+                    .addComponent(ExportarPDF)
                     .addContainerGap(378, Short.MAX_VALUE)))
         );
 
@@ -368,12 +368,12 @@ public class Estudiante extends javax.swing.JPanel {
             }
         });
 
-        Eliminar2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        Eliminar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/eliminar50.png"))); // NOI18N
-        Eliminar2.setText("Eliminar");
-        Eliminar2.addMouseListener(new java.awt.event.MouseAdapter() {
+        Eliminar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        Eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/eliminar50.png"))); // NOI18N
+        Eliminar.setText("Eliminar");
+        Eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Eliminar2MouseClicked(evt);
+                EliminarMouseClicked(evt);
             }
         });
 
@@ -387,12 +387,12 @@ public class Estudiante extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Modificar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Eliminar2)
+                .addComponent(Eliminar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel20Layout.setVerticalGroup(
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Eliminar2, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(Eliminar, javax.swing.GroupLayout.Alignment.TRAILING)
             .addComponent(Modificar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(Guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
@@ -491,7 +491,7 @@ public class Estudiante extends javax.swing.JPanel {
         txtCedulaFiltro.setText(null);
         txtID.setText(null);
         Guardar.setEnabled(true); 
-        Exportar.setEnabled(false);
+        ExportarPDF.setEnabled(false);
     }  
     
     public String filtroCarrera(){        
@@ -582,14 +582,14 @@ public class Estudiante extends javax.swing.JPanel {
         limpiarCajas();
     }//GEN-LAST:event_ModificarMouseClicked
 
-    private void Eliminar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Eliminar2MouseClicked
+    private void EliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EliminarMouseClicked
         if(txtID.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Seleccione un estudiante a eliminar");
         } else {
             controlador.eliminar(txtID.getText());
         }
         limpiarCajas();
-    }//GEN-LAST:event_Eliminar2MouseClicked
+    }//GEN-LAST:event_EliminarMouseClicked
 
     private void CargarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CargarMouseClicked
         
@@ -643,7 +643,7 @@ public class Estudiante extends javax.swing.JPanel {
         }catch(Exception ex){
             System.err.println(ex);
         }
-        Exportar.setEnabled(true);
+        ExportarPDF.setEnabled(true);
     }//GEN-LAST:event_CargarMouseClicked
 
     private void TablaAlumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaAlumnoMouseClicked
@@ -680,15 +680,15 @@ public class Estudiante extends javax.swing.JPanel {
         limpiarCajas();
     }//GEN-LAST:event_LimpiarMouseClicked
 
-    private void ExportarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ExportarMouseClicked
+    private void ExportarPDFMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ExportarPDFMouseClicked
     
-    }//GEN-LAST:event_ExportarMouseClicked
+    }//GEN-LAST:event_ExportarPDFMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Cargar;
-    private javax.swing.JLabel Eliminar2;
-    private javax.swing.JLabel Exportar;
+    private javax.swing.JLabel Eliminar;
+    private javax.swing.JLabel ExportarPDF;
     private javax.swing.JLabel Guardar;
     private javax.swing.JLabel Limpiar;
     private javax.swing.JLabel Modificar;

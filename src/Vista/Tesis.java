@@ -2,7 +2,9 @@ package Vista;
 
 import Conexion.Conexion;
 import Logica.ControladorTesis;
+import Logica.ManejadorFecha;
 import Modelo.M_Tesis;
+import java.awt.TextField;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,12 +12,14 @@ import java.sql.ResultSetMetaData;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class Tesis extends javax.swing.JPanel {
 
     ControladorTesis controlador;
     M_Tesis tesis;
+    ManejadorFecha manejador;
     
     public Tesis() {
         initComponents();
@@ -161,7 +165,16 @@ public class Tesis extends javax.swing.JPanel {
         else
             return "Por defender";
     }
- 
+    
+    private boolean verificarFechaMayor(){
+        if(txtVacio(txtFechaI) || txtVacio(txtFechaF))
+            JOptionPane.showMessageDialog(null, "NO pueden haber campos vacíos");
+        else{
+            
+        }
+        return false;
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -546,7 +559,7 @@ public class Tesis extends javax.swing.JPanel {
         jScrollPane1.setViewportView(TablaTesis);
 
         Exportar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        Exportar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/pdf.png"))); // NOI18N
+        Exportar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/pdf50.png"))); // NOI18N
         Exportar.setText("Exportar a PDF");
         Exportar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -755,7 +768,13 @@ public class Tesis extends javax.swing.JPanel {
     public boolean tituloExiste(String titulo){
         return controlador.tituloExiste(titulo);
     }
-
+    
+    public boolean txtVacio(JTextField txt){
+        if(txt.getText().isEmpty())
+            return true;
+        return false;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton Aprobada;
     private javax.swing.JLabel Cargar;
