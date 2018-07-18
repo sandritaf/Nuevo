@@ -84,7 +84,7 @@ public class M_Calificaciones {
         this.n_final = n_final;
     }
     
-    public int calculo_nfinal(int nota_ti, int nota_ta, int nota_prom){
+    public int getNotaFinal(int nota_ti, int nota_ta, int nota_prom){
         int n_ti = (int) (nota_ti*0.35);
         int n_ta = (int) (nota_ta*0.25);
         int n_defensa = (int) (nota_prom*0.40); 
@@ -112,7 +112,7 @@ public class M_Calificaciones {
         return (n_j1+n_j2)/2;
     }
     
-    public int promedioNotaJurado(int nj1, int nj2){
+    public int getPromedio(int nj1, int nj2){
         return (nj1+nj2)/2;
     }
     
