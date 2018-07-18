@@ -81,6 +81,17 @@ public class ConsultaTesis extends javax.swing.JPanel {
             return " status='Por defender' ";
     }
      
+    private String getFiltroPeriodo(){
+        String semestre = "";
+        String anio = txtAnio.getText();
+        System.out.println(anio);
+        if (SemestreI.isSelected())
+            semestre = "-I";
+        else 
+            semestre = "-II";
+        return "periodo = '" + anio + semestre+"'";
+    }
+    
 /*    public String filtroFechaI(){
         String cadena = " fecha_inicio ="+txtAnio.getText();
         return cadena;
@@ -172,7 +183,7 @@ public class ConsultaTesis extends javax.swing.JPanel {
         jLabel6.setText("Año");
 
         txtAnio.setFont(new java.awt.Font("Century Gothic", 2, 12)); // NOI18N
-        txtAnio.setText("yyyy-mm-dd");
+        txtAnio.setText("yyyy");
         txtAnio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtAnioActionPerformed(evt);
@@ -300,7 +311,12 @@ public class ConsultaTesis extends javax.swing.JPanel {
 
         PorPeriodo.setBackground(new java.awt.Color(255, 255, 255));
         PorPeriodo.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        PorPeriodo.setText("Filtrar por Fechas");
+        PorPeriodo.setText("Filtrar por Periodo");
+        PorPeriodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PorPeriodoActionPerformed(evt);
+            }
+        });
 
         PorCarrera.setBackground(new java.awt.Color(255, 255, 255));
         PorCarrera.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
@@ -328,7 +344,6 @@ public class ConsultaTesis extends javax.swing.JPanel {
         jLabel13.setText("Fecha Inicio");
 
         txtFechaI.setEditable(false);
-        txtFechaI.setBackground(new java.awt.Color(255, 255, 255));
         txtFechaI.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         txtFechaI.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -340,7 +355,6 @@ public class ConsultaTesis extends javax.swing.JPanel {
         jLabel14.setText("Fecha Fin");
 
         txtFechaF.setEditable(false);
-        txtFechaF.setBackground(new java.awt.Color(255, 255, 255));
         txtFechaF.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         txtFechaF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -578,10 +592,11 @@ public class ConsultaTesis extends javax.swing.JPanel {
 
     private void CargarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CargarMouseClicked
         String sql = "SELECT idtesis, titulo, status, "
-                + "estudiante.nombre, estudiante.apellido, observaciones, empresa.nombre, "
-                + "departamento FROM tesis INNER JOIN "
+                + "estudiante.nombre, periodo, estudiante.apellido, observaciones, empresa.nombre, "
+                + "departamento, periodo FROM tesis INNER JOIN "
                 + "estudiante ON estudiante.idestudiante = tesis.estudiante_tesis "
-                + "INNER JOIN empresa ON estudiante.id_empresa = empresa.idempresa";
+                + "INNER JOIN empresa ON estudiante.id_empresa = empresa.idempresa"
+                + " INNER JOIN defensa ON defensa.id_tesis = tesis.idtesis";
         if (PorCarrera.isSelected())
             sql = sql + " WHERE estudiante."+filtroCarrera();
         if (PorStatus.isSelected())
@@ -589,7 +604,7 @@ public class ConsultaTesis extends javax.swing.JPanel {
         if (PorCedula.isSelected())
             sql = sql + " WHERE estudiante."+filtroCedula();
         if (PorPeriodo.isSelected()){
-            
+            sql = sql + " WHERE "+getFiltroPeriodo();
         }
              
         
@@ -677,6 +692,10 @@ public class ConsultaTesis extends javax.swing.JPanel {
     private void txtFechaFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaFActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtFechaFActionPerformed
+
+    private void PorPeriodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PorPeriodoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PorPeriodoActionPerformed
     
     public void limpiarCajas(){
         txtAnio.setText("yyyy-mm-dd");
