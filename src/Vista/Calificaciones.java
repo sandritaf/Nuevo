@@ -373,15 +373,23 @@ public class Calificaciones extends javax.swing.JPanel {
     }//GEN-LAST:event_TablaTesisDefendidasMouseClicked
 
     private void ListaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListaMouseClicked
-        String sql = "SELECT idtesis, titulo, estudiante.nombre, estudiante.apellido, profesor.nombre, profesor.apellido,"
-                    + "tutor_industrial.nombre, tutor_industrial.apellido FROM tesis INNER JOIN "
-                    + "estudiante ON tesis.estudiante_tesis = estudiante.tesista INNER JOIN "
-//                    + "notas ON tesis.idtesis = notas.id_tesis INNER JOIN "
-                    + "profesor ON tesis.id_tutoracademico = profesor.idprofesor INNER JOIN "
-                    + "tutor_industrial ON tesis.id_tutorindustrial = tutor_industrial.idtindustrial "
-                    //+ "jurado ON tesis.i"
-                    + "WHERE tesis.status LIKE 'defendida'";
+        
+        String sql_ta = "SELECT profesor.nombre, profesor.apellido, titulo, idtesis FROM tesis INNER JOIN "
+                        + "profesor ON profesor.idprofesor = tesis.id_tutorAcademico"; 
+        String sql_ti = "SELECT tutor_industrial.nombre, tutor_industrial.apellido, titulo, idtesis FROM tesis INNER JOIN "
+                        + "tutor_industrial ON tutor_industrial.idtindustrial = tesis.id_tutorIndustrial"; 
+        String sql_j1 = "SELECT profesor.nombre, profesor.apellido, titulo, idtesis FROM tesis INNER JOIN "
+                        + "defensa ON tesis.idtesis = defensa.id_tesis INNER JOIN "
+                        + "profesor ON profesor.idprofesor = defensa.id_jurado1";
+        String sql_j2 = "SELECT profesor.nombre, profesor.apellido, titulo, idtesis FROM tesis INNER JOIN "
+                        + "defensa ON tesis.idtesis = defensa.id_tesis INNER JOIN "
+                        + "profesor ON profesor.idprofesor = defensa.id_jurado2"; 
+        String sql_es = "SELECT estudiante.nombre, estudiante.apellido, titulo, idtesis FROM tesis INNER JOIN "
+                        + "estudiante ON estudiante.idestudiante = tesis.estudiante_tesis"; 
+        String where = "WHERE tesis.status='Por defender'";
+//        System.out.println(sql1);
 
+        String sql ="";
         try{
             DefaultTableModel modelo = new DefaultTableModel();
             TablaTesisDefendidas.setModel(modelo);

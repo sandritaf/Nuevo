@@ -28,6 +28,8 @@ public class Defensa extends javax.swing.JPanel {
         controlador = new ControladorDefensa();
         defensa = new M_Defensa();
         txtPKDefensa.setVisible(false);
+        Guardar.setEnabled(false);
+        Modificar.setEnabled(false);
     }
 
     public void cargarProfesores(){
@@ -507,7 +509,11 @@ public class Defensa extends javax.swing.JPanel {
                 Integer.parseInt(txtAula.getText()), getPeriodo(Date.valueOf(txtFecha.getText())), 
                 Integer.parseInt(txtPKTesis.getText()), getComboSelected(cmbJurado1),getComboSelected(cmbJurado2));
         controlador.ingresar(defensa, txtPKTesis.getText());
+        
+        
+        
         limpiarCajas();
+        
     }//GEN-LAST:event_GuardarMousePressed
 
     private void PorDefenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PorDefenderActionPerformed
@@ -568,6 +574,7 @@ public class Defensa extends javax.swing.JPanel {
 
     private void TablaDefensaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaDefensaMouseClicked
         Guardar.setEnabled(true);
+        Modificar.setEnabled(true);
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
@@ -577,23 +584,32 @@ public class Defensa extends javax.swing.JPanel {
             int fila = TablaDefensa.getSelectedRow();
             int codigo = (int)TablaDefensa.getValueAt(fila, 0);
             if (EnDesarrollo.isSelected())
-                ps = (PreparedStatement) con.prepareStatement("SELECT idtesis, titulo  FROM tesis WHERE idtesis=?");
-            else 
+                ps = (PreparedStatement) con.prepareStatement("SELECT idtesis, titulo FROM tesis WHERE idtesis=?");
+            else
                 ps = (PreparedStatement) con.prepareStatement("SELECT idtesis,iddefensa, titulo, fecha, hora, aula"
                         + "  FROM tesis INNER JOIN defensa ON defensa.id_tesis = tesis.idtesis WHERE idtesis=?");
+            
             ps.setInt(1, codigo);          
             rs = ps.executeQuery();                            
             
             while(rs.next()){
-                txtPKTesis.setText(rs.getString("idtesis"));
+                JOptionPane.showMessageDialog(null,"entre en while");
+                txtPKTesis.setText(String.valueOf(rs.getInt("idtesis")));
                 txtTitulo.setText(rs.getString("titulo"));
                 if (!EnDesarrollo.isSelected()){
-                    txtPKDefensa.setText(rs.getString("iddefensa"));
+                    JOptionPane.showMessageDialog(null,"entre en aprobada");
+                    txtPKDefensa.setText(String.valueOf(rs.getInt("iddefensa")));
                     txtFecha.setText(rs.getString("fecha"));
                     txtHora.setText(rs.getString("hora"));
                     txtAula.setText(rs.getString("aula"));
                 }
             }
+            con.close();
+            conn.CerrarConexion();
+            ps.close();
+            
+            JOptionPane.showMessageDialog(null, "pk tesis: "+txtPKTesis.getText());
+            
         }catch(Exception e){
             System.out.println(e);
         }
