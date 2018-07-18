@@ -20,15 +20,13 @@ public class ControladorDefensa {
             Connection con = conn.getConection();
             PreparedStatement ps = null;                
 
-            ps = con.prepareCall("INSERT INTO defensa (fecha, hora, aula, periodo, nota_j1, nota_j2)"
-                    + " VALUES (?,?,?,?,?,?)");
+            ps = con.prepareCall("INSERT INTO defensa (fecha, hora, aula, periodo)"
+                    + " VALUES (?,?,?,?)");
 
             ps.setDate(1, defensa.getFecha());
             ps.setTime(2, defensa.getHora());
             ps.setInt(3, defensa.getAula());
             ps.setString(4, defensa.getPeriodo());
-            ps.setInt(5, defensa.getNota_j1());
-            ps.setInt(6, defensa.getNota_j2());
 
             int res = ps.executeUpdate(); //Ejecutar la consulta
 
@@ -82,16 +80,14 @@ public class ControladorDefensa {
         Connection con = c.getConection();
         int pk = Integer.parseInt(pk_defensa);
         PreparedStatement ps;            
-        ps = con.prepareStatement("UPDATE defensa SET fecha=?, hora=?, aula=?, periodo=?, nota_j1=?, nota_j2=?" +
+        ps = con.prepareStatement("UPDATE defensa SET fecha=?, hora=?, aula=?, periodo=?" +
                                     " WHERE iddefensa=?");
 
         ps.setDate(1, defensa.getFecha());
         ps.setTime(2, defensa.getHora());
         ps.setInt(3, defensa.getAula());
         ps.setString(4, defensa.getPeriodo());
-        ps.setInt(5, defensa.getNota_j1());
-        ps.setInt(6, defensa.getNota_j2());
-        ps.setInt(7, pk);
+        ps.setInt(5, pk);
 
         int res = ps.executeUpdate();
 

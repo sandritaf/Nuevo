@@ -8,11 +8,14 @@ package Vista;
 import Conexion.Conexion;
 import Logica.ControladorCalificaciones;
 import Modelo.M_Calificaciones;
+import Modelo.M_Defensa;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,10 +26,7 @@ public class Calificaciones extends javax.swing.JPanel {
     
     M_Calificaciones calificaciones;
     ControladorCalificaciones controlador;
-    String n_industrial;
-    String n_academico;
-    String n_jurado1;
-    String n_jurado2;
+    
     /**
      * Creates new form Calificaciones
      */
@@ -343,6 +343,27 @@ public class Calificaciones extends javax.swing.JPanel {
 
     private void CalcularNotaFinalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CalcularNotaFinalMouseClicked
         
+        String opc = "Seleccione";
+        
+        if(valorCombito(cmbNotaIndustrial).equals(opc) || valorCombito(cmbNotaAcademico).equals(opc) 
+                || valorCombito(cmbNotaJurado1).equals(opc) || valorCombito(cmbNotaJurado2).equals(opc)){
+                JOptionPane.showMessageDialog(null, "Debe seleccionar una nota válida: Por favor intente de nuevo");
+        }
+        else{
+            
+            int n_industrial = Integer.parseInt(valorCombito(cmbNotaIndustrial));
+            int n_academico = Integer.parseInt(valorCombito(cmbNotaAcademico));
+            int n_jurado1 = Integer.parseInt(valorCombito(cmbNotaJurado1));
+            int n_jurado2 = Integer.parseInt(valorCombito(cmbNotaJurado2));
+
+            int promediojurado = calificaciones.promedioNotaJurado(n_jurado1, n_jurado2);
+            int nota_final = calificaciones.calculo_nfinal(n_industrial, n_academico,promediojurado);
+
+            String notaf = Integer.toString(nota_final);
+
+            txtNotaFinal.setText(notaf);
+        }
+        //calificaciones.calculo_nfinal()
     }//GEN-LAST:event_CalcularNotaFinalMouseClicked
 
     private void TablaTesisDefendidasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaTesisDefendidasMouseClicked
@@ -352,10 +373,13 @@ public class Calificaciones extends javax.swing.JPanel {
     }//GEN-LAST:event_TablaTesisDefendidasMouseClicked
 
     private void ListaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListaMouseClicked
-        String sql = "SELECT idtesis, titulo, nombre, apellido FROM tesis INNER JOIN "
+        String sql = "SELECT idtesis, titulo, estudiante.nombre, estudiante.apellido, profesor.nombre, profesor.apellido FROM tesis INNER JOIN "
                     + "estudiante ON tesis.estudiante_tesis = estudiante.tesista INNER JOIN "
-                    + "notas ON tesis.idtesis = notas.id_tesis "
-                    + "WHERE tesis.status=defendida";
+//                    + "notas ON tesis.idtesis = notas.id_tesis INNER JOIN "
+                    + "profesor ON tesis.id_tutoracademico = profesor.idprofesor "
+//                    + "tutor_industrial ON tesis.id_tutorindustrial = tutor_industrial.idtindustrial "
+                    //+ "jurado ON tesis.i"
+                    + "WHERE tesis.status LIKE 'aprobada'";
 
         try{
             DefaultTableModel modelo = new DefaultTableModel();
@@ -372,10 +396,14 @@ public class Calificaciones extends javax.swing.JPanel {
             ResultSetMetaData rsmd = rs.getMetaData();
             int cantidadColumnas = rsmd.getColumnCount();
             
+            modelo.addColumn("Código");
             modelo.addColumn("Título");
-            modelo.addColumn("Autor");
-            modelo.addColumn("T. Industrial");
-            modelo.addColumn("T. Académico");
+            modelo.addColumn("N. Autor");
+            modelo.addColumn("A. Autor");
+//            modelo.addColumn("N. T Industrial");
+//            modelo.addColumn("A. T Industrial");
+            modelo.addColumn("N. T Académico");
+            modelo.addColumn("A. T Académico");
             modelo.addColumn("Jurado 1");
             modelo.addColumn("Jurado 2");
 
@@ -409,6 +437,12 @@ public class Calificaciones extends javax.swing.JPanel {
         
         System.out.println("este es el nombre de la tesis: "+nombre_tesis);
         return 0;
+    }
+    
+    public boolean txtVacio(JTextField txt){
+        if(txt.getText().isEmpty())
+            return true;
+        return false;
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

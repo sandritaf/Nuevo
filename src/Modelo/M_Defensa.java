@@ -20,25 +20,19 @@ public class M_Defensa {
     private int aula;
     private String periodo;
     private int id_tesis;
-    private int nota_j1;
-    private int nota_j2;
-
+    
     public M_Defensa() {
     }
 
-    public M_Defensa(int iddefensa, Date fecha, Time hora, int aula, String periodo, int id_tesis, int nota_j1, int nota_j2) {
+    public M_Defensa(int iddefensa, Date fecha, Time hora, int aula, String periodo, int id_tesis) {
         this.iddefensa = iddefensa;
         this.fecha = fecha;
         this.hora = hora;
         this.aula = aula;
         this.periodo = periodo;
         this.id_tesis = id_tesis;
-        this.nota_j1 = nota_j1;
-        this.nota_j2 = nota_j2;
     }
     
-    
-
     public int getIddefensa() {
         return iddefensa;
     }
@@ -87,22 +81,4 @@ public class M_Defensa {
         this.id_tesis = id_tesis;
     }
 
-    public int getNota_j1() {
-        return nota_j1;
-    }
-
-    public void setNota_j1(int nota_j1) {
-        this.nota_j1 = nota_j1;
-    }
-
-    public int getNota_j2() {
-        return nota_j2;
-    }
-
-    public void setNota_j2(int nota_j2) {
-        this.nota_j2 = nota_j2;
-    }
-    
-    
-    
 }
