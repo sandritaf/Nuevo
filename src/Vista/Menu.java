@@ -156,7 +156,7 @@ public class Menu extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/libreta50.png"))); // NOI18N
-        jLabel8.setText("Tesis");
+        jLabel8.setText("Gestionar Tesis");
         jLabel8.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
 
         javax.swing.GroupLayout btn5Layout = new javax.swing.GroupLayout(btn5);
@@ -194,7 +194,7 @@ public class Menu extends javax.swing.JFrame {
             .addGroup(btn6Layout.createSequentialGroup()
                 .addGap(45, 45, 45)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addContainerGap(85, Short.MAX_VALUE))
         );
         btn6Layout.setVerticalGroup(
             btn6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -284,7 +284,7 @@ public class Menu extends javax.swing.JFrame {
             .addGroup(btn9Layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addContainerGap(89, Short.MAX_VALUE))
         );
         btn9Layout.setVerticalGroup(
             btn9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -332,8 +332,8 @@ public class Menu extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Latha", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/configuracion50.png"))); // NOI18N
-        jLabel6.setText("Configuración");
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/doc50.png"))); // NOI18N
+        jLabel6.setText("Consultar Tesis");
         jLabel6.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
 
         javax.swing.GroupLayout btn4Layout = new javax.swing.GroupLayout(btn4);
@@ -343,11 +343,11 @@ public class Menu extends javax.swing.JFrame {
             .addGroup(btn4Layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addContainerGap(89, Short.MAX_VALUE))
         );
         btn4Layout.setVerticalGroup(
             btn4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout SidePanelLayout = new javax.swing.GroupLayout(SidePanel);
@@ -388,7 +388,7 @@ public class Menu extends javax.swing.JFrame {
                 .addComponent(btn10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout PanelFondoLayout = new javax.swing.GroupLayout(PanelFondo);
@@ -407,7 +407,7 @@ public class Menu extends javax.swing.JFrame {
             .addGroup(PanelFondoLayout.createSequentialGroup()
                 .addGap(94, 94, 94)
                 .addComponent(PanelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 529, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -450,8 +450,6 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_btn2MousePressed
 
     private void btn3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn3MousePressed
-       
-
         Defensa acta = new Defensa();
         acta.setVisible(true);
         acta.setLocation(0,0);
@@ -463,7 +461,14 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_btn3MousePressed
 
     private void btn4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn4MousePressed
-        
+        ConsultaTesis acta = new ConsultaTesis();
+        acta.setVisible(true);
+        acta.setLocation(0,0);
+        acta.setSize(PanelPrincipal.getSize());
+        System.out.println("Añadido ConsultaTesis");
+        PanelPrincipal.removeAll();
+        PanelPrincipal.add(acta,BorderLayout.CENTER);
+        PanelPrincipal.updateUI();
     }//GEN-LAST:event_btn4MousePressed
 
     private void btn5MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn5MousePressed

@@ -151,17 +151,7 @@ public class Tesis extends javax.swing.JPanel {
         return Integer.parseInt(codigoFinal);
     }
     
-    private String getStatusSelected(){
-        if (Reprobada.isSelected())
-           return "Reprobada";
-        else if (Aprobada.isSelected())
-            return "Aprobada";
-        else if (EnDesarrollo.isSelected())
-            return "En desarrollo";
-        else
-            return "Por defender";
-    }
- 
+  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -188,11 +178,6 @@ public class Tesis extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         txtFechaF = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        Reprobada = new javax.swing.JRadioButton();
-        Aprobada = new javax.swing.JRadioButton();
-        PorDefender = new javax.swing.JRadioButton();
-        EnDesarrollo = new javax.swing.JRadioButton();
         txtObservaciones = new javax.swing.JTextField();
         Guardar = new javax.swing.JLabel();
         Modificar = new javax.swing.JLabel();
@@ -248,10 +233,8 @@ public class Tesis extends javax.swing.JPanel {
         });
 
         cmbAlumno.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        cmbAlumno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         cmbTutor.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        cmbTutor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbTutor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbTutorActionPerformed(evt);
@@ -259,10 +242,8 @@ public class Tesis extends javax.swing.JPanel {
         });
 
         cmbTutor2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        cmbTutor2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         cmbEmpresa.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        cmbEmpresa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel5.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel5.setText("Estudiante");
@@ -280,7 +261,7 @@ public class Tesis extends javax.swing.JPanel {
         jLabel14.setText("Departamento");
 
         cmbDepartamento.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        cmbDepartamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbDepartamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dirección General", "Auxiliar administrativo", "Administración", "Recursos Humanos", "Finanzas/Contabilidad", "Producción", "Publicidad/Mercadeo", "Informática" }));
 
         jLabel6.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel6.setText("Fecha Inicio");
@@ -309,30 +290,6 @@ public class Tesis extends javax.swing.JPanel {
         jLabel10.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel10.setText("Observaciones");
 
-        jLabel12.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jLabel12.setText("Status");
-
-        Reprobada.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(Reprobada);
-        Reprobada.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        Reprobada.setText("Reprobada");
-
-        Aprobada.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(Aprobada);
-        Aprobada.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        Aprobada.setText("Aprobada");
-
-        PorDefender.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(PorDefender);
-        PorDefender.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        PorDefender.setText("Por Defender");
-
-        EnDesarrollo.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(EnDesarrollo);
-        EnDesarrollo.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        EnDesarrollo.setSelected(true);
-        EnDesarrollo.setText("En desarrollo");
-
         txtObservaciones.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         txtObservaciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -352,6 +309,11 @@ public class Tesis extends javax.swing.JPanel {
         Modificar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         Modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/editar.png"))); // NOI18N
         Modificar.setText("Modificar");
+        Modificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ModificarMouseClicked(evt);
+            }
+        });
 
         Limpiar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         Limpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/escoba.png"))); // NOI18N
@@ -396,10 +358,7 @@ public class Tesis extends javax.swing.JPanel {
                                 .addComponent(jLabel7))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jLabel10))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel12)))
+                                .addComponent(jLabel10)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
@@ -417,16 +376,7 @@ public class Tesis extends javax.swing.JPanel {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(131, 131, 131)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(EnDesarrollo)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(PorDefender))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(Reprobada)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(Aprobada))
-                                    .addComponent(txtObservaciones)))
+                                .addComponent(txtObservaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(132, 132, 132)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -484,17 +434,8 @@ public class Tesis extends javax.swing.JPanel {
                 .addGap(5, 5, 5)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtObservaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Aprobada)
-                            .addComponent(Reprobada)
-                            .addComponent(jLabel12))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(EnDesarrollo)
-                            .addComponent(PorDefender)))))
+                    .addComponent(txtObservaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(54, 54, 54))
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -660,7 +601,7 @@ public class Tesis extends javax.swing.JPanel {
 
     /*Falta asegurarse de que no se ingresan campos vacíos*/
     private void GuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GuardarMouseClicked
-        tesis.actualizar(getStatusSelected(), txtTitulo.getText(), txtFechaI.getText(),
+        tesis.actualizar("En desarrollo", txtTitulo.getText(), txtFechaI.getText(),
                 txtFechaF.getText(), txtObservaciones.getText(), "Departamento", getComboSelected(cmbTutor),
                 getComboSelected(cmbTutor2), getComboSelected(cmbAlumno), getComboSelected(cmbEmpresa));
         tesis.imprimir();
@@ -674,7 +615,7 @@ public class Tesis extends javax.swing.JPanel {
     }//GEN-LAST:event_ExportarMouseClicked
 
     private void CargarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CargarMouseClicked
-        String sql = "SELECT idtesis, titulo, estudiante_tesis, status id_carrera_fk FROM tesis";
+        String sql = "SELECT idtesis, titulo, estudiante_tesis, status FROM tesis";
 
         try{
             DefaultTableModel modelo = new DefaultTableModel();
@@ -737,6 +678,10 @@ public class Tesis extends javax.swing.JPanel {
         txtPK.setText(String.valueOf(codigo));
             
     }//GEN-LAST:event_TablaTesisMouseClicked
+
+    private void ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModificarMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ModificarMouseClicked
     
     public void limpiarCajas(){
         txtFechaF.setText(null);
@@ -757,16 +702,12 @@ public class Tesis extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton Aprobada;
     private javax.swing.JLabel Cargar;
     private javax.swing.JLabel Eliminar;
-    private javax.swing.JRadioButton EnDesarrollo;
     private javax.swing.JLabel Exportar;
     private javax.swing.JLabel Guardar;
     private javax.swing.JLabel Limpiar;
     private javax.swing.JLabel Modificar;
-    private javax.swing.JRadioButton PorDefender;
-    private javax.swing.JRadioButton Reprobada;
     private javax.swing.JTable TablaTesis;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
@@ -777,7 +718,6 @@ public class Tesis extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> cmbTutor2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;

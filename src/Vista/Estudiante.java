@@ -24,7 +24,6 @@ public class Estudiante extends javax.swing.JPanel {
         cargarCarreras();
         alumno = new M_Estudiante();
         txtID.setVisible(false);
-        Exportar.setEnabled(false);
         
     }
 
@@ -52,17 +51,10 @@ public class Estudiante extends javax.swing.JPanel {
         jPanel13 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        TablaCalificacion2 = new javax.swing.JTable();
         jPanel18 = new javax.swing.JPanel();
-        txtCedulaFiltro = new javax.swing.JTextField();
-        cmbCarrera2 = new javax.swing.JComboBox<>();
         Cargar = new javax.swing.JLabel();
-        botonFiltroCarrera = new javax.swing.JRadioButton();
-        botonFiltroCedula = new javax.swing.JRadioButton();
         jScrollPane6 = new javax.swing.JScrollPane();
         TablaAlumno = new javax.swing.JTable();
-        Exportar = new javax.swing.JLabel();
         jPanel19 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
@@ -80,6 +72,10 @@ public class Estudiante extends javax.swing.JPanel {
         Eliminar2 = new javax.swing.JLabel();
         txtID = new javax.swing.JTextField();
         Limpiar = new javax.swing.JLabel();
+        cmbCarrera2 = new javax.swing.JComboBox<>();
+        botonFiltroCarrera = new javax.swing.JRadioButton();
+        botonFiltroCedula = new javax.swing.JRadioButton();
+        txtCedulaFiltro = new javax.swing.JTextField();
 
         setPreferredSize(new java.awt.Dimension(979, 527));
 
@@ -110,37 +106,7 @@ public class Estudiante extends javax.swing.JPanel {
                 .addGap(0, 8, Short.MAX_VALUE))
         );
 
-        TablaCalificacion2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        TablaCalificacion2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Tesis", "Calificacion"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        TablaCalificacion2.setSelectionBackground(new java.awt.Color(52, 152, 219));
-        TablaCalificacion2.setShowHorizontalLines(false);
-        TablaCalificacion2.setShowVerticalLines(false);
-        jScrollPane5.setViewportView(TablaCalificacion2);
-
         jPanel18.setBackground(new java.awt.Color(255, 255, 255));
-
-        txtCedulaFiltro.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-
-        cmbCarrera2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        cmbCarrera2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         Cargar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         Cargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/estudiante.png"))); // NOI18N
@@ -150,14 +116,6 @@ public class Estudiante extends javax.swing.JPanel {
                 CargarMouseClicked(evt);
             }
         });
-
-        botonFiltroCarrera.setBackground(new java.awt.Color(255, 255, 255));
-        botonFiltroCarrera.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        botonFiltroCarrera.setText("Filtrar por Carrera");
-
-        botonFiltroCedula.setBackground(new java.awt.Color(255, 255, 255));
-        botonFiltroCedula.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        botonFiltroCedula.setText("Filtrar por Cédula");
 
         TablaAlumno.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         TablaAlumno.setModel(new javax.swing.table.DefaultTableModel(
@@ -196,61 +154,27 @@ public class Estudiante extends javax.swing.JPanel {
         });
         jScrollPane6.setViewportView(TablaAlumno);
 
-        Exportar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        Exportar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/pdf.png"))); // NOI18N
-        Exportar.setText("Exportar a PDF");
-        Exportar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ExportarMouseClicked(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
         jPanel18.setLayout(jPanel18Layout);
         jPanel18Layout.setHorizontalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel18Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(Cargar)
-                    .addComponent(botonFiltroCarrera)
-                    .addComponent(cmbCarrera2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(53, 53, 53)
-                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtCedulaFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonFiltroCedula))
-                .addGap(107, 107, 107))
-            .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel18Layout.createSequentialGroup()
-                    .addGap(342, 342, 342)
-                    .addComponent(Exportar, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(31, Short.MAX_VALUE)))
+                .addComponent(Cargar)
+                .addGap(162, 162, 162))
         );
         jPanel18Layout.setVerticalGroup(
             jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel18Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(21, Short.MAX_VALUE)
                 .addComponent(Cargar)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonFiltroCarrera)
-                    .addComponent(botonFiltroCedula))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmbCarrera2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCedulaFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel18Layout.createSequentialGroup()
-                    .addGap(20, 20, 20)
-                    .addComponent(Exportar)
-                    .addContainerGap(378, Short.MAX_VALUE)))
+                .addGap(90, 90, 90))
         );
 
         jPanel19.setBackground(new java.awt.Color(255, 255, 255));
@@ -408,30 +332,49 @@ public class Estudiante extends javax.swing.JPanel {
             }
         });
 
+        cmbCarrera2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        cmbCarrera2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        botonFiltroCarrera.setBackground(new java.awt.Color(255, 255, 255));
+        botonFiltroCarrera.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        botonFiltroCarrera.setText("Filtrar por Carrera");
+
+        botonFiltroCedula.setBackground(new java.awt.Color(255, 255, 255));
+        botonFiltroCedula.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        botonFiltroCedula.setText("Filtrar por Cédula");
+
+        txtCedulaFiltro.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addGap(158, 158, 158)
-                        .addComponent(Limpiar))
-                    .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel13Layout.createSequentialGroup()
-                                .addGap(68, 68, 68)
-                                .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel13Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel13Layout.createSequentialGroup()
+                                    .addGap(68, 68, 68)
+                                    .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+                                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(botonFiltroCarrera)
+                                    .addComponent(cmbCarrera2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(53, 53, 53)
+                                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtCedulaFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(botonFiltroCedula))))
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
+                        .addComponent(Limpiar)
+                        .addGap(121, 121, 121)))
                 .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
             .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel13Layout.setVerticalGroup(
@@ -440,6 +383,7 @@ public class Estudiante extends javax.swing.JPanel {
                 .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel13Layout.createSequentialGroup()
                         .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -449,13 +393,17 @@ public class Estudiante extends javax.swing.JPanel {
                             .addGroup(jPanel13Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(botonFiltroCarrera)
+                            .addComponent(botonFiltroCedula))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cmbCarrera2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCedulaFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 15, Short.MAX_VALUE))
-                    .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, 0))
+                        .addContainerGap())))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -491,7 +439,6 @@ public class Estudiante extends javax.swing.JPanel {
         txtCedulaFiltro.setText(null);
         txtID.setText(null);
         Guardar.setEnabled(true); 
-        Exportar.setEnabled(false);
     }  
     
     public String filtroCarrera(){        
@@ -643,7 +590,6 @@ public class Estudiante extends javax.swing.JPanel {
         }catch(Exception ex){
             System.err.println(ex);
         }
-        Exportar.setEnabled(true);
     }//GEN-LAST:event_CargarMouseClicked
 
     private void TablaAlumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaAlumnoMouseClicked
@@ -680,20 +626,14 @@ public class Estudiante extends javax.swing.JPanel {
         limpiarCajas();
     }//GEN-LAST:event_LimpiarMouseClicked
 
-    private void ExportarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ExportarMouseClicked
-    
-    }//GEN-LAST:event_ExportarMouseClicked
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Cargar;
     private javax.swing.JLabel Eliminar2;
-    private javax.swing.JLabel Exportar;
     private javax.swing.JLabel Guardar;
     private javax.swing.JLabel Limpiar;
     private javax.swing.JLabel Modificar;
     private javax.swing.JTable TablaAlumno;
-    private javax.swing.JTable TablaCalificacion2;
     private javax.swing.JRadioButton botonFiltroCarrera;
     private javax.swing.JRadioButton botonFiltroCedula;
     private javax.swing.JComboBox<String> cmbCarrera;
@@ -709,7 +649,6 @@ public class Estudiante extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel20;
-    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtCedula;
