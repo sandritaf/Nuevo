@@ -10,8 +10,6 @@ public class Main {
        Menu ventana = new Menu();
        ventana.setVisible(true);    
 
-//        Tesis t = new Tesis();
-//        t.setVisible(true);
     }
     
 }
