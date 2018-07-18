@@ -356,8 +356,8 @@ public class Calificaciones extends javax.swing.JPanel {
             int n_jurado1 = Integer.parseInt(valorCombito(cmbNotaJurado1));
             int n_jurado2 = Integer.parseInt(valorCombito(cmbNotaJurado2));
 
-            int promediojurado = calificaciones.promedioNotaJurado(n_jurado1, n_jurado2);
-            int nota_final = calificaciones.calculo_nfinal(n_industrial, n_academico,promediojurado);
+            int promediojurado = calificaciones.getPromedio(n_jurado1, n_jurado2);
+            int nota_final = calificaciones.getNotaFinal(n_industrial, n_academico,promediojurado);
 
             String notaf = Integer.toString(nota_final);
 
@@ -380,7 +380,7 @@ public class Calificaciones extends javax.swing.JPanel {
                     + "profesor ON tesis.id_tutoracademico = profesor.idprofesor INNER JOIN "
                     + "tutor_industrial ON tesis.id_tutorindustrial = tutor_industrial.idtindustrial "
                     //+ "jurado ON tesis.i"
-                    + "WHERE tesis.status LIKE 'aprobada'";
+                    + "WHERE tesis.status LIKE 'defendida'";
 
         try{
             DefaultTableModel modelo = new DefaultTableModel();
