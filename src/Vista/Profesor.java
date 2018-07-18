@@ -82,7 +82,6 @@ public class Profesor extends javax.swing.JPanel {
         Guardar = new javax.swing.JLabel();
         Eliminar = new javax.swing.JLabel();
         Modificar = new javax.swing.JLabel();
-        Exportar = new javax.swing.JLabel();
         Cargar = new javax.swing.JLabel();
         Limpiar = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -99,6 +98,7 @@ public class Profesor extends javax.swing.JPanel {
         jLabel16 = new javax.swing.JLabel();
         txtCedula = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        Exportar = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -111,7 +111,7 @@ public class Profesor extends javax.swing.JPanel {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/aula64.png"))); // NOI18N
-        jLabel4.setText("Gestionar Profesor");
+        jLabel4.setText("Profesor");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -140,10 +140,7 @@ public class Profesor extends javax.swing.JPanel {
         TablaProfesor.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
         TablaProfesor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "Nombre", "Apellido", "Carrera"
@@ -212,10 +209,6 @@ public class Profesor extends javax.swing.JPanel {
                 ModificarMouseClicked(evt);
             }
         });
-
-        Exportar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        Exportar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/pdf.png"))); // NOI18N
-        Exportar.setText("Exportar a PDF");
 
         Cargar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         Cargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/aula_color50.png"))); // NOI18N
@@ -300,6 +293,10 @@ public class Profesor extends javax.swing.JPanel {
         jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel7.setText("Apellido");
 
+        Exportar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        Exportar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/pdf50.png"))); // NOI18N
+        Exportar.setText("Exportar a PDF");
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -312,10 +309,10 @@ public class Profesor extends javax.swing.JPanel {
                         .addComponent(Eliminar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(Modificar)
-                        .addGap(103, 103, 103)
-                        .addComponent(Exportar)
-                        .addGap(85, 85, 85)
+                        .addGap(59, 59, 59)
                         .addComponent(Cargar)
+                        .addGap(40, 40, 40)
+                        .addComponent(Exportar)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -352,8 +349,8 @@ public class Profesor extends javax.swing.JPanel {
                     .addComponent(Guardar)
                     .addComponent(Eliminar)
                     .addComponent(Modificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Exportar)
-                    .addComponent(Cargar))
+                    .addComponent(Cargar)
+                    .addComponent(Exportar))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()

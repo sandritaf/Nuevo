@@ -69,7 +69,7 @@ public class Estudiante extends javax.swing.JPanel {
         jPanel20 = new javax.swing.JPanel();
         Modificar = new javax.swing.JLabel();
         Guardar = new javax.swing.JLabel();
-        Eliminar2 = new javax.swing.JLabel();
+        Eliminar = new javax.swing.JLabel();
         txtID = new javax.swing.JTextField();
         Limpiar = new javax.swing.JLabel();
         cmbCarrera2 = new javax.swing.JComboBox<>();
@@ -292,12 +292,12 @@ public class Estudiante extends javax.swing.JPanel {
             }
         });
 
-        Eliminar2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        Eliminar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/eliminar50.png"))); // NOI18N
-        Eliminar2.setText("Eliminar");
-        Eliminar2.addMouseListener(new java.awt.event.MouseAdapter() {
+        Eliminar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        Eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/eliminar50.png"))); // NOI18N
+        Eliminar.setText("Eliminar");
+        Eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Eliminar2MouseClicked(evt);
+                EliminarMouseClicked(evt);
             }
         });
 
@@ -311,12 +311,12 @@ public class Estudiante extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Modificar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Eliminar2)
+                .addComponent(Eliminar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel20Layout.setVerticalGroup(
             jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Eliminar2, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(Eliminar, javax.swing.GroupLayout.Alignment.TRAILING)
             .addComponent(Modificar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(Guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
@@ -529,14 +529,14 @@ public class Estudiante extends javax.swing.JPanel {
         limpiarCajas();
     }//GEN-LAST:event_ModificarMouseClicked
 
-    private void Eliminar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Eliminar2MouseClicked
+    private void EliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EliminarMouseClicked
         if(txtID.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Seleccione un estudiante a eliminar");
         } else {
             controlador.eliminar(txtID.getText());
         }
         limpiarCajas();
-    }//GEN-LAST:event_Eliminar2MouseClicked
+    }//GEN-LAST:event_EliminarMouseClicked
 
     private void CargarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CargarMouseClicked
         
@@ -628,7 +628,7 @@ public class Estudiante extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Cargar;
-    private javax.swing.JLabel Eliminar2;
+    private javax.swing.JLabel Eliminar;
     private javax.swing.JLabel Guardar;
     private javax.swing.JLabel Limpiar;
     private javax.swing.JLabel Modificar;

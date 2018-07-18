@@ -16,23 +16,23 @@ public class Defensa extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
+        ListadoTesis = new javax.swing.JLabel();
         Cargar = new javax.swing.JLabel();
         Añadir = new javax.swing.JLabel();
         Eliminar = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        Tabla = new javax.swing.JTable();
+        TablaDefensa = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        fechaDefensa = new javax.swing.JLabel();
+        jurado2 = new javax.swing.JLabel();
+        jurado1 = new javax.swing.JLabel();
+        cmbJurado2 = new javax.swing.JComboBox<>();
+        cmbJurado1 = new javax.swing.JComboBox<>();
         choice1 = new java.awt.Choice();
         choice2 = new java.awt.Choice();
-        jTextField1 = new javax.swing.JTextField();
+        txtFechaDefensa = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        Titulo = new javax.swing.JLabel();
         txtProfesor = new javax.swing.JTextField();
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
@@ -48,7 +48,7 @@ public class Defensa extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/doc64.png"))); // NOI18N
-        jLabel1.setText("Gestionar Defensa");
+        jLabel1.setText("Defensa");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -69,14 +69,14 @@ public class Defensa extends javax.swing.JPanel {
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(34, 49, 63));
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/icons8-libros-50.png"))); // NOI18N
-        jLabel7.setText("Listado de Tesis");
+        ListadoTesis.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        ListadoTesis.setForeground(new java.awt.Color(34, 49, 63));
+        ListadoTesis.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/icons8-libros-50.png"))); // NOI18N
+        ListadoTesis.setText("Listado de Tesis");
 
         Cargar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         Cargar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/actualizar.png"))); // NOI18N
-        Cargar.setText("Actualizar");
+        Cargar.setText("Cargar");
 
         Añadir.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         Añadir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/añadir_libro.png"))); // NOI18N
@@ -86,13 +86,10 @@ public class Defensa extends javax.swing.JPanel {
         Eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/eliminar_libro.png"))); // NOI18N
         Eliminar.setText("Eliminar");
 
-        Tabla.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        Tabla.setModel(new javax.swing.table.DefaultTableModel(
+        TablaDefensa.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        TablaDefensa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Estudiante", "Empresa", "Tutor Académico", "Tutor Industrial", "Calificación"
@@ -113,11 +110,11 @@ public class Defensa extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        Tabla.setGridColor(new java.awt.Color(255, 0, 0));
-        Tabla.setSelectionBackground(new java.awt.Color(25, 181, 254));
-        Tabla.setShowHorizontalLines(false);
-        Tabla.setShowVerticalLines(false);
-        jScrollPane1.setViewportView(Tabla);
+        TablaDefensa.setGridColor(new java.awt.Color(255, 0, 0));
+        TablaDefensa.setSelectionBackground(new java.awt.Color(25, 181, 254));
+        TablaDefensa.setShowHorizontalLines(false);
+        TablaDefensa.setShowVerticalLines(false);
+        jScrollPane1.setViewportView(TablaDefensa);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -128,7 +125,7 @@ public class Defensa extends javax.swing.JPanel {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
+                        .addComponent(ListadoTesis)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Cargar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -143,7 +140,7 @@ public class Defensa extends javax.swing.JPanel {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(Añadir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(Cargar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ListadoTesis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(Eliminar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -152,24 +149,24 @@ public class Defensa extends javax.swing.JPanel {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel6.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
-        jLabel6.setText("Fecha de Defensa");
+        fechaDefensa.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
+        fechaDefensa.setText("Fecha de Defensa");
 
-        jLabel5.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
-        jLabel5.setText("Jurado 2");
+        jurado2.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
+        jurado2.setText("Jurado 2");
 
-        jLabel4.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
-        jLabel4.setText("Jurado 1");
+        jurado1.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
+        jurado1.setText("Jurado 1");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbJurado2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbJurado1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/etiqueta.png"))); // NOI18N
-        jLabel3.setText("Título");
+        Titulo.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        Titulo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/etiqueta.png"))); // NOI18N
+        Titulo.setText("Título");
 
         txtProfesor.setEditable(false);
         txtProfesor.setBackground(new java.awt.Color(255, 255, 255));
@@ -201,7 +198,7 @@ public class Defensa extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
+                        .addComponent(Titulo)
                         .addGap(18, 18, 18)
                         .addComponent(txtProfesor, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -217,7 +214,7 @@ public class Defensa extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtProfesor)
-                    .addComponent(jLabel3))
+                    .addComponent(Titulo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jRadioButton1)
@@ -243,17 +240,17 @@ public class Defensa extends javax.swing.JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jurado1)
+                            .addComponent(jurado2, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fechaDefensa, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Guardar)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cmbJurado1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cmbJurado2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtFechaDefensa, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(choice1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -270,22 +267,22 @@ public class Defensa extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
+                        .addComponent(jurado1)
                         .addGap(26, 26, 26)
-                        .addComponent(jLabel5)
+                        .addComponent(jurado2)
                         .addGap(26, 26, 26)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(fechaDefensa)
+                            .addComponent(txtFechaDefensa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(jPanel3Layout.createSequentialGroup()
                             .addComponent(choice1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(46, 46, 46))
                         .addComponent(choice2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmbJurado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(26, 26, 26)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(cmbJurado2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(17, 17, 17)
                 .addComponent(Guardar))
         );
@@ -328,18 +325,16 @@ public class Defensa extends javax.swing.JPanel {
     private javax.swing.JLabel Cargar;
     private javax.swing.JLabel Eliminar;
     private javax.swing.JLabel Guardar;
-    private javax.swing.JTable Tabla;
+    private javax.swing.JLabel ListadoTesis;
+    private javax.swing.JTable TablaDefensa;
+    private javax.swing.JLabel Titulo;
     private javax.swing.ButtonGroup buttonGroup1;
     private java.awt.Choice choice1;
     private java.awt.Choice choice2;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> cmbJurado1;
+    private javax.swing.JComboBox<String> cmbJurado2;
+    private javax.swing.JLabel fechaDefensa;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -348,7 +343,9 @@ public class Defensa extends javax.swing.JPanel {
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel jurado1;
+    private javax.swing.JLabel jurado2;
+    private javax.swing.JTextField txtFechaDefensa;
     private javax.swing.JTextField txtProfesor;
     // End of variables declaration//GEN-END:variables
 }

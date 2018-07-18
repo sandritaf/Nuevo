@@ -3,6 +3,7 @@ package Main;
 
 import Logica.ManejadorFecha;
 import Vista.Menu;
+import Vista.Tesis;
 
 public class Main {
 
