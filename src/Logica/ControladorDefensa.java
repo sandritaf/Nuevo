@@ -6,18 +6,53 @@ import Modelo.M_Defensa;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 public class ControladorDefensa {
 
     public ControladorDefensa() {
     }
+    
+    public void cargarTesis(JComboBox combito, boolean conDefensa){
+        DefaultComboBoxModel aModel = new DefaultComboBoxModel();
+        String sql = "SELECT idtesis, titulo FROM tesis ";
+        if (conDefensa){
+            sql = sql + "INNER JOIN defensa ON defensa.id_tesis = tesis.idtesis";
+        }
+        else {
+            sql = sql + "WHERE status='En desarrollo'";
+        }
+        String aux;
+        
+        try{
+            PreparedStatement ps;
+            ResultSet rs;
+            Conexion conn = new Conexion();
+            Connection con = conn.getConection();
+            combito.setModel(aModel);
+            ps = (PreparedStatement) con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next() ){
+               aux = rs.getString("idtesis") + "- " + rs.getString("titulo");
+               aModel.addElement(aux);
+            }
+            //Cerrar conexiones
+            ps.close();
+            rs.close();
+            conn.CerrarConexion();
+            con.close();            
+        
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Ocurrió un error cargando tesis: "+ex);
+        }
+    }
 
-    public void porDefenderTesis(String PK){
+    public void porDefenderTesis(int pk){
         try {
         Conexion c = new Conexion();
         Connection con = c.getConection();
-        int pk = Integer.parseInt(PK);
         PreparedStatement ps;            
         ps = con.prepareStatement("UPDATE tesis SET status=? WHERE idtesis=?");
 
@@ -70,11 +105,12 @@ public class ControladorDefensa {
     }
     
     //Ingresa una defensa en la tabla
-    public void ingresar(M_Defensa defensa, String PK_Tesis){
+    public void ingresar(M_Defensa defensa){
         try {
             Conexion conn = new Conexion();
             Connection con = conn.getConection();
-            PreparedStatement ps = null;                
+            PreparedStatement ps = null;  
+            int PK_Tesis;
 
             ps = con.prepareCall("INSERT INTO defensa (fecha, hora, aula, periodo, id_tesis, id_jurado1, id_jurado2)"
                     + " VALUES (?,?,?,?,?,?,?)");
@@ -84,6 +120,7 @@ public class ControladorDefensa {
             ps.setInt(3, defensa.getAula());
             ps.setString(4, defensa.getPeriodo());
             ps.setInt(5, defensa.getId_tesis());
+            PK_Tesis = defensa.getId_tesis();
             ps.setInt(6, defensa.getId_jurado1());
             ps.setInt(7, defensa.getId_jurad2());
 
