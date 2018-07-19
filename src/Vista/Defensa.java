@@ -64,7 +64,7 @@ public class Defensa extends javax.swing.JPanel {
     }
     
     public void limpiarCajas(){
-        Guardar.setEnabled(false);
+        Guardar.setEnabled(true);
         controlador.cargarTesis(cmbTesis, false);
         cmbTesis.setSelectedItem(0);
         txtPKTesis.setText(null);
@@ -339,13 +339,14 @@ public class Defensa extends javax.swing.JPanel {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Titulo)
-                    .addComponent(txtPKTesis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPKDefensa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(cmbTesis, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cmbTesis, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(Titulo)
+                        .addComponent(txtPKTesis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtPKDefensa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(PorDefender)
@@ -472,7 +473,6 @@ public class Defensa extends javax.swing.JPanel {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Reprobada)
                             .addComponent(Aprobada))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jurado1)
                     .addComponent(cmbJurado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -533,6 +533,7 @@ public class Defensa extends javax.swing.JPanel {
         System.out.println("PK Tesis:"+defensa.getId_tesis()+".");
         controlador.ingresar(defensa);
         limpiarCajas();
+        
     }//GEN-LAST:event_GuardarMousePressed
 
     private void PorDefenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PorDefenderActionPerformed
@@ -609,6 +610,7 @@ public class Defensa extends javax.swing.JPanel {
             int codigo = (int)TablaDefensa.getValueAt(fila, 0);
             ps = (PreparedStatement) con.prepareStatement("SELECT id_tesis, iddefensa, fecha, hora, aula, "
                                                 + "id_jurado1, id_jurado2 FROM defensa WHERE iddefensa=?");
+            
             ps.setInt(1, codigo);          
             rs = ps.executeQuery();                            
             
@@ -621,10 +623,15 @@ public class Defensa extends javax.swing.JPanel {
                 getComboSelected(rs.getInt("id_jurado1"), cmbJurado1);
                 getComboSelected(rs.getInt("id_jurado2"), cmbJurado2);
                 getComboSelected(rs.getInt("id_tesis"), cmbTesis);
-                
-                }
-            }catch(Exception e){
-                System.out.println(e);
+            }
+            con.close();
+            conn.CerrarConexion();
+            ps.close();
+            
+            JOptionPane.showMessageDialog(null, "pk tesis: "+txtPKTesis.getText());
+            
+        }catch(Exception e){
+            System.out.println(e);
         }
     }//GEN-LAST:event_TablaDefensaMouseClicked
 
