@@ -93,6 +93,32 @@ public class Defensa extends javax.swing.JPanel {
         
     }
     
+    private boolean camposVacios(){
+        if(txtAula.getText().isEmpty() || txtHora.getText().isEmpty() || txtFecha.getText().isEmpty() &&
+                (!SemestreI.isSelected() || !SemestreII.isSelected()))
+            return true;
+        return false;
+    }
+    
+    private boolean juradosIguales(JComboBox c1, JComboBox c2){
+       int a = getComboSelected(c1);
+       int b = getComboSelected(c2);
+       if(a == b)
+           return true;
+       return false;
+    }
+
+    private boolean juradosIgualesTutor(){
+        
+        String pk_ta = txtPKTutorA.getText();
+        String ak = Integer.toString(getComboSelected(cmbJurado1));
+        String bk = Integer.toString(getComboSelected(cmbJurado2));
+
+        if(pk_ta.equals(ak) || pk_ta.equals(bk))
+            return true;
+        return false;
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -133,6 +159,7 @@ public class Defensa extends javax.swing.JPanel {
         Limpiar = new javax.swing.JLabel();
         Reprobada = new javax.swing.JRadioButton();
         Aprobada = new javax.swing.JRadioButton();
+        txtPKTutorA = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(884, 497));
@@ -435,7 +462,10 @@ public class Defensa extends javax.swing.JPanel {
                                                 .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(8, 8, 8)
                                                 .addComponent(SemestreI))
-                                            .addComponent(cmbJurado1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                                .addComponent(cmbJurado1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(txtPKTutorA, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addComponent(txtAula, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addGap(28, 28, 28)
@@ -454,10 +484,14 @@ public class Defensa extends javax.swing.JPanel {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Reprobada)
                             .addComponent(Aprobada))))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jurado1)
-                    .addComponent(cmbJurado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jurado1)
+                        .addComponent(cmbJurado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(txtPKTutorA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jurado2)
                     .addComponent(cmbJurado2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -508,12 +542,23 @@ public class Defensa extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void GuardarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GuardarMousePressed
-        defensa.actualizar(Date.valueOf(txtFecha.getText()), Time.valueOf(txtHora.getText()), 
-                Integer.parseInt(txtAula.getText()), getPeriodo(Date.valueOf(txtFecha.getText())), 
-                getComboSelected(cmbTesis), getComboSelected(cmbJurado1),getComboSelected(cmbJurado2));
-        controlador.ingresar(defensa);
-        limpiarCajas();
-        
+        if(juradosIguales(cmbJurado1,cmbJurado2)){
+            JOptionPane.showMessageDialog(null, "Jurado 1 debe ser distinto a Jurado 2");
+        }
+        else if(juradosIgualesTutor()){
+            JOptionPane.showMessageDialog(null, "Codigo Tutor Académico: "+txtPKTutorA.getText()+". El Tutor Académico"
+                    + " no puede ser Jurado");
+        }
+        else if(camposVacios()){
+            JOptionPane.showMessageDialog(null, "Llene todos los campos para guardar");
+        }
+        else{
+            defensa.actualizar(Date.valueOf(txtFecha.getText()), Time.valueOf(txtHora.getText()), 
+                    Integer.parseInt(txtAula.getText()), getPeriodo(Date.valueOf(txtFecha.getText())), 
+                    getComboSelected(cmbTesis), getComboSelected(cmbJurado1),getComboSelected(cmbJurado2));
+            controlador.ingresar(defensa);
+            limpiarCajas();
+        }
     }//GEN-LAST:event_GuardarMousePressed
 
     private void PorDefenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PorDefenderActionPerformed
@@ -590,7 +635,9 @@ public class Defensa extends javax.swing.JPanel {
             int fila = TablaDefensa.getSelectedRow();
             int codigo = (int)TablaDefensa.getValueAt(fila, 0);
             ps = (PreparedStatement) con.prepareStatement("SELECT id_tesis, iddefensa, fecha, hora, aula, "
-                                                + "id_jurado1, id_jurado2, periodo FROM defensa WHERE iddefensa=?");
+                                                + "id_jurado1, id_jurado2, periodo, id_tutorAcademico FROM "
+                                                + "defensa INNER JOIN tesis ON defensa.id_tesis = tesis.idtesis "
+                                                + "WHERE iddefensa=?");
             
             ps.setInt(1, codigo);          
             rs = ps.executeQuery();                            
@@ -604,6 +651,7 @@ public class Defensa extends javax.swing.JPanel {
                 setComboSelected(rs.getInt("id_jurado1"), cmbJurado1);
                 setComboSelected(rs.getInt("id_jurado2"), cmbJurado2);
                 setComboSelected(rs.getInt("id_tesis"), cmbTesis);
+                txtPKTutorA.setText(rs.getString("id_tutorAcademico"));
                 if (getSemestrePeriodo(rs.getString("periodo"))==1)
                     SemestreI.setSelected(true);
                 else 
@@ -621,13 +669,21 @@ public class Defensa extends javax.swing.JPanel {
     private void ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModificarMouseClicked
         if(txtPKDefensa.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Error en la modificación, no hay defensa seleccionada");
-        } else {
+        }
+        else if(juradosIguales(cmbJurado1,cmbJurado2)){
+            JOptionPane.showMessageDialog(null, "Jurado 1 debe ser distinto a Jurado 2");
+        }
+        else if(juradosIgualesTutor()){
+            JOptionPane.showMessageDialog(null, "Codigo Tutor Académico: "+txtPKTutorA.getText()+". El Tutor Académico"
+                    + " no puede ser Jurado");
+        }
+        else {
             defensa.actualizar(Date.valueOf(txtFecha.getText()), Time.valueOf(txtHora.getText()), 
                 Integer.parseInt(txtAula.getText()), getPeriodo(Date.valueOf(txtFecha.getText())), 
                 getComboSelected(cmbTesis), getComboSelected(cmbJurado1),getComboSelected(cmbJurado2));
             controlador.modificar(defensa, txtPKDefensa.getText());
+            limpiarCajas();
         }
-        limpiarCajas();
     }//GEN-LAST:event_ModificarMouseClicked
 
     private void LimpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LimpiarMouseClicked
@@ -681,5 +737,6 @@ public class Defensa extends javax.swing.JPanel {
     private javax.swing.JTextField txtHora;
     private javax.swing.JTextField txtPKDefensa;
     private javax.swing.JTextField txtPKTesis;
+    private javax.swing.JTextField txtPKTutorA;
     // End of variables declaration//GEN-END:variables
 }
