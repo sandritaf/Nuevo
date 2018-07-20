@@ -49,6 +49,37 @@ public class ControladorDefensa {
         }
     }
 
+    public void cargarProfesores(JComboBox cmbJurado1, JComboBox cmbJurado2){
+        DefaultComboBoxModel aModel = new DefaultComboBoxModel();
+        DefaultComboBoxModel bModel = new DefaultComboBoxModel();
+        String sql = "SELECT idprofesor, nombre, apellido FROM profesor";
+        String aux;
+        
+        try{
+            PreparedStatement ps;
+            ResultSet rs;
+            Conexion conn = new Conexion();
+            Connection con = conn.getConection();
+            cmbJurado1.setModel(aModel);
+            cmbJurado2.setModel(bModel);
+            ps = (PreparedStatement) con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next() ){
+               aux = rs.getString("idprofesor") + "- " + rs.getString("nombre") + " " + rs.getString("apellido");
+               aModel.addElement(aux);
+               bModel.addElement(aux);
+            }
+            //Cerrar conexiones
+            ps.close();
+            rs.close();
+            conn.CerrarConexion();
+            con.close();            
+        
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Ocurrió un error cargando Profesores: "+ex);
+        }
+    }
+    
     public void porDefenderTesis(int pk){
         try {
         Conexion c = new Conexion();
@@ -195,7 +226,7 @@ public class ControladorDefensa {
         if (res > 0){
             JOptionPane.showMessageDialog(null, "Defensa modificada con éxito");
         }else{
-            JOptionPane.showMessageDialog(null, "No se pudo modificar");
+            JOptionPane.showMessageDialog(null, "No se pudo modificar la defensa");
         }
 
         c.CerrarConexion();

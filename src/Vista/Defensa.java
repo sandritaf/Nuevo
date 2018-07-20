@@ -22,49 +22,20 @@ public class Defensa extends javax.swing.JPanel {
     ControladorDefensa controlador;
     
     public Defensa() {
-        initComponents();
-        txtPKTesis.setVisible(false);
+        initComponents();        
         controlador = new ControladorDefensa();
         defensa = new M_Defensa();
+        
+        txtPKTesis.setVisible(false);
         txtPKDefensa.setVisible(false);
+        Modificar.setEnabled(false);
         controlador.cargarTesis(cmbTesis, false);
-        cargarProfesores();
+        controlador.cargarProfesores(cmbJurado1, cmbJurado2);
     }
   
-
-    public void cargarProfesores(){
-        DefaultComboBoxModel aModel = new DefaultComboBoxModel();
-        DefaultComboBoxModel bModel = new DefaultComboBoxModel();
-        String sql = "SELECT idprofesor, nombre, apellido FROM profesor";
-        String aux;
-        
-        try{
-            PreparedStatement ps;
-            ResultSet rs;
-            Conexion conn = new Conexion();
-            Connection con = conn.getConection();
-            cmbJurado1.setModel(aModel);
-            cmbJurado2.setModel(bModel);
-            ps = (PreparedStatement) con.prepareStatement(sql);
-            rs = ps.executeQuery();
-            while(rs.next() ){
-               aux = rs.getString("idprofesor") + "- " + rs.getString("nombre") + " " + rs.getString("apellido");
-               aModel.addElement(aux);
-               bModel.addElement(aux);
-            }
-            //Cerrar conexiones
-            ps.close();
-            rs.close();
-            conn.CerrarConexion();
-            con.close();            
-        
-        }catch(Exception ex){
-            JOptionPane.showMessageDialog(null, "Ocurrió un error cargando Profesores: "+ex);
-        }
-    }
-    
     public void limpiarCajas(){
         Guardar.setEnabled(true);
+        Modificar.setEnabled(false);
         controlador.cargarTesis(cmbTesis, false);
         cmbTesis.setSelectedItem(0);
         txtPKTesis.setText(null);
@@ -86,7 +57,7 @@ public class Defensa extends javax.swing.JPanel {
         return anio;
     }
     
-    private void getComboSelected(int codigoPK, JComboBox combito){
+    private void setComboSelected(int codigoPK, JComboBox combito){
         //Obtengo la longitud de mi combo
         int largoCombo = combito.getItemCount();
         String textoCombo = "";
@@ -110,6 +81,16 @@ public class Defensa extends javax.swing.JPanel {
         int guion = codigo.indexOf("-");
         codigoFinal = codigo.substring(0, guion);
         return Integer.parseInt(codigoFinal);
+    }
+    
+    private int getSemestrePeriodo(String periodo){
+        String cadena = periodo; 
+        String cadenaFinal = "";
+        int largo = periodo.length();
+        int guion = cadena.indexOf("-");
+        cadenaFinal = cadena.substring(guion+1, largo);
+        return cadenaFinal.length();
+        
     }
     
     @SuppressWarnings("unchecked")
@@ -530,18 +511,16 @@ public class Defensa extends javax.swing.JPanel {
         defensa.actualizar(Date.valueOf(txtFecha.getText()), Time.valueOf(txtHora.getText()), 
                 Integer.parseInt(txtAula.getText()), getPeriodo(Date.valueOf(txtFecha.getText())), 
                 getComboSelected(cmbTesis), getComboSelected(cmbJurado1),getComboSelected(cmbJurado2));
-        System.out.println("PK Tesis:"+defensa.getId_tesis()+".");
         controlador.ingresar(defensa);
         limpiarCajas();
         
     }//GEN-LAST:event_GuardarMousePressed
 
     private void PorDefenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PorDefenderActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_PorDefenderActionPerformed
 
     private void ListadoTesisMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListadoTesisMouseClicked
-        
         
         String sql = "SELECT iddefensa, id_tesis, fecha, hora, aula, periodo, status "
                 + "FROM defensa INNER JOIN tesis ON tesis.idtesis = defensa.id_tesis";
@@ -599,7 +578,9 @@ public class Defensa extends javax.swing.JPanel {
     private void TablaDefensaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaDefensaMouseClicked
         cmbTesis.setEnabled(false);
         Guardar.setEnabled(false);
+        Modificar.setEnabled(true);        
         controlador.cargarTesis(cmbTesis, true);
+        
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
@@ -609,7 +590,7 @@ public class Defensa extends javax.swing.JPanel {
             int fila = TablaDefensa.getSelectedRow();
             int codigo = (int)TablaDefensa.getValueAt(fila, 0);
             ps = (PreparedStatement) con.prepareStatement("SELECT id_tesis, iddefensa, fecha, hora, aula, "
-                                                + "id_jurado1, id_jurado2 FROM defensa WHERE iddefensa=?");
+                                                + "id_jurado1, id_jurado2, periodo FROM defensa WHERE iddefensa=?");
             
             ps.setInt(1, codigo);          
             rs = ps.executeQuery();                            
@@ -620,15 +601,17 @@ public class Defensa extends javax.swing.JPanel {
                 txtFecha.setText(rs.getString("fecha"));
                 txtHora.setText(rs.getString("hora"));
                 txtAula.setText(rs.getString("aula"));
-                getComboSelected(rs.getInt("id_jurado1"), cmbJurado1);
-                getComboSelected(rs.getInt("id_jurado2"), cmbJurado2);
-                getComboSelected(rs.getInt("id_tesis"), cmbTesis);
+                setComboSelected(rs.getInt("id_jurado1"), cmbJurado1);
+                setComboSelected(rs.getInt("id_jurado2"), cmbJurado2);
+                setComboSelected(rs.getInt("id_tesis"), cmbTesis);
+                if (getSemestrePeriodo(rs.getString("periodo"))==1)
+                    SemestreI.setSelected(true);
+                else 
+                    SemestreII.setSelected(true);
             }
             con.close();
             conn.CerrarConexion();
             ps.close();
-            
-            JOptionPane.showMessageDialog(null, "pk tesis: "+txtPKTesis.getText());
             
         }catch(Exception e){
             System.out.println(e);
@@ -636,14 +619,15 @@ public class Defensa extends javax.swing.JPanel {
     }//GEN-LAST:event_TablaDefensaMouseClicked
 
     private void ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModificarMouseClicked
-      /*  if(txtPK.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Error en la modificación");
+        if(txtPKDefensa.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Error en la modificación, no hay defensa seleccionada");
         } else {
-            empresa.actualizar(txtNombre.getText(), txtRIF.getText(),
-                txtDireccion.getText(), txtGerente.getText(), txtTelefono.getText());
-            controlador.modificar(empresa, txtID.getText());
+            defensa.actualizar(Date.valueOf(txtFecha.getText()), Time.valueOf(txtHora.getText()), 
+                Integer.parseInt(txtAula.getText()), getPeriodo(Date.valueOf(txtFecha.getText())), 
+                getComboSelected(cmbTesis), getComboSelected(cmbJurado1),getComboSelected(cmbJurado2));
+            controlador.modificar(defensa, txtPKDefensa.getText());
         }
-        limpiarCajas();*/
+        limpiarCajas();
     }//GEN-LAST:event_ModificarMouseClicked
 
     private void LimpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LimpiarMouseClicked
