@@ -23,7 +23,7 @@ public class M_Calificaciones {
     public M_Calificaciones() {
     }
 
-    public M_Calificaciones(int id_tesis, int n_tindustrial, int n_tacademico, int n_promdefensa, int n_final, int n_j1, int n_j2) {
+    public M_Calificaciones(int id_tesis, int n_tindustrial, int n_tacademico, int n_j1, int n_j2, int n_promdefensa, int n_final) {
         this.id_tesis = id_tesis;
         this.n_tindustrial = n_tindustrial;
         this.n_tacademico = n_tacademico;

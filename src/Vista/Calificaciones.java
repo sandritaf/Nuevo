@@ -69,9 +69,14 @@ public class Calificaciones extends javax.swing.JPanel {
         CalcularNotaFinal = new javax.swing.JLabel();
         txtPKEstudiante = new javax.swing.JTextField();
         txtPKCalificaciones = new javax.swing.JTextField();
+        txtPKTutorI = new javax.swing.JTextField();
+        txtPKTutorA = new javax.swing.JTextField();
+        txtPKJurado1 = new javax.swing.JTextField();
+        txtPKJurado2 = new javax.swing.JTextField();
+        txtPKTesis = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        TablaTesisDefendidas = new javax.swing.JTable();
+        TablaTesis = new javax.swing.JTable();
         Lista = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -156,6 +161,18 @@ public class Calificaciones extends javax.swing.JPanel {
             }
         });
 
+        txtPKJurado1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPKJurado1ActionPerformed(evt);
+            }
+        });
+
+        txtPKTesis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPKTesisActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -188,13 +205,21 @@ public class Calificaciones extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtNotaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(txtPKEstudiante, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(cmbNotaAcademico, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cmbNotaJurado1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cmbNotaJurado2, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cmbNotaIndustrial, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(49, 49, 49))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtPKEstudiante, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cmbNotaAcademico, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cmbNotaJurado1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cmbNotaJurado2, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cmbNotaIndustrial, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtPKJurado2, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtPKTutorA)
+                            .addComponent(txtPKJurado1)
+                            .addComponent(txtPKTutorI)
+                            .addComponent(txtPKTesis, javax.swing.GroupLayout.Alignment.LEADING))))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,23 +232,28 @@ public class Calificaciones extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(NotaTutorIndustrial)
-                    .addComponent(cmbNotaIndustrial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbNotaIndustrial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPKTutorI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(NotaTutorAcademico)
-                    .addComponent(cmbNotaAcademico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbNotaAcademico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPKTutorA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(NotaJurado1)
-                    .addComponent(cmbNotaJurado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbNotaJurado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPKJurado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(NotaJurado2)
-                    .addComponent(cmbNotaJurado2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbNotaJurado2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPKJurado2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(7, 7, 7)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPKEstudiante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPKCalificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPKCalificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPKTesis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(CalcularNotaFinal)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -235,29 +265,21 @@ public class Calificaciones extends javax.swing.JPanel {
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
-        TablaTesisDefendidas.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        TablaTesisDefendidas.setModel(new javax.swing.table.DefaultTableModel(
+        TablaTesis.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        TablaTesis.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Titulo", "Autor", "T. Industrial", "T. Académico", "Jurado 1", "Jurado 2"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-        });
-        TablaTesisDefendidas.addMouseListener(new java.awt.event.MouseAdapter() {
+        ));
+        TablaTesis.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TablaTesisDefendidasMouseClicked(evt);
+                TablaTesisMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(TablaTesisDefendidas);
+        jScrollPane1.setViewportView(TablaTesis);
 
         Lista.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         Lista.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/defensa.png"))); // NOI18N
@@ -328,13 +350,15 @@ public class Calificaciones extends javax.swing.JPanel {
 
     private void GuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GuardarMouseClicked
         
-        String n_industrial = valorCombito(cmbNotaIndustrial);
-        String n_academico = valorCombito(cmbNotaAcademico);
-        String n_jurado1 = valorCombito(cmbNotaJurado1);
-        String n_jurado2 = valorCombito(cmbNotaJurado2);
-        
-//        calificaciones = new M_Calificaciones(idtesis, n_industrial, n_academico, n_jurado1, n_jurado2);
-        controlador.ingresar(calificaciones);
+        int n_industrial = Integer.parseInt(valorCombito(cmbNotaIndustrial));
+        int n_academico = Integer.parseInt(valorCombito(cmbNotaAcademico));
+        int n_jurado1 = Integer.parseInt(valorCombito(cmbNotaJurado1));
+        int n_jurado2 = Integer.parseInt(valorCombito(cmbNotaJurado2));
+        int n_final = Integer.parseInt(txtNotaFinal.getText());
+        int pk = Integer.parseInt(txtPKTesis.getText());
+        int n_defensa = (n_jurado1 + n_jurado2) / 2;
+        calificaciones = new M_Calificaciones(pk, n_industrial, n_academico, n_jurado1, n_jurado2, n_defensa, n_final);
+        controlador.ingresar(calificaciones, pk);
     }//GEN-LAST:event_GuardarMouseClicked
 
     private void txtNotaFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNotaFinalActionPerformed
@@ -366,33 +390,84 @@ public class Calificaciones extends javax.swing.JPanel {
         //calificaciones.calculo_nfinal()
     }//GEN-LAST:event_CalcularNotaFinalMouseClicked
 
-    private void TablaTesisDefendidasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaTesisDefendidasMouseClicked
-        getValorPKTesis();
+    private void TablaTesisMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaTesisMouseClicked
+        //getValorPKTesis();
+        Guardar.setEnabled(true);
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try{
+            Conexion conn = new Conexion();
+            Connection con = conn.getConection();
+            
+            int fila = TablaTesis.getSelectedRow();
+            int codigo = (int)TablaTesis.getValueAt(fila, 0);
+            ps = (PreparedStatement) con.prepareStatement("SELECT id_tesis, id_tutorAcademico, id_tutorIndustrial, id_jurado1, id_jurado2 FROM "
+                                                + "tesis INNER JOIN defensa ON defensa.id_tesis = tesis.idtesis "
+                                                + "INNER JOIN tutor_industrial ON tesis.id_tutorIndustrial = tutor_industrial.idtindustrial "
+                                                + "WHERE idtesis=?");
+            
+            ps.setInt(1, codigo);          
+            rs = ps.executeQuery();                            
+            
+            while(rs.next()){
+                txtPKTesis.setText(rs.getString("id_tesis"));
+                txtPKTutorA.setText(rs.getString(("id_tutorAcademico")));
+                txtPKTutorI.setText(rs.getString(("id_tutorIndustrial")));
+                txtPKJurado1.setText(rs.getString(("id_jurado1")));
+                txtPKJurado2.setText(rs.getString(("id_jurado2")));
+//                txtPKDefensa.setText(rs.getString("iddefensa"));
+//                txtFecha.setText(rs.getString("fecha"));
+//                txtHora.setText(rs.getString("hora"));
+//                txtAula.setText(rs.getString("aula"));
+//                setComboSelected(rs.getInt("id_jurado1"), cmbJurado1);
+//                setComboSelected(rs.getInt("id_jurado2"), cmbJurado2);
+//                setComboSelected(rs.getInt("id_tesis"), cmbTesis);
+//                txtPKTutorA.setText(rs.getString("id_tutorAcademico"));
+//                if (getSemestrePeriodo(rs.getString("periodo"))==1)
+//                    SemestreI.setSelected(true);
+//                else 
+//                    SemestreII.setSelected(true);
+            }
+            con.close();
+            conn.CerrarConexion();
+            ps.close();
+            
+        }catch(Exception e){
+            System.out.println(e);
+        }
+
         
         // TODO add your handling code here:
-    }//GEN-LAST:event_TablaTesisDefendidasMouseClicked
+    }//GEN-LAST:event_TablaTesisMouseClicked
 
     private void ListaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListaMouseClicked
         
-        String sql_ta = "SELECT profesor.nombre, profesor.apellido, titulo, idtesis FROM tesis INNER JOIN "
-                        + "profesor ON profesor.idprofesor = tesis.id_tutorAcademico"; 
-        String sql_ti = "SELECT tutor_industrial.nombre, tutor_industrial.apellido, titulo, idtesis FROM tesis INNER JOIN "
-                        + "tutor_industrial ON tutor_industrial.idtindustrial = tesis.id_tutorIndustrial"; 
-        String sql_j1 = "SELECT profesor.nombre, profesor.apellido, titulo, idtesis FROM tesis INNER JOIN "
-                        + "defensa ON tesis.idtesis = defensa.id_tesis INNER JOIN "
-                        + "profesor ON profesor.idprofesor = defensa.id_jurado1";
-        String sql_j2 = "SELECT profesor.nombre, profesor.apellido, titulo, idtesis FROM tesis INNER JOIN "
-                        + "defensa ON tesis.idtesis = defensa.id_tesis INNER JOIN "
-                        + "profesor ON profesor.idprofesor = defensa.id_jurado2"; 
-        String sql_es = "SELECT estudiante.nombre, estudiante.apellido, titulo, idtesis FROM tesis INNER JOIN "
-                        + "estudiante ON estudiante.idestudiante = tesis.estudiante_tesis"; 
-        String where = "WHERE tesis.status='Por defender'";
+//        String sql_ta = "SELECT profesor.nombre, profesor.apellido, titulo, idtesis FROM tesis INNER JOIN "
+//                        + "profesor ON profesor.idprofesor = tesis.id_tutorAcademico"; 
+//        String sql_ti = "SELECT tutor_industrial.nombre, tutor_industrial.apellido, titulo, idtesis FROM tesis INNER JOIN "
+//                        + "tutor_industrial ON tutor_industrial.idtindustrial = tesis.id_tutorIndustrial"; 
+//        String sql_j1 = "SELECT profesor.nombre, profesor.apellido, titulo, idtesis FROM tesis INNER JOIN "
+//                        + "defensa ON tesis.idtesis = defensa.id_tesis INNER JOIN "
+//                        + "profesor ON profesor.idprofesor = defensa.id_jurado1";
+//        String sql_j2 = "SELECT profesor.nombre, profesor.apellido, titulo, idtesis FROM tesis INNER JOIN "
+//                        + "defensa ON tesis.idtesis = defensa.id_tesis INNER JOIN "
+//                        + "profesor ON profesor.idprofesor = defensa.id_jurado2"; 
+//        String sql_es = "SELECT estudiante.nombre, estudiante.apellido, titulo, idtesis FROM tesis INNER JOIN "
+//                        + "estudiante ON estudiante.idestudiante = tesis.estudiante_tesis"; 
+//        String where = "WHERE tesis.status='Por defender'";
 //        System.out.println(sql1);
 
-        String sql ="";
+        String sql = "SELECT idtesis, titulo, status, id_tutorAcademico, id_tutorIndustrial,"
+                   + " id_jurado1, id_jurado2 FROM tesis INNER JOIN defensa "
+                   + "ON tesis.idtesis = defensa.id_tesis INNER JOIN tutor_industrial "
+                   + "ON tesis.id_tutorIndustrial = idtindustrial INNER JOIN profesor "
+                   + "ON tesis.id_tutorAcademico = profesor.idprofesor "
+                   + "WHERE tesis.status = 'Defendida'";
+
         try{
+            
             DefaultTableModel modelo = new DefaultTableModel();
-            TablaTesisDefendidas.setModel(modelo);
+            TablaTesis.setModel(modelo);
 
             PreparedStatement ps = null;
             ResultSet rs = null;
@@ -407,16 +482,11 @@ public class Calificaciones extends javax.swing.JPanel {
             
             modelo.addColumn("Código");
             modelo.addColumn("Título");
-            modelo.addColumn("N. Autor");
-            modelo.addColumn("A. Autor");
-            modelo.addColumn("N. T Académico");
-            modelo.addColumn("A. T Académico");
-            modelo.addColumn("N. Jurado 1");
-            modelo.addColumn("A. Jurado 1");
-            modelo.addColumn("N. Jurado 2");
-            modelo.addColumn("A. Jurado 2");
-            modelo.addColumn("N. T Industrial");
-            modelo.addColumn("A. T Industrial");
+            modelo.addColumn("Status");
+            modelo.addColumn("Tutor A");
+            modelo.addColumn("Tutor I");
+            modelo.addColumn("Jurado 1");
+            modelo.addColumn("Jurado 2");
 
             while(rs.next()){ //Carga en la tabla
                 Object[] filas = new Object[cantidadColumnas];
@@ -437,14 +507,22 @@ public class Calificaciones extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_ListaMouseClicked
 
+    private void txtPKJurado1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPKJurado1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPKJurado1ActionPerformed
+
+    private void txtPKTesisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPKTesisActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPKTesisActionPerformed
+
     private String valorCombito(JComboBox cmb){
         String s = cmb.getSelectedItem().toString();
         return s;
     }
     
     private int getValorPKTesis(){
-        int fila = TablaTesisDefendidas.getSelectedRow();
-        String nombre_tesis = TablaTesisDefendidas.getValueAt(fila, 0).toString();
+        int fila = TablaTesis.getSelectedRow();
+        String nombre_tesis = TablaTesis.getValueAt(fila, 0).toString();
         
         System.out.println("este es el nombre de la tesis: "+nombre_tesis);
         return 0;
@@ -467,7 +545,7 @@ public class Calificaciones extends javax.swing.JPanel {
     private javax.swing.JLabel NotaJurado2;
     private javax.swing.JLabel NotaTutorAcademico;
     private javax.swing.JLabel NotaTutorIndustrial;
-    private javax.swing.JTable TablaTesisDefendidas;
+    private javax.swing.JTable TablaTesis;
     private javax.swing.JComboBox<String> cmbNotaAcademico;
     private javax.swing.JComboBox<String> cmbNotaIndustrial;
     private javax.swing.JComboBox<String> cmbNotaJurado1;
@@ -481,5 +559,10 @@ public class Calificaciones extends javax.swing.JPanel {
     private javax.swing.JTextField txtNotaFinal;
     private javax.swing.JTextField txtPKCalificaciones;
     private javax.swing.JTextField txtPKEstudiante;
+    private javax.swing.JTextField txtPKJurado1;
+    private javax.swing.JTextField txtPKJurado2;
+    private javax.swing.JTextField txtPKTesis;
+    private javax.swing.JTextField txtPKTutorA;
+    private javax.swing.JTextField txtPKTutorI;
     // End of variables declaration//GEN-END:variables
 }

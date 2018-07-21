@@ -2,7 +2,9 @@ package Vista;
 
 import Conexion.Conexion;
 import Modelo.M_Defensa;
+import Modelo.M_Tesis;
 import Logica.ControladorDefensa;
+import Logica.ControladorTesis;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -20,17 +22,21 @@ public class Defensa extends javax.swing.JPanel {
 
     M_Defensa defensa;
     ControladorDefensa controlador;
+    M_Tesis tesis;
+    ControladorTesis controladortesis;
     
     public Defensa() {
         initComponents();        
         controlador = new ControladorDefensa();
         defensa = new M_Defensa();
         
-        txtPKTesis.setVisible(false);
+        txtPKTesis.setVisible(true);
         txtPKDefensa.setVisible(false);
         Modificar.setEnabled(false);
         controlador.cargarTesis(cmbTesis, false);
         controlador.cargarProfesores(cmbJurado1, cmbJurado2);
+        txtPKTutorA.setVisible(false);
+        controladortesis = new ControladorTesis();
     }
   
     public void limpiarCajas(){
@@ -220,24 +226,9 @@ public class Defensa extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Estudiante", "Empresa", "Tutor Académico", "Tutor Industrial", "Calificación"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        ));
         TablaDefensa.setGridColor(new java.awt.Color(255, 0, 0));
         TablaDefensa.setSelectionBackground(new java.awt.Color(25, 181, 254));
         TablaDefensa.setShowHorizontalLines(false);
@@ -302,7 +293,7 @@ public class Defensa extends javax.swing.JPanel {
         PorDefender.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup1.add(PorDefender);
         PorDefender.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        PorDefender.setText("Por Defender");
+        PorDefender.setText("Por defender");
         PorDefender.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PorDefenderActionPerformed(evt);
@@ -553,14 +544,28 @@ public class Defensa extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Llene todos los campos para guardar");
         }
         else{
+            String status="";
+            if(PorDefender.isSelected()) status = "Por defender";
+            else if(Aprobada.isSelected()) status = "Aprobada";
+            else if(Reprobada.isSelected()) status = "Reprobada";
+            else if(Defendida.isSelected()) status = "Defendida";
+            
+            int pk = getComboSelected(cmbTesis);
+//            controladortesis.modificarStatus(pk, status);
+            
+              JOptionPane.showMessageDialog(null, "Status seleccionado: "+status);
+              JOptionPane.showMessageDialog(null, "PK: "+pk);
+     
+              //tesis.setStatus();
             defensa.actualizar(Date.valueOf(txtFecha.getText()), Time.valueOf(txtHora.getText()), 
                     Integer.parseInt(txtAula.getText()), getPeriodo(Date.valueOf(txtFecha.getText())), 
                     getComboSelected(cmbTesis), getComboSelected(cmbJurado1),getComboSelected(cmbJurado2));
             controlador.ingresar(defensa);
+            controladortesis.modificarStatus(pk, status);
             limpiarCajas();
         }
     }//GEN-LAST:event_GuardarMousePressed
-
+    
     private void PorDefenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PorDefenderActionPerformed
         
     }//GEN-LAST:event_PorDefenderActionPerformed
@@ -574,9 +579,9 @@ public class Defensa extends javax.swing.JPanel {
         else if (Reprobada.isSelected())
             sql = sql + " WHERE status='Reprobada'";
         else if (Defendida.isSelected())
-            sql = sql + " WHERE tesis.status='Defendida'";
+            sql = sql + " WHERE status='Defendida'";
         else if (Aprobada.isSelected())
-            sql = sql + " WHERE tesis.status='Aprobada'";
+            sql = sql + " WHERE status='Aprobada'";
 
         try{
             DefaultTableModel modelo = new DefaultTableModel();
@@ -678,10 +683,20 @@ public class Defensa extends javax.swing.JPanel {
                     + " no puede ser Jurado");
         }
         else {
+            String status="";
+            if(PorDefender.isSelected()) status = "Por defender";
+            if(Aprobada.isSelected()) status = "Aprobada";
+            if(Reprobada.isSelected()) status = "Reprobada";
+            if(Defendida.isSelected()) status = "Defendida";
+            
+            int pk = Integer.parseInt(txtPKTesis.getText());
+
             defensa.actualizar(Date.valueOf(txtFecha.getText()), Time.valueOf(txtHora.getText()), 
                 Integer.parseInt(txtAula.getText()), getPeriodo(Date.valueOf(txtFecha.getText())), 
                 getComboSelected(cmbTesis), getComboSelected(cmbJurado1),getComboSelected(cmbJurado2));
             controlador.modificar(defensa, txtPKDefensa.getText());
+            controladortesis.modificarStatus(pk, status);
+            
             limpiarCajas();
         }
     }//GEN-LAST:event_ModificarMouseClicked

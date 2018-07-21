@@ -18,15 +18,15 @@ import javax.swing.JOptionPane;
 public class ControladorCalificaciones {
 
     //Ingresa un estudiante en la tabla
-    public void ingresar(M_Calificaciones nota){
+    public void ingresar(M_Calificaciones nota, int pktesis){
 
         try {
             Conexion conn = new Conexion();
             Connection con = conn.getConection();
             PreparedStatement ps = null;                
 
-            ps = con.prepareCall("INSERT INTO notas (tutor_academico, tutor_industrial, jurado1, jurado2, promedio_defensa, final)"
-                    + " VALUES (?,?,?,?,?,?)");
+            ps = con.prepareCall("INSERT INTO notas (tutor_academico, tutor_industrial, jurado1, jurado2, promedio_defensa, final, id_tesis)"
+                    + " VALUES (?,?,?,?,?,?,?)");
 
             ps.setInt(1, nota.getN_tacademico());
             ps.setInt(2, nota.getN_tindustrial());
@@ -34,6 +34,7 @@ public class ControladorCalificaciones {
             ps.setInt(4, nota.getN_j2());
             ps.setInt(5, nota.getN_promdefensa());
             ps.setInt(6, nota.getN_final());
+            ps.setInt(7, pktesis);
 
             int res = ps.executeUpdate(); //Ejecutar la consulta
 

@@ -100,6 +100,48 @@ public class M_Tesis {
     public int getEstudiante_tesis() {
         return estudiante_tesis;
     }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public void setF_inicio(String f_inicio) {
+        this.f_inicio = f_inicio;
+    }
+
+    public void setF_fin(String f_fin) {
+        this.f_fin = f_fin;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+
+    public void setDepartamento(String departamento) {
+        this.departamento = departamento;
+    }
+
+    public void setId_tutorAcademico(int id_tutorAcademico) {
+        this.id_tutorAcademico = id_tutorAcademico;
+    }
+
+    public void setId_tutorIndustrial(int id_tutorIndustrial) {
+        this.id_tutorIndustrial = id_tutorIndustrial;
+    }
+
+    public void setEstudiante_tesis(int estudiante_tesis) {
+        this.estudiante_tesis = estudiante_tesis;
+    }
+
+    public void setEmpresa(int empresa) {
+        this.empresa = empresa;
+    }
+    
+    
     
     public void imprimir(){
         System.out.println("Fecha i: "+f_inicio+

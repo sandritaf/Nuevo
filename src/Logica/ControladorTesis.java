@@ -22,7 +22,7 @@ public class ControladorTesis {
             PreparedStatement ps;
             ResultSet rs;
             
-            ps = con.prepareStatement("SELECT titulo FROM empresa WHERE titulo = ?");
+            ps = con.prepareStatement("SELECT titulo FROM tesis WHERE titulo =?");
              
             ps.setString(1, titulo);
             
@@ -30,7 +30,7 @@ public class ControladorTesis {
                         
             if(rs.next()){
                 bandera = true;
-            }
+            }//else bandera = false;
             
             ps.close();
             rs.close();
@@ -157,6 +157,35 @@ public class ControladorTesis {
             
             if (res > 0){
                 JOptionPane.showMessageDialog(null, "Tesis modificada con éxito");
+            }else{
+                JOptionPane.showMessageDialog(null, "No se pudo modificar la tesis");
+            }
+                        
+            c.CerrarConexion();
+            con.close();
+            ps.close();
+                 
+        } catch (Exception e) {
+             JOptionPane.showMessageDialog(null, "Ocurrió un error: "+e);
+        }
+    }
+    
+    public void modificarStatus(int pk_tesis, String status){
+        try {
+            Conexion c = new Conexion();
+            Connection con = c.getConection();
+//            int pk = Integer.parseInt(pk_tesis);
+            PreparedStatement ps;
+            
+            ps = con.prepareStatement("UPDATE tesis SET status=? WHERE idtesis=?");
+            JOptionPane.showMessageDialog(null, "HOLA ESTOY EN MODIFICARSTATUS");
+            ps.setString(1, status); 
+            ps.setInt(2, pk_tesis); 
+            JOptionPane.showMessageDialog(null, "este es el status: "+status);
+            int res = ps.executeUpdate();
+            
+            if (res > 0){
+                JOptionPane.showMessageDialog(null, "Status de la tesis modificado con éxito");
             }else{
                 JOptionPane.showMessageDialog(null, "No se pudo modificar la tesis");
             }
