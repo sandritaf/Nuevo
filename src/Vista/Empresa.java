@@ -19,6 +19,8 @@ public class Empresa extends javax.swing.JPanel {
         txtID.setVisible(false);
         controlador = new ControladorEmpresa();
         empresa = new M_Empresa();
+        Modificar.setEnabled(false);
+        Eliminar.setEnabled(false);
     }    
     
     //Limpia las cajas de texto
@@ -31,6 +33,7 @@ public class Empresa extends javax.swing.JPanel {
         txtID.setText(null);
         Guardar.setEnabled(true);
         Modificar.setEnabled(false);
+        Eliminar.setEnabled(false);
     }  
     
     @SuppressWarnings("unchecked")
@@ -364,6 +367,8 @@ public class Empresa extends javax.swing.JPanel {
     //Cargar en las cajas de texto 
     private void TablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaMouseClicked
         Guardar.setEnabled(false);
+        Modificar.setEnabled(true);
+        Eliminar.setEnabled(true);
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{

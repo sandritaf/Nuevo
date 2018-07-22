@@ -4,16 +4,11 @@ import Conexion.Conexion;
 import Logica.ControladorTesis;
 import Logica.ManejadorFecha;
 import Modelo.M_Tesis;
-import java.awt.TextField;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
 
 public class Tesis extends javax.swing.JPanel {
 
@@ -26,177 +21,23 @@ public class Tesis extends javax.swing.JPanel {
         controlador = new ControladorTesis();
         tesis = new M_Tesis();
         txtPK.setVisible(false);
-        Exportar.setEnabled(false);
-        cargarAlumnosSinTesis();
-        cargarProfesores();
-        cargarTutores();
-        cargarEmpresas();
+        Modificar.setEnabled(false);
+        Eliminar.setEnabled(false);
+        controlador.cargarAlumnosSinTesis(cmbAlumno);
+        controlador.cargarProfesores(cmbTutor);
+        controlador.cargarTutores(cmbTutor2);
+        controlador.cargarEmpresas(cmbEmpresa);
     }
     
-    public void cargarAlumnosSinTesis(){
-        DefaultComboBoxModel aModel = new DefaultComboBoxModel();
-        String sql = "SELECT idestudiante, nombre, apellido FROM estudiante WHERE tesista=0";
-        String aux;
         
-        try{
-            PreparedStatement ps;
-            ResultSet rs;
-            Conexion conn = new Conexion();
-            Connection con = conn.getConection();
-            cmbAlumno.setModel(aModel);
-            ps = (PreparedStatement) con.prepareStatement(sql);
-            rs = ps.executeQuery();
-            while(rs.next() ){
-               aux = rs.getString("idestudiante") + "- " + rs.getString("nombre") + " " + rs.getString("apellido");
-               aModel.addElement(aux);
-            }
-            //Cerrar conexiones
-            ps.close();
-            rs.close();
-            conn.CerrarConexion();
-            con.close();            
-        
-        }catch(Exception ex){
-            JOptionPane.showMessageDialog(null, "Ocurrió un error cargando estudiantes: "+ex);
-        }
-    }
-    
-    public void cargarProfesores(){
-        DefaultComboBoxModel aModel = new DefaultComboBoxModel();
-        String sql = "SELECT idprofesor, nombre, apellido FROM profesor";
-        String aux;
-        
-        try{
-            PreparedStatement ps;
-            ResultSet rs;
-            Conexion conn = new Conexion();
-            Connection con = conn.getConection();
-            cmbTutor.setModel(aModel);
-            ps = (PreparedStatement) con.prepareStatement(sql);
-            rs = ps.executeQuery();
-            while(rs.next() ){
-               aux = rs.getString("idprofesor") + "- " + rs.getString("nombre") + " " + rs.getString("apellido");
-               aModel.addElement(aux);
-            }
-            //Cerrar conexiones
-            ps.close();
-            rs.close();
-            conn.CerrarConexion();
-            con.close();            
-        
-        }catch(Exception ex){
-            JOptionPane.showMessageDialog(null, "Ocurrió un error cargando Profesores: "+ex);
-        }
-    }
-    
-    private void getComboSelected(int codigoPK, JComboBox combito){
-        //Obtengo la longitud de mi combo
-        int largoCombo = combito.getItemCount();
-        String textoCombo = "";
-        //Recorro el arraycollection
-        for (int i = 0; i < largoCombo; i++) {
-            textoCombo = combito.getItemAt(i).toString();
-            int limite = textoCombo.indexOf("-");
-           //Comparo los objetos de mi combo con el codigo del item que buscaba
-           if (Integer.parseInt(textoCombo.substring(0, limite)) == codigoPK)  {
-              //Si encuentra el item le asigno su index a mi combo
-              combito.setSelectedIndex(i);
-              break;
-           }
-        }
-    }
-    
-    private void cargarTutores(){
-        DefaultComboBoxModel aModel = new DefaultComboBoxModel();
-        String sql = "SELECT idtindustrial, nombre, apellido FROM tutor_industrial";
-        String aux;
-        
-        try{
-            PreparedStatement ps;
-            ResultSet rs;
-            Conexion conn = new Conexion();
-            Connection con = conn.getConection();
-            cmbTutor2.setModel(aModel);
-            ps = (PreparedStatement) con.prepareStatement(sql);
-            rs = ps.executeQuery();
-            while(rs.next() ){
-               aux = rs.getString("idtindustrial") + "- " + rs.getString("nombre") + " " + rs.getString("apellido");
-               aModel.addElement(aux);
-            }
-            //Cerrar conexiones
-            ps.close();
-            rs.close();
-            conn.CerrarConexion();
-            con.close();            
-        
-        }catch(Exception ex){
-            JOptionPane.showMessageDialog(null, "Ocurrió un error cargando tutores industriales: "+ex);
-        }
-    }
-    
-    private void cargarEmpresas(){
-        DefaultComboBoxModel aModel = new DefaultComboBoxModel();
-        String sql = "SELECT idempresa, nombre FROM empresa";
-        String aux;
-        
-        try{
-            PreparedStatement ps;
-            ResultSet rs;
-            Conexion conn = new Conexion();
-            Connection con = conn.getConection();
-            cmbEmpresa.setModel(aModel);
-            ps = (PreparedStatement) con.prepareStatement(sql);
-            rs = ps.executeQuery();
-            while(rs.next() ){
-               aux = rs.getString("idempresa") + "- " + rs.getString("nombre");
-               aModel.addElement(aux);
-            }
-            //Cerrar conexiones
-            ps.close();
-            rs.close();
-            conn.CerrarConexion();
-            con.close();            
-        
-        }catch(Exception ex){
-            JOptionPane.showMessageDialog(null, "Ocurrió un error cargando Empresas: "+ex);
-        }
-    }
-    
-       
-    private void getComboSelected(String nombre, JComboBox combito){
-        //Obtengo la longitud de mi combo
-        int largoCombo = combito.getItemCount();
-        String textoCombo = "";
-        //Recorro el arraycollection
-        for (int i = 0; i < largoCombo; i++) {
-            textoCombo = combito.getItemAt(i).toString();
-             //Comparo los objetos de mi combo con el codigo del item que buscaba
-           if (textoCombo == nombre)  {
-              //Si encuentra el item le asigno su index a mi combo
-              combito.setSelectedIndex(i);
-              break;
-           }
-        }
-    }
-
-    private int getComboSelected(JComboBox combito){
-        String codigo = combito.getSelectedItem().toString(); 
-        String codigoFinal = "";
-        
-        int guion = codigo.indexOf("-");
-        codigoFinal = codigo.substring(0, guion);
-        
-        return Integer.parseInt(codigoFinal);
-    }
-    
-    private boolean verificarFechaMayor(){
+    /*private boolean verificarFechaMayor(){
         if(txtVacio(txtFechaI) || txtVacio(txtFechaF))
             JOptionPane.showMessageDialog(null, "NO pueden haber campos vacíos");
         else{
             manejador.fechasCorrectas(txtFechaI.getText(), txtFechaF.getText());
         }
         return false;
-    }
+    }*/
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -649,78 +490,42 @@ public class Tesis extends javax.swing.JPanel {
     private void GuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GuardarMouseClicked
         tesis.actualizar("En desarrollo", txtTitulo.getText(), txtFechaI.getText(),
                 txtFechaF.getText(), txtObservaciones.getText(), cmbDepartamento.getSelectedItem().toString(), 
-                getComboSelected(cmbTutor),  getComboSelected(cmbTutor2), 
-                getComboSelected(cmbAlumno), getComboSelected(cmbEmpresa));
-        tesis.imprimir();
+                controlador.getComboSelected(cmbTutor),  controlador.getComboSelected(cmbTutor2), 
+                controlador.getComboSelected(cmbAlumno), controlador.getComboSelected(cmbEmpresa));
         controlador.ingresar(tesis);
         limpiarCajas();
-        cargarAlumnosSinTesis(); 
+        controlador.cargarAlumnosSinTesis(cmbAlumno); 
     }//GEN-LAST:event_GuardarMouseClicked
 
     private void ExportarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ExportarMouseClicked
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_ExportarMouseClicked
 
+    //Llama al controlador para cargar todas las tesis en la tabka
     private void CargarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CargarMouseClicked
-        String sql = "SELECT idtesis, titulo, estudiante_tesis, status FROM tesis";
-
-        try{
-            DefaultTableModel modelo = new DefaultTableModel();
-            TablaTesis.setModel(modelo);
-
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-
-            Conexion conn = new Conexion();
-            Connection con = conn.getConection();
-            ps = (PreparedStatement) con.prepareStatement(sql);
-            rs = ps.executeQuery();
-
-            ResultSetMetaData rsmd = rs.getMetaData();
-            int cantidadColumnas = rsmd.getColumnCount();
-            
-            modelo.addColumn("Código");
-            modelo.addColumn("Título");
-            modelo.addColumn("Estudiante");
-            modelo.addColumn("Status");
-
-            while(rs.next()){ //Carga en la tabla
-                Object[] filas = new Object[cantidadColumnas];
-
-                for(int i=0; i<cantidadColumnas; i++){
-                    filas[i] = rs.getObject(i+1);
-                }
-                modelo.addRow(filas);
-            }
-
-            ps.close();
-            rs.close();
-            conn.CerrarConexion();
-            con.close();
-
-        }catch(Exception ex){
-            System.err.println(ex);
-        }
-        Exportar.setEnabled(true);
+        controlador.cargarTesis(TablaTesis);
     }//GEN-LAST:event_CargarMouseClicked
 
     private void LimpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LimpiarMouseClicked
         limpiarCajas();
-        
     }//GEN-LAST:event_LimpiarMouseClicked
 
+    //Llama al controlador para eliminar un registro seleccionado
     private void EliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EliminarMouseClicked
-        if(txtPK.getText().isEmpty()){
+        if(txtPK.getText().isEmpty()){ //Asegurarse de que hay una tesis seleccionada
             JOptionPane.showMessageDialog(null, "Seleccione una tesis a eliminar");
         } else {
             controlador.eliminar(txtPK.getText());
         }
         limpiarCajas();
-        cargarAlumnosSinTesis();    
+        controlador.cargarAlumnosSinTesis(cmbAlumno);    
     }//GEN-LAST:event_EliminarMouseClicked
 
+    //Carga en los ComboBox y las cajas de texto los valores de un registro de tesis seleccionado
     private void TablaTesisMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaTesisMouseClicked
         Guardar.setEnabled(false);
+        Modificar.setEnabled(true);
+        Eliminar.setEnabled(true);
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
@@ -741,22 +546,23 @@ public class Tesis extends javax.swing.JPanel {
             while(rs.next()){
                 txtPK.setText(rs.getString("idtesis"));
                 txtTitulo.setText(rs.getString("titulo"));
-                getComboSelected(rs.getInt("estudiante.idestudiante"),cmbAlumno);
-                getComboSelected(rs.getInt("id_tutorAcademico"),cmbTutor);
-                getComboSelected(rs.getInt("id_tutorIndustrial"),cmbTutor2);
-                getComboSelected(rs.getInt("estudiante.id_empresa"),cmbEmpresa);
-                getComboSelected(rs.getString("departamento"),cmbDepartamento);
+                controlador.setComboSelected(rs.getInt("estudiante.idestudiante"),cmbAlumno);
+                controlador.setComboSelected(rs.getInt("id_tutorAcademico"),cmbTutor);
+                controlador.setComboSelected(rs.getInt("id_tutorIndustrial"),cmbTutor2);
+                controlador.setComboSelected(rs.getInt("estudiante.id_empresa"),cmbEmpresa);
+                controlador.setComboSelected(rs.getString("departamento"),cmbDepartamento);
                 txtFechaI.setText((rs.getDate("fecha_inicio")).toString());
                 txtFechaF.setText((rs.getDate("fecha_fin")).toString());
                 txtObservaciones.setText(rs.getString("observaciones"));
             }
         }catch(Exception e){
-            System.out.println(e);
+            JOptionPane.showMessageDialog(null, "Ocurrió un error: "+e);
         }
     }//GEN-LAST:event_TablaTesisMouseClicked
 
+    //Falta programar
     private void ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModificarMouseClicked
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_ModificarMouseClicked
     
     public void limpiarCajas(){
@@ -772,10 +578,8 @@ public class Tesis extends javax.swing.JPanel {
         cmbDepartamento.setSelectedItem(0);
         cmbEmpresa.setSelectedItem(0);
         Guardar.setEnabled(true);
-    }
-    
-    public boolean tituloExiste(String titulo){
-        return controlador.tituloExiste(titulo);
+        Modificar.setEnabled(false);
+        Eliminar.setEnabled(false);
     }
     
     public boolean txtVacio(JTextField txt){

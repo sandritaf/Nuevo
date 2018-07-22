@@ -5,6 +5,7 @@ import Modelo.M_Estudiante;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 
@@ -13,6 +14,7 @@ public class ControladorEstudiante {
     public ControladorEstudiante() {
     }
     
+    //Verifica que los valores que vienen ingresados por el usuario no estan vacios
     public boolean estaVacio(M_Estudiante alumno){
         if (alumno.getNombre().isEmpty() || alumno.getApellido().isEmpty())
             return true;
@@ -154,4 +156,32 @@ public class ControladorEstudiante {
         }
     }
     
+    //Recibe un codigo y busca (y selecciona) en el ComboBox la opcion que le corresponda
+    public void getComboSelected(int codigoPK, JComboBox combito){
+        //Obtengo la longitud de mi combo
+        int largoCombo = combito.getItemCount();
+        String textoCombo = "";
+        //Recorro el arraycollection
+        for (int i = 0; i < largoCombo; i++) {
+            textoCombo = combito.getItemAt(i).toString();
+            int limite = textoCombo.indexOf("-");
+           //Comparo los objetos de mi combo con el codigo del item que buscaba
+           if (Integer.parseInt(textoCombo.substring(0, limite)) == codigoPK)  {
+              //Si encuentra el item le asigno su index a mi combo
+              combito.setSelectedIndex(i);
+              break;
+           }
+        }
+    }
+    
+    //Devuelve en codigo de la opcion seleccionada en el comboBox
+    public int getComboSelected(JComboBox combito){
+        String codigo = combito.getSelectedItem().toString(); 
+        String codigoFinal = "";
+        
+        int guion = codigo.indexOf("-");
+        codigoFinal = codigo.substring(0, guion);
+        
+        return Integer.parseInt(codigoFinal);
+    }
 }

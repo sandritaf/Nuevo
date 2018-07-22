@@ -23,50 +23,13 @@ public class Profesor extends javax.swing.JPanel {
         initComponents();
         controlador = new ControladorProfesor();
         tabla = "profesor";
-        cargarCarreras();
         profesor = new M_Profesor();
         txtPK.setVisible(false);
-        Exportar.setEnabled(false);
+        Modificar.setEnabled(false);
+        Eliminar.setEnabled(false);
+        controlador.cargarCarreras(cmbCarrera);
     }
-
-    private int getComboSelected(JComboBox combito){
-        String codigo = combito.getSelectedItem().toString(); 
-        String codigoFinal = "";
-        
-        int guion = codigo.indexOf("-");
-        codigoFinal = codigo.substring(0, guion);
-        
-        return Integer.parseInt(codigoFinal);
-    }
-    
-    private void cargarCarreras(){
-        DefaultComboBoxModel aModel = new DefaultComboBoxModel();
-        String sql = "SELECT id_carrera, nombre FROM carrera";
-        String aux;
-        
-        try{
-            PreparedStatement ps;
-            ResultSet rs;
-            Conexion conn = new Conexion();
-            Connection con = conn.getConection();
-            cmbCarrera.setModel(aModel);
-            ps = (PreparedStatement) con.prepareStatement(sql);
-            rs = ps.executeQuery();
-            while(rs.next() ){
-               aux = rs.getString("id_carrera") + "- " + rs.getString("nombre");
-               aModel.addElement(aux);
-            }
-            //Cerrar conexiones
-            ps.close();
-            rs.close();
-            conn.CerrarConexion();
-            con.close();            
-        
-        }catch(Exception ex){
-            JOptionPane.showMessageDialog(null, "Ocurrió un error cargando Carreras: "+ex);
-        }
-    }
-    
+  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -98,7 +61,6 @@ public class Profesor extends javax.swing.JPanel {
         jLabel16 = new javax.swing.JLabel();
         txtCedula = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        Exportar = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -293,10 +255,6 @@ public class Profesor extends javax.swing.JPanel {
         jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel7.setText("Apellido");
 
-        Exportar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        Exportar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/pdf50.png"))); // NOI18N
-        Exportar.setText("Exportar a PDF");
-
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -309,10 +267,8 @@ public class Profesor extends javax.swing.JPanel {
                         .addComponent(Eliminar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(Modificar)
-                        .addGap(59, 59, 59)
+                        .addGap(186, 186, 186)
                         .addComponent(Cargar)
-                        .addGap(40, 40, 40)
-                        .addComponent(Exportar)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -349,8 +305,7 @@ public class Profesor extends javax.swing.JPanel {
                     .addComponent(Guardar)
                     .addComponent(Eliminar)
                     .addComponent(Modificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Cargar)
-                    .addComponent(Exportar))
+                    .addComponent(Cargar))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
@@ -438,43 +393,45 @@ public class Profesor extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCedulaActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtCedulaActionPerformed
 
     private void txtApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApellidoActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtApellidoActionPerformed
 
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
-        // TODO add your handling code here:
+ 
     }//GEN-LAST:event_txtNombreActionPerformed
 
+    //Llama a la funcion del controlador para guardar la informacion introducida por el usuario
     private void GuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GuardarMouseClicked
-        if(controlador.idExiste(txtCedula.getText())){
+        if(controlador.idExiste(txtCedula.getText())){ //Verifica que no hay una cedula igual ya existente
             JOptionPane.showMessageDialog(null, "Ya existe una persona registrada con esa cedula");
         } else {
             profesor.actualizar(txtNombre.getText(), txtApellido.getText(),
                 txtCedula.getText(), txtTelefono.getText(), txtProfesion.getText(), 
-                txtDireccion.getText(), getComboSelected(cmbCarrera));
+                txtDireccion.getText(), controlador.getComboSelected(cmbCarrera));
             controlador.ingresar(profesor);
         }
         limpiarCajas();
     }//GEN-LAST:event_GuardarMouseClicked
 
     private void txtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoActionPerformed
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_txtTelefonoActionPerformed
 
     private void txtProfesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProfesionActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtProfesionActionPerformed
 
     private void txtDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDireccionActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtDireccionActionPerformed
 
+    //Llama a la funcion del controlador que elimina
     private void EliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EliminarMouseClicked
-        if(txtPK.getText().isEmpty()){
+        if(txtPK.getText().isEmpty()){ //Verifica que hay un registro seleccionado
             JOptionPane.showMessageDialog(null, "Seleccione un profesor a eliminar");
         } else {
             controlador.eliminar(txtPK.getText());
@@ -482,52 +439,16 @@ public class Profesor extends javax.swing.JPanel {
         limpiarCajas();
     }//GEN-LAST:event_EliminarMouseClicked
 
+    //Llama al controlador para cargar la tabla con los registros existentes
     private void CargarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CargarMouseClicked
-        String sql = "SELECT idprofesor, nombre, apellido, profesion, id_carrera_fk FROM profesor order by apellido";
-
-        try{
-            DefaultTableModel modelo = new DefaultTableModel();
-            TablaProfesor.setModel(modelo);
-
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-
-            Conexion conn = new Conexion();
-            Connection con = conn.getConection();
-            ps = (PreparedStatement) con.prepareStatement(sql);
-            rs = ps.executeQuery();
-
-            ResultSetMetaData rsmd = rs.getMetaData();
-            int cantidadColumnas = rsmd.getColumnCount();
-            
-            modelo.addColumn("Código");
-            modelo.addColumn("Nombre");
-            modelo.addColumn("Apellido");
-            modelo.addColumn("Profesión");
-            modelo.addColumn("Carrera");
-
-            while(rs.next()){ //Carga en la tabla
-                Object[] filas = new Object[cantidadColumnas];
-
-                for(int i=0; i<cantidadColumnas; i++){
-                    filas[i] = rs.getObject(i+1);
-                }
-                modelo.addRow(filas);
-            }
-
-            ps.close();
-            rs.close();
-            conn.CerrarConexion();
-            con.close();
-
-        }catch(Exception ex){
-            System.err.println(ex);
-        }
-        Exportar.setEnabled(true);
+        controlador.cargarTabla(TablaProfesor);
     }//GEN-LAST:event_CargarMouseClicked
 
+    //Carga en los cuadros de texto la info de un registro seleccionado para poder modificarlo
     private void TablaProfesorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaProfesorMouseClicked
         Guardar.setEnabled(false);
+        Modificar.setEnabled(true);
+        Eliminar.setEnabled(true);
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
@@ -550,19 +471,24 @@ public class Profesor extends javax.swing.JPanel {
                 txtProfesion.setText(rs.getString("profesion"));
                 txtTelefono.setText(rs.getString("telefono"));
                 txtDireccion.setText(rs.getString("direccion"));
-                cmbCarrera.setSelectedIndex(rs.getInt("id_carrera_fk")-1);
+                controlador.setComboSelected(rs.getInt("id_carrera_fk"), cmbCarrera);
             }
+            ps.close();
+            rs.close();
+            conn.CerrarConexion();
+            con.close();
         }catch(Exception e){
             System.out.println(e);
         }
     }//GEN-LAST:event_TablaProfesorMouseClicked
 
+    //Llama al controlador para modificar la informacion de un registro seleccionado
     private void ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModificarMouseClicked
         if(txtPK.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Error en la modificación");
         } else {
             profesor.actualizar(txtNombre.getText(), txtApellido.getText(), txtCedula.getText(), txtTelefono.getText(), 
-                    txtProfesion.getText(), txtDireccion.getText(), getComboSelected(cmbCarrera));
+                    txtProfesion.getText(), txtDireccion.getText(), controlador.getComboSelected(cmbCarrera));
             controlador.modificar(profesor, txtPK.getText()); 
         }
         limpiarCajas();
@@ -572,6 +498,7 @@ public class Profesor extends javax.swing.JPanel {
         limpiarCajas();
     }//GEN-LAST:event_LimpiarMouseClicked
     
+    //Limpia las cajas de texto
     public void limpiarCajas(){
         txtPK.setText(null);
         txtCedula.setText(null);
@@ -582,13 +509,13 @@ public class Profesor extends javax.swing.JPanel {
         txtDireccion.setText(null);
         cmbCarrera.setSelectedItem(0);
         Guardar.setEnabled(true);
-        Exportar.setEnabled(false);
+        Modificar.setEnabled(false);
+        Eliminar.setEnabled(false);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Cargar;
     private javax.swing.JLabel Eliminar;
-    private javax.swing.JLabel Exportar;
     private javax.swing.JLabel Guardar;
     private javax.swing.JLabel Limpiar;
     private javax.swing.JLabel Modificar;

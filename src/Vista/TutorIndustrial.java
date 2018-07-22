@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Vista;
 
 import Conexion.Conexion;
@@ -11,11 +6,7 @@ import Logica.ControladorTutorIndustrial;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 public class TutorIndustrial extends javax.swing.JPanel {
 
@@ -26,45 +17,9 @@ public class TutorIndustrial extends javax.swing.JPanel {
         initComponents();
         controlador = new ControladorTutorIndustrial();
         txtPK.setVisible(false);
-        cargarEmpresas();
-    }
-    
-    private int getComboSelected(JComboBox combito){
-        String codigo = combito.getSelectedItem().toString(); 
-        String codigoFinal = "";
-        
-        int guion = codigo.indexOf("-");
-        codigoFinal = codigo.substring(0, guion);
-        
-        return Integer.parseInt(codigoFinal);
-    }
-    
-    private void cargarEmpresas(){
-        DefaultComboBoxModel aModel = new DefaultComboBoxModel();
-        String sql = "SELECT idempresa, nombre FROM empresa";
-        String aux;
-        
-        try{
-            PreparedStatement ps;
-            ResultSet rs;
-            Conexion conn = new Conexion();
-            Connection con = conn.getConection();
-            cmbEmpresa.setModel(aModel);
-            ps = (PreparedStatement) con.prepareStatement(sql);
-            rs = ps.executeQuery();
-            while(rs.next() ){
-               aux = rs.getString("idempresa") + "- " + rs.getString("nombre");
-               aModel.addElement(aux);
-            }
-            //Cerrar conexiones
-            ps.close();
-            rs.close();
-            conn.CerrarConexion();
-            con.close();            
-        
-        }catch(Exception ex){
-            JOptionPane.showMessageDialog(null, "Ocurrió un error cargando Empresas: "+ex);
-        }
+        controlador.cargarEmpresas(cmbEmpresa);
+        Modificar.setEnabled(false);
+        Eliminar.setEnabled(false);
     }
     
      @SuppressWarnings("unchecked")
@@ -359,75 +314,37 @@ public class TutorIndustrial extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCedulaActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtCedulaActionPerformed
 
     private void txtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtTelefonoActionPerformed
 
     private void txtApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApellidoActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtApellidoActionPerformed
 
+    //Llama al controlador para que ingrese en la BDD los valores que le esta pasando
     private void GuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GuardarMouseClicked
-        if(controlador.idExiste(txtCedula.getText())){
+        if(controlador.idExiste(txtCedula.getText())){ //Verifique que no exista ya esa cedula
             JOptionPane.showMessageDialog(null, "Ya existe una persona registrada con esa cedula");
         } else {
             tutor = new M_TutorIndustrial(txtNombre.getText(), txtApellido.getText(),
-                txtCedula.getText(), txtTelefono.getText(), getComboSelected(cmbEmpresa));
+                txtCedula.getText(), txtTelefono.getText(), controlador.getComboSelected(cmbEmpresa));
             controlador.ingresar(tutor);
         }
         limpiarCajas();
     }//GEN-LAST:event_GuardarMouseClicked
 
+    //llama al controlador para cargar los tutores existentes en la tabla
     private void ListaTutoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListaTutoresMouseClicked
-        
-        String sql = "SELECT idtindustrial, nombre, apellido, cedula, telefono, id_empresa FROM tutor_industrial order by apellido";
-
-        try{
-            DefaultTableModel modelo = new DefaultTableModel();
-            TablaTutores.setModel(modelo);
-
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-
-            Conexion conn = new Conexion();
-            Connection con = conn.getConection();
-            ps = (PreparedStatement) con.prepareStatement(sql);
-            rs = ps.executeQuery();
-
-            ResultSetMetaData rsmd = rs.getMetaData();
-            int cantidadColumnas = rsmd.getColumnCount();
-            
-            modelo.addColumn("Código");
-            modelo.addColumn("Cedula");
-            modelo.addColumn("Nombre");
-            modelo.addColumn("Apellido");
-            modelo.addColumn("Teléfono");
-            modelo.addColumn("Empresa");
-
-            while(rs.next()){ //Carga en la tabla
-                Object[] filas = new Object[cantidadColumnas];
-
-                for(int i=0; i<cantidadColumnas; i++){
-                    filas[i] = rs.getObject(i+1);
-                }
-                modelo.addRow(filas);
-            }
-
-            ps.close();
-            rs.close();
-            conn.CerrarConexion();
-            con.close();
-
-        }catch(Exception ex){
-            System.err.println(ex);
-        }
+        controlador.cargarTutores(TablaTutores);
     }//GEN-LAST:event_ListaTutoresMouseClicked
 
+    //Llama al controlador para eliminar el registro seleccionado
     private void EliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EliminarMouseClicked
-        if(txtPK.getText().isEmpty()){
+        if(txtPK.getText().isEmpty()){ //Verifica que haya un registro seleccionado
             JOptionPane.showMessageDialog(null, "Seleccione un profesor a eliminar");
         } else {
             controlador.eliminar(txtPK.getText());
@@ -436,19 +353,23 @@ public class TutorIndustrial extends javax.swing.JPanel {
 
     }//GEN-LAST:event_EliminarMouseClicked
 
+    //Llama al controlador para modificar el registro seleccionado
     private void ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModificarMouseClicked
         if(txtPK.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Error en la modificación");
         } else { 
             tutor.actualizar(txtNombre.getText(), txtApellido.getText(),
-                    txtCedula.getText(), txtTelefono.getText(), getComboSelected(cmbEmpresa));
+                    txtCedula.getText(), txtTelefono.getText(), controlador.getComboSelected(cmbEmpresa));
             controlador.modificar(txtPK.getText(),tutor);
         }
         limpiarCajas();
     }//GEN-LAST:event_ModificarMouseClicked
 
+    //Carga en los cuadros de texto y comboBox la info de un registro seleccionado
     private void TablaTutoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaTutoresMouseClicked
         Guardar.setEnabled(false);
+        Modificar.setEnabled(true);
+        Eliminar.setEnabled(true);
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
@@ -469,8 +390,12 @@ public class TutorIndustrial extends javax.swing.JPanel {
                 txtApellido.setText(rs.getString("apellido"));
                 txtCedula.setText(rs.getString("cedula"));
                 txtTelefono.setText(rs.getString("telefono"));
-                cmbEmpresa.setSelectedIndex(rs.getInt("id_empresa")-1);
+                controlador.setComboSelected(rs.getInt("id_empresa"), cmbEmpresa);
             }
+            ps.close();
+            rs.close();
+            conn.CerrarConexion();
+            con.close();
         }catch(Exception e){
             System.out.println(e);
         }
@@ -481,6 +406,7 @@ public class TutorIndustrial extends javax.swing.JPanel {
         limpiarCajas();
     }//GEN-LAST:event_LimpiarMouseClicked
     
+    //Borra las cajas de texto
     public void limpiarCajas(){
         txtApellido.setText(null);
         txtNombre.setText(null);
@@ -489,6 +415,8 @@ public class TutorIndustrial extends javax.swing.JPanel {
         cmbEmpresa.setSelectedItem(0);
         Guardar.setEnabled(true); 
         txtPK.setText(null);
+        Modificar.setEnabled(false);
+        Eliminar.setEnabled(false);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

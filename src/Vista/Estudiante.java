@@ -1,4 +1,3 @@
-
 package Vista;
 
 import Conexion.Conexion;
@@ -23,26 +22,12 @@ public class Estudiante extends javax.swing.JPanel {
         controlador = new ControladorEstudiante();
         cargarCarreras();
         alumno = new M_Estudiante();
-        txtID.setVisible(false);
-        
+        txtID.setVisible(false);      
+        Modificar.setEnabled(false); 
+        Eliminar.setEnabled(false);
     }
 
-    private void getComboSelected(int codigoPK, JComboBox combito){
-        //Obtengo la longitud de mi combo
-        int largoCombo = combito.getItemCount();
-        String textoCombo = "";
-        //Recorro el arraycollection
-        for (int i = 0; i < largoCombo; i++) {
-            textoCombo = combito.getItemAt(i).toString();
-            int limite = textoCombo.indexOf("-");
-           //Comparo los objetos de mi combo con el codigo del item que buscaba
-           if (Integer.parseInt(textoCombo.substring(0, limite)) == codigoPK)  {
-              //Si encuentra el item le asigno su index a mi combo
-              combito.setSelectedIndex(i);
-              break;
-           }
-        }
-    }
+    
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -418,16 +403,6 @@ public class Estudiante extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private int getComboSelected(JComboBox combito){
-        String codigo = combito.getSelectedItem().toString(); 
-        String codigoFinal = "";
-        
-        int guion = codigo.indexOf("-");
-        codigoFinal = codigo.substring(0, guion);
-        
-        return Integer.parseInt(codigoFinal);
-    }
-    
     //Limpia las cajas de texto
     public void limpiarCajas(){
         txtCedula.setText(null);
@@ -439,8 +414,11 @@ public class Estudiante extends javax.swing.JPanel {
         txtCedulaFiltro.setText(null);
         txtID.setText(null);
         Guardar.setEnabled(true); 
+        Modificar.setEnabled(false); 
+        Eliminar.setEnabled(false); 
     }  
     
+    //Retorna como filtro la carrera que se selecciono
     public String filtroCarrera(){        
         String codcarrera = cmbCarrera2.getSelectedItem().toString(); 
         codcarrera = codcarrera.substring(0, 1);
@@ -449,16 +427,13 @@ public class Estudiante extends javax.swing.JPanel {
         return cadena;
     }
     
+    //Retorna como filtro la cedula que se ingreso
     public String filtroCedula(){
         String cadena = " cedula LIKE '"+txtCedulaFiltro.getText()+"%'";
         return cadena;
     }
     
-    //Busca en la BDD si ya hay alguna persona registrada con el numero de cedula ingresado
-    public boolean idExiste(String cedula){
-        return controlador.idExiste(cedula);
-    }
-    
+    //Carga los 2 JComboBox de carreras
     private void cargarCarreras(){
         DefaultComboBoxModel aModel = new DefaultComboBoxModel();
         DefaultComboBoxModel bModel = new DefaultComboBoxModel();
@@ -491,44 +466,48 @@ public class Estudiante extends javax.swing.JPanel {
     }
     
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtNombreActionPerformed
 
     private void txtApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApellidoActionPerformed
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_txtApellidoActionPerformed
 
     private void txtCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCedulaActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_txtCedulaActionPerformed
 
     private void txtSemestreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSemestreActionPerformed
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_txtSemestreActionPerformed
 
+    //Llama a la funcion Guardar de ControladorEstudiante y le envia los valores ingresador
     private void GuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GuardarMouseClicked
         //No permite añadir usuarios cuya cedula ya existe en la base de datos ni con campos vacios
-        if(idExiste(txtCedula.getText())){
-            JOptionPane.showMessageDialog(null, "Ya existe una persona registrada con esa cedula");
+        if(controlador.idExiste(txtCedula.getText())){
+            JOptionPane.showMessageDialog(null, "Ya existe un alumno registrado con esa cedula");
         } else {            
             alumno.actualizar(txtNombre.getText(), txtApellido.getText(),
-                    getComboSelected(cmbCarrera), txtSemestre.getText(), txtCedula.getText());
+                controlador.getComboSelected(cmbCarrera), txtSemestre.getText(), txtCedula.getText());
             controlador.ingresar(alumno);
         }
         limpiarCajas();
     }//GEN-LAST:event_GuardarMouseClicked
 
+    //Llama a la funcion Modificar de ControladorEstudiante y le envia los valores ingresador
     private void ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModificarMouseClicked
+        //Verifica que haya un registro seleccionado
         if(txtID.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Error en la modificación");
         } else {        
             alumno.actualizar(txtNombre.getText(), txtApellido.getText(),
-                    getComboSelected(cmbCarrera), txtSemestre.getText(), txtCedula.getText());
+                controlador.getComboSelected(cmbCarrera), txtSemestre.getText(), txtCedula.getText());
             controlador.modificar(alumno, txtID.getText()); 
         }
         limpiarCajas();
     }//GEN-LAST:event_ModificarMouseClicked
 
+    //Llama a la funcion Eliminar de ControladorEstudiante y le envia los valores ingresador
     private void EliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EliminarMouseClicked
         if(txtID.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Seleccione un estudiante a eliminar");
@@ -538,6 +517,7 @@ public class Estudiante extends javax.swing.JPanel {
         limpiarCajas();
     }//GEN-LAST:event_EliminarMouseClicked
 
+    //Carga en la tabla la lista de estudiantes, pudiendo incluir filtros
     private void CargarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CargarMouseClicked
         
         String sql = "SELECT idestudiante, nombre, apellido, cedula, semestre, id_carrera FROM estudiante ";
@@ -592,8 +572,12 @@ public class Estudiante extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_CargarMouseClicked
 
+    /*Carga en los cuadros de texto los valores que tiene el registro seleccionado
+      para poder ser modificados*/
     private void TablaAlumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaAlumnoMouseClicked
         Guardar.setEnabled(false);
+        Modificar.setEnabled(true); 
+        Eliminar.setEnabled(true); 
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
@@ -614,7 +598,7 @@ public class Estudiante extends javax.swing.JPanel {
                 txtApellido.setText(rs.getString("apellido"));
                 txtCedula.setText(rs.getString("cedula"));
                 txtSemestre.setText(rs.getString("semestre"));
-                getComboSelected(rs.getInt("id_carrera"),cmbCarrera);
+                controlador.getComboSelected(rs.getInt("id_carrera"),cmbCarrera);
             }
         }catch(Exception e){
             System.out.println(e);

@@ -1,6 +1,5 @@
 package Modelo;
 
-import java.sql.Date;
 
 public class M_Tesis {
     
@@ -15,6 +14,11 @@ public class M_Tesis {
     private int estudiante_tesis;
     private int empresa;
     
+    /*Esta clase permite manipular valores que se desean ingresar como un registro nuevo
+    en la tabla "tesis" de la base de datos, de manera que los valores ingresados por
+    los usuarios se guardan en una instancia de M_Tesis y se reciben en el controlador
+    que es la clase desde donde se haran las consultas que insertaran los registros nuevos"
+    */
 
     public M_Tesis(){
     }
@@ -139,14 +143,6 @@ public class M_Tesis {
 
     public void setEmpresa(int empresa) {
         this.empresa = empresa;
-    }
-    
-    
-    
-    public void imprimir(){
-        System.out.println("Fecha i: "+f_inicio+
-                " Fecha f: "+f_fin);
-    }
-    
+    }      
     
 }

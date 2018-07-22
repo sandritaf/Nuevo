@@ -9,6 +9,12 @@ public class M_Estudiante {
     private int codigo;
     private String carrera_;
 
+    /*Esta clase permite manipular valores que se desean ingresar como un registro nuevo
+    en la tabla "estudiante" de la base de datos, de manera que los valores ingresados por
+    los usuarios se guardan en una instancia de M_Estudiante y se reciben en el controlador
+    que es la clase desde donde se haran las consultas que insertaran los registros nuevos"
+    */
+    
     public M_Estudiante() {
     }
 

@@ -10,6 +10,12 @@ public class M_Profesor {
     private String direccion;
     private int carrera;
     
+    /*Esta clase permite manipular valores que se desean ingresar como un registro nuevo
+    en la tabla "profesor" de la base de datos, de manera que los valores ingresados por
+    los usuarios se guardan en una instancia de M_Profesor y se reciben en el controlador
+    que es la clase desde donde se haran las consultas que insertaran los registros nuevos"
+    */
+    
     public M_Profesor(){
     }
     

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Vista;
 
 import Conexion.Conexion;
@@ -20,10 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author brenda
- */
+
 public class Calificaciones extends javax.swing.JPanel {
     
     M_Calificaciones calificaciones;
@@ -437,7 +429,7 @@ public class Calificaciones extends javax.swing.JPanel {
     }//GEN-LAST:event_GuardarMouseClicked
 
     private void txtNotaFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNotaFinalActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtNotaFinalActionPerformed
 
     private int obtenerNotaFinal(int ni, int na, int nd){
@@ -534,6 +526,7 @@ public class Calificaciones extends javax.swing.JPanel {
                 txtPKTutorI.setText(rs.getString(("id_tutorIndustrial")));
                 txtPKJurado1.setText(rs.getString(("id_jurado1")));
                 txtPKJurado2.setText(rs.getString(("id_jurado2")));
+                
                 if(txtStatus.getText().equals("Aprobada") || txtStatus.getText().equals("Reprobada")){
                     txtPKCalificaciones.setText(rs.getString(("idnotas")));
                     setComboSelected(rs.getInt("jurado1"), cmbNotaJurado1);
@@ -547,11 +540,6 @@ public class Calificaciones extends javax.swing.JPanel {
             con.close();
             conn.CerrarConexion();
             ps.close();
-            
-            if(txtStatus.getText().equals("Aprobada") || txtStatus.getText().equals("Reprobada")){
-                Modificar.setEnabled(true);
-                Eliminar.setEnabled(true);
-            }
             
         }catch(Exception e){
             System.out.println("ta pasando algo aqui: "+e);
