@@ -94,16 +94,6 @@ public class ConsultaTesis extends javax.swing.JPanel {
         return "periodo = '" + anio + semestre+"'";
     }
     
-/*    public String filtroFechaI(){
-        String cadena = " fecha_inicio ="+txtAnio.getText();
-        return cadena;
-    }
-    
-    public String filtroFechaF(){
-        String cadena = " fecha_fin ="+txtFechaF.getText();
-        return cadena;
-    }*/
-
         
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

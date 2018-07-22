@@ -1,19 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Modelo;
 
-/**
- *
- * @author brenda
- */
 public class M_Carrera {
     
     private String semestres;
     private String uc_totales;
     private String nombre;
+    
+    /*Esta clase permite manipular valores que se desean ingresar como un registro nuevo
+    en la tabla "carreras" de la base de datos, de manera que los valores ingresados por
+    los usuarios se guardan en una instancia de M_Carrera y se reciben en el controlador
+    que es la clase desde donde se haran las consultas que insertaran los registros nuevos"
+    */
     
     public M_Carrera(){
     }
@@ -43,6 +40,4 @@ public class M_Carrera {
     }
 
 
-  
-    
 }

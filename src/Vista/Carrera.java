@@ -12,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class Carrera extends javax.swing.JPanel {
 
-      M_Carrera carrera;
+    M_Carrera carrera;
     ControladorCarrera controlador;
     
     public Carrera() {
@@ -278,17 +278,21 @@ public class Carrera extends javax.swing.JPanel {
         txtUCTotales.setText(null);
         txtPK.setText(null);
         Guardar.setEnabled(true);
+        Modificar.setEnabled(false);
     }
     
+    //Verifica que no exista una carrera con el mismo nombre en la BDD
     public boolean idExiste(String nombre){
         return controlador.carreraExiste(nombre);
     }
     
     private void GuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GuardarMouseClicked
-         //No permite añadir usuarios cuya cedula ya existe en la base de datos ni con campos vacios
+         //No permite añadir carreras cuyo nombre ya existe en la base de datos ni con campos vacios
         if(idExiste(txtNombre.getText())){
             JOptionPane.showMessageDialog(null, "Ya existe una carrera con ese nombre");
         } else {
+            /*Actualiza los valores del objeto tipo carrera con los ingresados por el usuario
+            y los los ingresa como un registro nuevo en la base de datos*/
             carrera.actualizar(txtSemestres.getText(), txtUCTotales.getText(), txtNombre.getText());
             controlador.ingresar(carrera);
         }
@@ -300,6 +304,7 @@ public class Carrera extends javax.swing.JPanel {
     }//GEN-LAST:event_LimpiarMouseClicked
 
     private void ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModificarMouseClicked
+        //Verifica que no sea un nombre que ya existe en la base de datos
         if(idExiste(txtNombre.getText())){
             JOptionPane.showMessageDialog(null, "Ya existe una carrera con ese nombre");
         } else {
@@ -310,75 +315,49 @@ public class Carrera extends javax.swing.JPanel {
     }//GEN-LAST:event_ModificarMouseClicked
 
     private void ListaCarrerasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ListaCarrerasMouseClicked
-        String sql = "SELECT id_carrera, nombre, semestres, uc_totales FROM carrera";
-
-        try{
-            DefaultTableModel modelo = new DefaultTableModel();
-            TablaCarreras.setModel(modelo);
-
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-
-            Conexion conn = new Conexion();
-            Connection con = conn.getConection();
-            ps = (PreparedStatement) con.prepareStatement(sql);
-            rs = ps.executeQuery();
-
-            ResultSetMetaData rsmd = rs.getMetaData();
-            int cantidadColumnas = rsmd.getColumnCount();
-            
-            modelo.addColumn("Código");
-            modelo.addColumn("Nombre");
-            modelo.addColumn("Num. Semestres");
-            modelo.addColumn("UC totales");
-
-            while(rs.next()){ //Carga en la tabla
-                Object[] filas = new Object[cantidadColumnas];
-
-                for(int i=0; i<cantidadColumnas; i++){
-                    filas[i] = rs.getObject(i+1);
-                }
-                modelo.addRow(filas);
-            }
-
-            ps.close();
-            rs.close();
-            conn.CerrarConexion();
-            con.close();
-
-        }catch(Exception ex){
-            System.err.println(ex);
-        }
+        /*Carga las carreras en la tabla */
+        controlador.cargarCarreras(TablaCarreras);
     }//GEN-LAST:event_ListaCarrerasMouseClicked
 
+    /*Carga valores en las cajas de texto de la carrera seleccionada de la tabla,
+    permitiendo que este registro se pueda modificar
+    */
     private void TablaCarrerasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaCarrerasMouseClicked
         Guardar.setEnabled(false);
+        Modificar.setEnabled(true);
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
             Conexion conn = new Conexion();
             Connection con = conn.getConection();
-            
+            /*El valor de la primera columna de la tabla es el codigo PK de la carrera lo que permite
+            ubicar la misma en la consulta*/
             int fila = TablaCarreras.getSelectedRow();
             int codigo = (int) TablaCarreras.getValueAt(fila, 0);
-            
+            //Consulta
             ps = (PreparedStatement) con.prepareStatement("SELECT id_carrera, nombre, semestres, uc_totales "
-                                                     + "FROM carrera WHERE id_carrera=?");
+                                                        + "FROM carrera WHERE id_carrera=?");
             ps.setInt(1, codigo);          
             rs = ps.executeQuery();                            
-            
+            //Se cargan las cajas de texto
             while(rs.next()){
                 txtPK.setText(rs.getString("id_carrera"));
                 txtNombre.setText(rs.getString("nombre"));
                 txtSemestres.setText(rs.getString("semestres"));
                 txtUCTotales.setText(rs.getString("uc_totales"));
             }
+            
+            ps.close();
+            rs.close();
+            conn.CerrarConexion();
+            con.close();
         }catch(Exception e){
             System.out.println(e);
         }
     }//GEN-LAST:event_TablaCarrerasMouseClicked
 
     private void EliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EliminarMouseClicked
+        //Se asegura de que haya un registro seleccionado de la tabla
         if(txtPK.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Seleccione una carrera a eliminar");
         } else {

@@ -6,9 +6,7 @@ import Modelo.M_Empresa;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 
 public class Empresa extends javax.swing.JPanel {
@@ -32,11 +30,8 @@ public class Empresa extends javax.swing.JPanel {
         txtTelefono.setText(null);
         txtID.setText(null);
         Guardar.setEnabled(true);
+        Modificar.setEnabled(false);
     }  
-    
-    public boolean idExiste(String rif){
-        return controlador.idExiste(rif);
-    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -327,9 +322,9 @@ public class Empresa extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    //No permite añadir empresas cuyao RIF ya existe en la base de datos ni con campos vacios
     private void GuardarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GuardarMousePressed
-        //No permite añadir usuarios cuya cedula ya existe en la base de datos ni con campos vacios
-        if(idExiste(txtRIF.getText())){
+        if(controlador.idExiste(txtRIF.getText())){
             JOptionPane.showMessageDialog(null, "Ya existe una empresa registrada con ese RIF");
         } else {
             empresa.actualizar(txtNombre.getText(), txtRIF.getText(),
@@ -339,9 +334,10 @@ public class Empresa extends javax.swing.JPanel {
         limpiarCajas();
     }//GEN-LAST:event_GuardarMousePressed
 
+    //Modificar valores de un registro de la tabla "empresa"
     private void ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModificarMouseClicked
-        if(txtID.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Error en la modificación");
+        if(txtID.getText().isEmpty()){ //Verificar que hay una instancia seleccionada
+            JOptionPane.showMessageDialog(null, "No hay empresa saleccionada");
         } else {
             empresa.actualizar(txtNombre.getText(), txtRIF.getText(),
                     txtDireccion.getText(), txtGerente.getText(), txtTelefono.getText()); 
@@ -350,8 +346,9 @@ public class Empresa extends javax.swing.JPanel {
         limpiarCajas();
     }//GEN-LAST:event_ModificarMouseClicked
 
+    //Eliminar un registro seleccionado de la tabla "empresa"
     private void EliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EliminarMouseClicked
-        if(txtID.getText().isEmpty()){
+        if(txtID.getText().isEmpty()){ //Verificar que hay una instancia seleccionada
             JOptionPane.showMessageDialog(null, "Seleccione una empresa a eliminar");
         } else {
             controlador.eliminar(txtID.getText());
@@ -359,49 +356,12 @@ public class Empresa extends javax.swing.JPanel {
         limpiarCajas();
     }//GEN-LAST:event_EliminarMouseClicked
 
+    //Carga en la tabla las empreaas existentes en la base de datos
     private void CargarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CargarMouseClicked
-        String sql = "SELECT idempresa, nombre, rif, gerente, telefono FROM empresa";
-
-        try{
-            DefaultTableModel modelo = new DefaultTableModel();
-            Tabla.setModel(modelo);
-
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-
-            Conexion conn = new Conexion();
-            Connection con = conn.getConection();
-            ps = (PreparedStatement) con.prepareStatement(sql);
-            rs = ps.executeQuery();
-
-            ResultSetMetaData rsmd = rs.getMetaData();
-            int cantidadColumnas = rsmd.getColumnCount();
-            
-            modelo.addColumn("Código");
-            modelo.addColumn("Nombre");
-            modelo.addColumn("RIF");
-            modelo.addColumn("Gerente");
-            modelo.addColumn("Teléfono");
-
-            while(rs.next()){ //Carga en la tabla
-                Object[] filas = new Object[cantidadColumnas];
-
-                for(int i=0; i<cantidadColumnas; i++){
-                    filas[i] = rs.getObject(i+1);
-                }
-                modelo.addRow(filas);
-            }
-
-            ps.close();
-            rs.close();
-            conn.CerrarConexion();
-            con.close();
-
-        }catch(Exception ex){
-            System.err.println(ex);
-        }
+        controlador.cargarTabla(Tabla);
     }//GEN-LAST:event_CargarMouseClicked
 
+    //Cargar en las cajas de texto 
     private void TablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaMouseClicked
         Guardar.setEnabled(false);
         PreparedStatement ps = null;
@@ -430,11 +390,13 @@ public class Empresa extends javax.swing.JPanel {
             System.out.println(e);
         }
     }//GEN-LAST:event_TablaMouseClicked
-
+ 
+    
     private void txtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoActionPerformed
-        // TODO add your handling code here:
+  
     }//GEN-LAST:event_txtTelefonoActionPerformed
 
+    //Limpiar las cajas
     private void LimpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LimpiarMouseClicked
         limpiarCajas();
     }//GEN-LAST:event_LimpiarMouseClicked
