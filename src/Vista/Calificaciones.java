@@ -729,6 +729,7 @@ public class Calificaciones extends javax.swing.JPanel {
         if(txt.getText().isEmpty())
             return true;
         return false;
+        
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
