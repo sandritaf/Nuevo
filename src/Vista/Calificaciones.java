@@ -35,7 +35,7 @@ public class Calificaciones extends javax.swing.JPanel {
         initComponents();
         controlador = new ControladorCalificaciones();
         controladortesis = new ControladorTesis();
-        //calificaciones = new M_Calificaciones();
+        calificaciones = new M_Calificaciones();
         txtPKEstudiante.setVisible(false);
         //txtPKCalificaciones.setVisible(false);
         Guardar.setEnabled(false);
@@ -409,35 +409,45 @@ public class Calificaciones extends javax.swing.JPanel {
     
     private void GuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GuardarMouseClicked
         
-//        int n_industrial = Integer.parseInt(valorCombito(cmbNotaIndustrial));
-//        int n_academico = Integer.parseInt(valorCombito(cmbNotaAcademico));
-//        int n_jurado1 = Integer.parseInt(valorCombito(cmbNotaJurado1));
-//        int n_jurado2 = Integer.parseInt(valorCombito(cmbNotaJurado2));
-//        int n_final = Integer.parseInt(txtNotaFinal.getText());
-        int pk = Integer.parseInt(txtPKTesis.getText());
-//        int n_defensa = (n_jurado1 + n_jurado2) / 2;
-        //calificaciones = new M_Calificaciones(pk, n_industrial, n_academico, n_jurado1, n_jurado2, n_jurado1+n_jurado2, NotaFinal);
-        //controlador.ingresar(calificaciones, pk);
-        
-        String status = "";
-        
-        if(NotaFinal >=7) status = "Aprobada";
-        else status = "Reprobada";
-        
-        controladortesis.modificarStatus(pk, status);
-        
+        if(txtPKTesis.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Error al guardar");
+        }
+        else{
+            
+            int n_industrial = Integer.parseInt(valorCombito(cmbNotaIndustrial));
+            int n_academico = Integer.parseInt(valorCombito(cmbNotaAcademico));
+            int n_jurado1 = Integer.parseInt(valorCombito(cmbNotaJurado1));
+            int n_jurado2 = Integer.parseInt(valorCombito(cmbNotaJurado2));
+            int n_final = Integer.parseInt(txtNotaFinal.getText());
+            int pk = Integer.parseInt(txtPKTesis.getText());
+            int n_defensa = (n_jurado1 + n_jurado2) / 2;
+            int nota_final = Integer.parseInt(txtNotaFinal.getText());
+            calificaciones = new M_Calificaciones(pk, n_industrial, n_academico, n_jurado1, n_jurado2, n_jurado1+n_jurado2, nota_final);
+            controlador.ingresar(calificaciones, pk);
+
+            String status = "";
+
+            if(nota_final >=7) status = "Aprobada";
+            else status = "Reprobada";
+
+            controladortesis.modificarStatus(pk, status);
+            limpiarCajas();
+            JOptionPane.showMessageDialog(null, "Calificaciones guardadas con éxito");
+        }
     }//GEN-LAST:event_GuardarMouseClicked
 
     private void txtNotaFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNotaFinalActionPerformed
         
     }//GEN-LAST:event_txtNotaFinalActionPerformed
 
-    private int obtenerNotaFinal(int ni, int na, int nd){
-        int n_ti = (int) (ni*0.35);
-        int n_ta = (int) (na*0.25);
-        int n_defensa = (int) (nd*0.40); 
+    private int obtenerNotaFinal(int ni, int na, int nj1, int nj2){
+        ni = (int) (ni*0.35);
+        na = (int) (na*0.25);
+        nj1 = (int) (nj1*0.2); 
+        nj2 = (int) (nj2*0.2); 
         
-        return n_ti + n_ta + n_defensa;
+//        JOptionPane.showMessageDialog(null,"NI 35%"+ni+" NA 25%"+na+" ND 40%"+nd);
+        return ni+na+nj1+nj2;
     }
     
     private void CalcularNotaFinalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CalcularNotaFinalMouseClicked
@@ -447,13 +457,15 @@ public class Calificaciones extends javax.swing.JPanel {
         }
         else{
             
-            //if(txtStatus.equals("Defendida")) Guardar.setEnabled(true);
             int n_industrial = Integer.parseInt(valorCombito(cmbNotaIndustrial)); 
             int n_academico = Integer.parseInt(valorCombito(cmbNotaAcademico));
             int n_jurado1 = Integer.parseInt(valorCombito(cmbNotaJurado1));
             int n_jurado2 = Integer.parseInt(valorCombito(cmbNotaJurado2));
             int defensa = (n_jurado1+n_jurado2)/2;
-            int nota_final = obtenerNotaFinal(n_industrial, n_academico, defensa);
+            
+            JOptionPane.showMessageDialog(null, "N1: "+n_jurado1+" N2: "+n_jurado2+" DEFENSA: "+defensa);
+            int nota_final = obtenerNotaFinal(n_industrial, n_academico, n_jurado1, n_jurado2);
+            JOptionPane.showMessageDialog(null, "nota final "+nota_final);
             txtNotaFinal.setText(String.valueOf(nota_final));
         }
     }//GEN-LAST:event_CalcularNotaFinalMouseClicked
@@ -471,8 +483,9 @@ public class Calificaciones extends javax.swing.JPanel {
         try{
             Conexion conn = new Conexion();
             Connection con = conn.getConection();
-            String sql = "SELECT idnotas, idtesis FROM notas INNER JOIN tesis ON notas.id_tesis = "
-                       + "tesis.idtesis WHERE idtesis=?";
+//            String sql = "SELECT idnotas, idtesis FROM notas INNER JOIN tesis ON notas.id_tesis = "
+//                       + "tesis.idtesis WHERE idtesis=?";
+            String sql = "SELECT * FROM notas WHERE id_tesis=?";
             int fila = TablaTesis.getSelectedRow();
             int codigo = (int)TablaTesis.getValueAt(fila, 0);
             
@@ -482,8 +495,16 @@ public class Calificaciones extends javax.swing.JPanel {
             rs = ps.executeQuery();                            
             
             while(rs.next()){
-                JOptionPane.showMessageDialog(null, "hola");
                 txtPKCalificaciones.setText(rs.getString("idnotas"));
+                //if(txtStatus.getText().equals("Aprobada") || txtStatus.getText().equals("Reprobada")){
+                    txtPKCalificaciones.setText(rs.getString(("idnotas")));
+                    setComboSelected(rs.getInt("jurado1"), cmbNotaJurado1);
+                    setComboSelected(rs.getInt("jurado2"), cmbNotaJurado2);
+                    setComboSelected(rs.getInt("tutor_industrial"), cmbNotaIndustrial);
+                    setComboSelected(rs.getInt("tutor_academico"), cmbNotaAcademico);
+                    txtNotaFinal.setText(rs.getString(("final")));
+                    //JOptionPane.showMessageDialog(null, rs.getInt("idnotas"));
+                //}
             }
             
             con.close();
@@ -508,9 +529,7 @@ public class Calificaciones extends javax.swing.JPanel {
             Connection con = conn.getConection();
             int fila = TablaTesis.getSelectedRow();
             int codigo = (int)TablaTesis.getValueAt(fila, 0);
-            String nota = " idnotas, promedio_defensa, tutor_industrial, tutor_academico, jurado1, jurado2, final";
-            String sql = "SELECT idtesis,"+nota+", status, id_tutorAcademico, id_tutorIndustrial, id_jurado1, id_jurado2 FROM tesis INNER JOIN profesor ON tesis.id_tutorAcademico = profesor.idprofesor INNER JOIN defensa ON tesis.idtesis = defensa.id_tesis INNER JOIN tutor_industrial ON tesis.id_tutorIndustrial = tutor_industrial.idtindustrial ";
-            sql = sql + "INNER JOIN notas ON notas.id_tesis = tesis.idtesis";
+            String sql = "SELECT idtesis, status, id_tutorAcademico, id_tutorIndustrial, id_jurado1, id_jurado2 FROM tesis INNER JOIN profesor ON tesis.id_tutorAcademico = profesor.idprofesor INNER JOIN defensa ON tesis.idtesis = defensa.id_tesis INNER JOIN tutor_industrial ON tesis.id_tutorIndustrial = tutor_industrial.idtindustrial ";
             sql = sql + " WHERE idtesis=?";
             
             ps = (PreparedStatement) con.prepareStatement(sql);
@@ -519,30 +538,27 @@ public class Calificaciones extends javax.swing.JPanel {
             rs = ps.executeQuery();                            
             
             while(rs.next()){
-                JOptionPane.showMessageDialog(null, "HOLA");
                 txtPKTesis.setText(rs.getString("idtesis"));
                 txtStatus.setText(rs.getString("status"));
                 txtPKTutorA.setText(rs.getString(("id_tutorAcademico")));
                 txtPKTutorI.setText(rs.getString(("id_tutorIndustrial")));
                 txtPKJurado1.setText(rs.getString(("id_jurado1")));
                 txtPKJurado2.setText(rs.getString(("id_jurado2")));
-                
-                if(txtStatus.getText().equals("Aprobada") || txtStatus.getText().equals("Reprobada")){
-                    txtPKCalificaciones.setText(rs.getString(("idnotas")));
-                    setComboSelected(rs.getInt("jurado1"), cmbNotaJurado1);
-                    setComboSelected(rs.getInt("jurado2"), cmbNotaJurado2);
-                    setComboSelected(rs.getInt("tutor_industrial"), cmbNotaIndustrial);
-                    setComboSelected(rs.getInt("tutor_academico"), cmbNotaAcademico);
-                    JOptionPane.showMessageDialog(null, rs.getInt("idnotas"));
-                }
             }
+            
+            if(!txtStatus.getText().equals("Defendida")){
+                Modificar.setEnabled(true);
+                Eliminar.setEnabled(true);
+                getPKCalificaciones(txtPKTesis.getText());
+            }
+            else Guardar.setEnabled(true);
             
             con.close();
             conn.CerrarConexion();
             ps.close();
             
         }catch(Exception e){
-            System.out.println("ta pasando algo aqui: "+e);
+            JOptionPane.showMessageDialog(null,"Ocurrió un error al seleccionar la PK de la tesis: "+e);
         }
 
         
@@ -657,24 +673,34 @@ public class Calificaciones extends javax.swing.JPanel {
 
     private void ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModificarMouseClicked
         
-        int n_industrial = Integer.parseInt(valorCombito(cmbNotaIndustrial)); 
-        int n_academico = Integer.parseInt(valorCombito(cmbNotaAcademico));
-        int n_jurado1 = Integer.parseInt(valorCombito(cmbNotaJurado1));
-        int n_jurado2 = Integer.parseInt(valorCombito(cmbNotaJurado2));
-        int defensa = (n_jurado1+n_jurado2)/2;
-        int nota_final = obtenerNotaFinal(n_industrial, n_academico, defensa);
+        if(txtPKCalificaciones.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Ocurrió un error al modificar");
+        }
+        else if(txtNotaFinal.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Primero calcule la nota final");
+        }
+        else{
+            int n_industrial = Integer.parseInt(valorCombito(cmbNotaIndustrial));
+            int n_academico = Integer.parseInt(valorCombito(cmbNotaAcademico));
+            int n_jurado1 = Integer.parseInt(valorCombito(cmbNotaJurado1));
+            int n_jurado2 = Integer.parseInt(valorCombito(cmbNotaJurado2));
+            int n_defensa = (n_jurado1 + n_jurado2) / 2;
+            int n_final = obtenerNotaFinal(n_industrial, n_academico, n_jurado1, n_jurado2);
 
-        int pk = Integer.parseInt(txtPKCalificaciones.getText());
-        calificaciones.actualizar(n_industrial, n_academico, n_jurado1, n_jurado2, defensa, nota_final);
-        controlador.modificar(calificaciones, pk);
-        
-        String status = "";
-        
-        if(NotaFinal >=7) status = "Aprobada";
-        else status = "Reprobada";
-        
-        controladortesis.modificarStatus(pk, status);
-        
+            int pk_tesis = Integer.parseInt(txtPKTesis.getText());
+            int pk_notas = Integer.parseInt(txtPKCalificaciones.getText());
+
+            calificaciones.actualizar(pk_notas,n_industrial, n_academico, n_jurado1, n_jurado2, n_defensa, n_final);
+            controlador.modificar(calificaciones, pk_notas);
+
+            String status = "";
+
+            if(n_final >=7) status = "Aprobada";
+            else status = "Reprobada";
+
+            controladortesis.modificarStatus(pk_tesis, status);
+            limpiarCajas();
+        }
     }//GEN-LAST:event_ModificarMouseClicked
 
     private void EliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EliminarMouseClicked
@@ -688,7 +714,7 @@ public class Calificaciones extends javax.swing.JPanel {
             controlador.eliminar(txtPKCalificaciones.getText());
             controladortesis.modificarStatus(Integer.parseInt(txtPKTesis.getText()), "Defendida");
             limpiarCajas();
-            JOptionPane.showConfirmDialog(null, "Calificaciones eliminadas con éxito");
+            JOptionPane.showMessageDialog(null, "Calificaciones eliminadas con éxito");
         }
     }//GEN-LAST:event_EliminarMouseClicked
     

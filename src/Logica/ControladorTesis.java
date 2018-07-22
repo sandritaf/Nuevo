@@ -346,7 +346,6 @@ public class ControladorTesis {
             PreparedStatement ps;
             
             ps = con.prepareStatement("UPDATE tesis SET status=? WHERE idtesis=?");
-            JOptionPane.showMessageDialog(null, "HOLA ESTOY EN MODIFICARSTATUS");
             ps.setString(1, status); 
             ps.setInt(2, pk_tesis); 
             JOptionPane.showMessageDialog(null, "este es el status: "+status);

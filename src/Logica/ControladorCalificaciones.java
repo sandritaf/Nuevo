@@ -88,8 +88,8 @@ public class ControladorCalificaciones {
             Connection con = c.getConection();
 //            int pk = Integer.parseInt(pk_calificacion);
             PreparedStatement ps;            
-            ps = con.prepareStatement("UPDATE notas SET tutor_academico, tutor_industrial, jurado1, jurado2, promedio_defensa, final"
-                    + " WHERE idnotas="+pk);
+            ps = con.prepareStatement("UPDATE notas SET tutor_academico=?, tutor_industrial=?, jurado1=?, jurado2=?, promedio_defensa=?, final=?"
+                    + " WHERE idnotas=?");
             
             ps.setInt(1, nota.getN_tacademico());
             ps.setInt(2, nota.getN_tindustrial());
