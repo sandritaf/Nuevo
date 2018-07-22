@@ -54,12 +54,12 @@ public class ControladorCalificaciones {
     }
     
     //Dada una clave primaria, se eliminan las calificaciones asociadas a una tesis
-    public void eliminar(String pk_calificacion){
+    public void eliminar(String pk){
         
         try {
             Conexion c = new Conexion();
             Connection con = c.getConection();
-            String pk = pk_calificacion;      
+            //String pk = pk_calificacion;      
             PreparedStatement ps;
             
             ps = con.prepareStatement("DELETE FROM notas WHERE idnotas="+pk);
@@ -82,11 +82,11 @@ public class ControladorCalificaciones {
     }
     
     //Se modifican datos de un estudiante dada su clave primaria, validar que no se ingresan 2 cedulas iguales
-    public void modificar(M_Calificaciones nota, String pk_calificacion){
+    public void modificar(M_Calificaciones nota, int pk){
             try {
             Conexion c = new Conexion();
             Connection con = c.getConection();
-            int pk = Integer.parseInt(pk_calificacion);
+//            int pk = Integer.parseInt(pk_calificacion);
             PreparedStatement ps;            
             ps = con.prepareStatement("UPDATE notas SET tutor_academico, tutor_industrial, jurado1, jurado2, promedio_defensa, final"
                     + " WHERE idnotas="+pk);

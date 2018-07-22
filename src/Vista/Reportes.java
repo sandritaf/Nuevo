@@ -6,7 +6,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class Reportes extends javax.swing.JPanel {
 
@@ -15,6 +22,9 @@ public class Reportes extends javax.swing.JPanel {
         cargarCarreras();
         cargarCedulas();
         cargarPeriodos();
+        GenerarPDF1.setEnabled(false);
+        GenerarPDF2.setEnabled(false);
+        GenerarPDF3.setEnabled(false);
     }
     
     private void cargarCarreras(){
@@ -180,10 +190,8 @@ public class Reportes extends javax.swing.JPanel {
         CarreraConPeriodo.setText("Carrera");
 
         cmbCarreraConPeriodo.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        cmbCarreraConPeriodo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         cmbPeriodoConCarrera.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        cmbPeriodoConCarrera.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         PeriodoCarrera.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         PeriodoCarrera.setText("Periodo");
@@ -251,6 +259,11 @@ public class Reportes extends javax.swing.JPanel {
 
         DatosTesisCedula.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         DatosTesisCedula.setText("Datos de una Tesis");
+        DatosTesisCedula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DatosTesisCedulaActionPerformed(evt);
+            }
+        });
 
         CedulaEstudiante.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         CedulaEstudiante.setText("Cédula del Estudiante");
@@ -258,9 +271,13 @@ public class Reportes extends javax.swing.JPanel {
         GenerarPDF1.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         GenerarPDF1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/pdf50.png"))); // NOI18N
         GenerarPDF1.setText("Generar PDF");
+        GenerarPDF1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                GenerarPDF1MouseClicked(evt);
+            }
+        });
 
         cmbCedulasEstudiantes.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        cmbCedulasEstudiantes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         iconoDatosTesis.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/tesis.png"))); // NOI18N
 
@@ -307,12 +324,16 @@ public class Reportes extends javax.swing.JPanel {
 
         ListadoTesisAprobadasCarrera.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         ListadoTesisAprobadasCarrera.setText("Listado de Tesis Aprobadas de una Carrera");
+        ListadoTesisAprobadasCarrera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ListadoTesisAprobadasCarreraActionPerformed(evt);
+            }
+        });
 
         CarreraAprobada.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         CarreraAprobada.setText("Carrera");
 
         cmbCarreraAprobada.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        cmbCarreraAprobada.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         GenerarPDF3.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         GenerarPDF3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/pdf50.png"))); // NOI18N
@@ -404,8 +425,53 @@ public class Reportes extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ListaTesisCarreraPeriodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListaTesisCarreraPeriodoActionPerformed
-        // TODO add your handling code here:
+        GenerarPDF2.setEnabled(true);
+        GenerarPDF1.setEnabled(false);
+        GenerarPDF3.setEnabled(false);
     }//GEN-LAST:event_ListaTesisCarreraPeriodoActionPerformed
+
+    private void GenerarPDF1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GenerarPDF1MouseClicked
+        try {
+        
+            Conexion conn = new Conexion();
+            Connection con = conn.getConection();
+            JasperReport reporte = null;
+            String report = "ReporteTesis.jasper";
+            String path = "src\\Reportes\\ReporteTesis.jasper";
+            
+            reporte = (JasperReport) JRLoader.loadObjectFromLocation(path);// loadObjectFromFile(path);
+            
+            JasperPrint jprint = JasperFillManager.fillReport(reporte, null, con);
+            JasperViewer view = new JasperViewer(jprint,false);
+            
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            
+            view.setVisible(true);
+            
+        } catch (Exception e) {
+        }
+        
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_GenerarPDF1MouseClicked
+
+    private String valorCombito(JComboBox cmb){
+        String s = cmb.getSelectedItem().toString();
+        return s;
+    }
+    
+    private void DatosTesisCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DatosTesisCedulaActionPerformed
+        GenerarPDF1.setEnabled(true);
+        GenerarPDF2.setEnabled(false);
+        GenerarPDF3.setEnabled(false);
+    }//GEN-LAST:event_DatosTesisCedulaActionPerformed
+
+    private void ListadoTesisAprobadasCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListadoTesisAprobadasCarreraActionPerformed
+        GenerarPDF1.setEnabled(false);
+        GenerarPDF2.setEnabled(false);
+        GenerarPDF3.setEnabled(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ListadoTesisAprobadasCarreraActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

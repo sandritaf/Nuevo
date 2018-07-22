@@ -116,4 +116,13 @@ public class M_Calificaciones {
         return (nj1+nj2)/2;
     }
     
+    public void actualizar(int n_tindustrial, int n_tacademico, int n_j1, int n_j2, int n_promdefensa, int n_final){
+        this.n_tindustrial = n_tindustrial;
+        this.n_tacademico = n_tacademico;
+        this.n_promdefensa = n_promdefensa;
+        this.n_final = n_final;
+        this.n_j1 = n_j1;
+        this.n_j2 = n_j2;
+    }
+    
 }
