@@ -88,7 +88,7 @@ public class M_Calificaciones {
         int n_ti = (int) (nota_ti*0.35);
         int n_ta = (int) (nota_ta*0.25);
         int n_defensa = (int) (nota_prom*0.40); 
-                
+        
         return n_ti + n_ta + n_defensa;
     }
     
