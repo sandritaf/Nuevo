@@ -129,6 +129,33 @@ public class Defensa extends javax.swing.JPanel {
         return false;
     }
     
+    private void obtenerStatus(){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try{
+            Conexion conn = new Conexion();
+            Connection con = conn.getConection();
+            
+            int fila = TablaDefensa.getSelectedRow();
+            int codigo = (int)TablaDefensa.getValueAt(fila, 0);
+            ps = (PreparedStatement) con.prepareStatement("SELECT status FROM tesis WHERE idtesis=?");
+            
+            ps.setInt(1, codigo);          
+            rs = ps.executeQuery();                            
+            
+            while(rs.next()){
+                txtStatus.setText(rs.getString("status"));
+            }
+            
+            con.close();
+            conn.CerrarConexion();
+            ps.close();
+            
+        }catch(Exception e){
+            System.out.println(e);
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -170,6 +197,7 @@ public class Defensa extends javax.swing.JPanel {
         Reprobada = new javax.swing.JRadioButton();
         Aprobada = new javax.swing.JRadioButton();
         txtPKTutorA = new javax.swing.JTextField();
+        txtStatus = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(884, 497));
@@ -456,7 +484,9 @@ public class Defensa extends javax.swing.JPanel {
                                             .addGroup(jPanel3Layout.createSequentialGroup()
                                                 .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(8, 8, 8)
-                                                .addComponent(SemestreI))
+                                                .addComponent(SemestreI)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addGroup(jPanel3Layout.createSequentialGroup()
                                                 .addComponent(cmbJurado1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -494,7 +524,8 @@ public class Defensa extends javax.swing.JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fechaDefensa)
                     .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(SemestreI))
+                    .addComponent(SemestreI)
+                    .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fechaDefensa1)
@@ -644,7 +675,7 @@ public class Defensa extends javax.swing.JPanel {
             int fila = TablaDefensa.getSelectedRow();
             int codigo = (int)TablaDefensa.getValueAt(fila, 0);
             ps = (PreparedStatement) con.prepareStatement("SELECT id_tesis, iddefensa, fecha, hora, aula, "
-                                                + "id_jurado1, id_jurado2, periodo, id_tutorAcademico FROM "
+                                                + "id_jurado1, id_jurado2, periodo, id_tutorAcademico,status FROM "
                                                 + "defensa INNER JOIN tesis ON defensa.id_tesis = tesis.idtesis "
                                                 + "WHERE iddefensa=?");
             
@@ -661,11 +692,15 @@ public class Defensa extends javax.swing.JPanel {
                 setComboSelected(rs.getInt("id_jurado2"), cmbJurado2);
                 setComboSelected(rs.getInt("id_tesis"), cmbTesis);
                 txtPKTutorA.setText(rs.getString("id_tutorAcademico"));
+                txtStatus.setText(rs.getString("status"));
                 if (getSemestrePeriodo(rs.getString("periodo"))==1)
                     SemestreI.setSelected(true);
                 else 
                     SemestreII.setSelected(true);
             }
+            
+            //obtenerStatus();
+            
             con.close();
             conn.CerrarConexion();
             ps.close();
@@ -688,24 +723,29 @@ public class Defensa extends javax.swing.JPanel {
         }
         else {
             String status="";
+            String s = txtStatus.getText();
+
             if(PorDefender.isSelected()) status = "Por defender";
             if(Aprobada.isSelected()) status = "Aprobada";
             if(Reprobada.isSelected()) status = "Reprobada";
             if(Defendida.isSelected()) status = "Defendida";
+            if(Todas.isSelected()) status = s;
             
             int pk = Integer.parseInt(txtPKTesis.getText());
 
-            defensa.actualizar(Date.valueOf(txtFecha.getText()), Time.valueOf(txtHora.getText()), 
+            //si NO selecciona el status de aprobada o reprobada Y el status que tiene es diferente a Aprobada o Reprobada
+            if(!(s.equals("Aprobada") || s.equals("Reprobada")) && !(status.equals("Aprobada") || status.equals("Reprobada"))){
+                defensa.actualizar(Date.valueOf(txtFecha.getText()), Time.valueOf(txtHora.getText()), 
                 Integer.parseInt(txtAula.getText()), getPeriodo(Date.valueOf(txtFecha.getText())), 
                 getComboSelected(cmbTesis), getComboSelected(cmbJurado1),getComboSelected(cmbJurado2));
-            
-            controlador.modificar(defensa, txtPKDefensa.getText());
-            
-            //si NO selecciona el status de aprobada o reprobada
-            if(!(status.equals("Aprobada") || status.equals("Reprobada"))) 
+                controlador.modificar(defensa, txtPKDefensa.getText());
                 controladortesis.modificarStatus(pk, status); // cambia el status de la tesis
-            limpiarCajas();           
-        }
+                limpiarCajas();
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Una tesis no puede cambiar su status de: "+s+" a "+status);
+            }
+        }           
     }//GEN-LAST:event_ModificarMouseClicked
 
     private void LimpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LimpiarMouseClicked
@@ -760,5 +800,6 @@ public class Defensa extends javax.swing.JPanel {
     private javax.swing.JTextField txtPKDefensa;
     private javax.swing.JTextField txtPKTesis;
     private javax.swing.JTextField txtPKTutorA;
+    private javax.swing.JTextField txtStatus;
     // End of variables declaration//GEN-END:variables
 }
