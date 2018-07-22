@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Logica;
 
 import Conexion.Conexion;
@@ -10,14 +5,16 @@ import Modelo.M_TutorIndustrial;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author brenda
- */
 public class ControladorTutorIndustrial {
 
+    //Verifica si los valores vienen vacios
     public boolean estaVacio(M_TutorIndustrial tutor){
         if (tutor.getNombre().isEmpty() || tutor.getApellido().isEmpty())
             return true;
@@ -55,8 +52,36 @@ public class ControladorTutorIndustrial {
         }
         return bandera;
     }
-    
+            
+    //Carga el comboBox con las empresas existentes en la BDD
+    public void cargarEmpresas(JComboBox cmbEmpresa){
+        DefaultComboBoxModel aModel = new DefaultComboBoxModel();
+        String sql = "SELECT idempresa, nombre FROM empresa";
+        String aux;
         
+        try{
+            PreparedStatement ps;
+            ResultSet rs;
+            Conexion conn = new Conexion();
+            Connection con = conn.getConection();
+            cmbEmpresa.setModel(aModel);
+            ps = (PreparedStatement) con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next() ){
+               aux = rs.getString("idempresa") + "- " + rs.getString("nombre");
+               aModel.addElement(aux);
+            }
+            //Cerrar conexiones
+            ps.close();
+            rs.close();
+            conn.CerrarConexion();
+            con.close();            
+        
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Ocurrió un error cargando Empresas: "+ex);
+        }
+    }
+    
     //Ingresa un tutor en la tabla
     public void ingresar(M_TutorIndustrial tutor){
         if (estaVacio(tutor))
@@ -160,5 +185,77 @@ public class ControladorTutorIndustrial {
         }            
     }
 
+    //Recibe un codigo y busca (y selecciona) en el ComboBox la opcion que le corresponda
+    public void setComboSelected(int codigoPK, JComboBox combito){
+        //Obtengo la longitud de mi combo
+        int largoCombo = combito.getItemCount();
+        String textoCombo = "";
+        //Recorro el arraycollection
+        for (int i = 0; i < largoCombo; i++) {
+            textoCombo = combito.getItemAt(i).toString();
+            int limite = textoCombo.indexOf("-");
+           //Comparo los objetos de mi combo con el codigo del item que buscaba
+           if (Integer.parseInt(textoCombo.substring(0, limite)) == codigoPK)  {
+              //Si encuentra el item le asigno su index a mi combo
+              combito.setSelectedIndex(i);
+              break;
+           }
+        }
+    }
     
+    //Devuelve en codigo de la opcion seleccionada en el comboBox
+    public int getComboSelected(JComboBox combito){
+        String codigo = combito.getSelectedItem().toString(); 
+        String codigoFinal = "";
+        
+        int guion = codigo.indexOf("-");
+        codigoFinal = codigo.substring(0, guion);
+        
+        return Integer.parseInt(codigoFinal);
+    }
+    
+    //Carga los tutores en la tabla, desde la bdd
+    public void cargarTutores(JTable TablaTutores){
+        String sql = "SELECT idtindustrial, nombre, apellido, cedula, telefono, id_empresa FROM tutor_industrial order by apellido";
+
+        try{
+            DefaultTableModel modelo = new DefaultTableModel();
+            TablaTutores.setModel(modelo);
+
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+
+            Conexion conn = new Conexion();
+            Connection con = conn.getConection();
+            ps = (PreparedStatement) con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int cantidadColumnas = rsmd.getColumnCount();
+            
+            modelo.addColumn("Código");
+            modelo.addColumn("Cedula");
+            modelo.addColumn("Nombre");
+            modelo.addColumn("Apellido");
+            modelo.addColumn("Teléfono");
+            modelo.addColumn("Empresa");
+
+            while(rs.next()){ //Carga en la tabla
+                Object[] filas = new Object[cantidadColumnas];
+
+                for(int i=0; i<cantidadColumnas; i++){
+                    filas[i] = rs.getObject(i+1);
+                }
+                modelo.addRow(filas);
+            }
+
+            ps.close();
+            rs.close();
+            conn.CerrarConexion();
+            con.close();
+
+        }catch(Exception ex){
+            System.err.println(ex);
+        }
+    }
 }

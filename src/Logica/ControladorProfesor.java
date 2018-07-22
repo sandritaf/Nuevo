@@ -5,19 +5,83 @@ import Modelo.M_Profesor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class ControladorProfesor {
 
     public ControladorProfesor() {
     }
     
+    //Verifica que los valores ingresados no vengan vacios
     public boolean estaVacio(M_Profesor profesor){
         if (profesor.getNombre().isEmpty() || profesor.getApellido().isEmpty())
             return true;
         else if (profesor.getCedula().isEmpty() || profesor.getProfesion().isEmpty())
             return true;
         return false;
+    }
+    
+    //Devuelve el codigo de la opcion seleccionada en un combo
+    public int getComboSelected(JComboBox combito){
+        String codigo = combito.getSelectedItem().toString(); 
+        String codigoFinal = "";
+        
+        int guion = codigo.indexOf("-");
+        codigoFinal = codigo.substring(0, guion);
+        
+        return Integer.parseInt(codigoFinal);
+    }
+    
+    //Carga las carreras disponibles a las que asignar a un profesor
+    public void cargarCarreras(JComboBox cmbCarrera){
+        DefaultComboBoxModel aModel = new DefaultComboBoxModel();
+        String sql = "SELECT id_carrera, nombre FROM carrera";
+        String aux;
+        
+        try{
+            PreparedStatement ps;
+            ResultSet rs;
+            Conexion conn = new Conexion();
+            Connection con = conn.getConection();
+            cmbCarrera.setModel(aModel);
+            ps = (PreparedStatement) con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next() ){
+               aux = rs.getString("id_carrera") + "- " + rs.getString("nombre");
+               aModel.addElement(aux);
+            }
+            //Cerrar conexiones
+            ps.close();
+            rs.close();
+            conn.CerrarConexion();
+            con.close();            
+        
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Ocurrió un error cargando Carreras: "+ex);
+        }
+    }
+    
+    //Recibe un codigo y busca (y selecciona) en el ComboBox la opcion que le corresponda
+    public void setComboSelected(int codigoPK, JComboBox combito){
+        //Obtengo la longitud de mi combo
+        int largoCombo = combito.getItemCount();
+        String textoCombo = "";
+        //Recorro el arraycollection
+        for (int i = 0; i < largoCombo; i++) {
+            textoCombo = combito.getItemAt(i).toString();
+            int limite = textoCombo.indexOf("-");
+           //Comparo los objetos de mi combo con el codigo del item que buscaba
+           if (Integer.parseInt(textoCombo.substring(0, limite)) == codigoPK)  {
+              //Si encuentra el item le asigno su index a mi combo
+              combito.setSelectedIndex(i);
+              break;
+           }
+        }
     }
     
     //Comprueba si una cedula ya existe en la tabla profesor
@@ -158,4 +222,47 @@ public class ControladorProfesor {
         }
     }
     
+    //Carga en la tabla los valores de los registros de la tabla profesor
+    public void cargarTabla(JTable TablaProfesor){
+        String sql = "SELECT idprofesor, nombre, apellido, profesion, id_carrera_fk FROM profesor order by apellido";
+
+        try{
+            DefaultTableModel modelo = new DefaultTableModel();
+            TablaProfesor.setModel(modelo);
+
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+
+            Conexion conn = new Conexion();
+            Connection con = conn.getConection();
+            ps = (PreparedStatement) con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int cantidadColumnas = rsmd.getColumnCount();
+            
+            modelo.addColumn("Código");
+            modelo.addColumn("Nombre");
+            modelo.addColumn("Apellido");
+            modelo.addColumn("Profesión");
+            modelo.addColumn("Carrera");
+
+            while(rs.next()){ //Carga en la tabla
+                Object[] filas = new Object[cantidadColumnas];
+
+                for(int i=0; i<cantidadColumnas; i++){
+                    filas[i] = rs.getObject(i+1);
+                }
+                modelo.addRow(filas);
+            }
+
+            ps.close();
+            rs.close();
+            conn.CerrarConexion();
+            con.close();
+
+        }catch(Exception ex){
+            System.err.println(ex);
+        }
+    }
 }

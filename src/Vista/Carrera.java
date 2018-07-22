@@ -20,6 +20,8 @@ public class Carrera extends javax.swing.JPanel {
         txtPK.setVisible(false);
         controlador = new ControladorCarrera();
         carrera = new M_Carrera();
+        Modificar.setEnabled(false);
+        Eliminar.setEnabled(false);
     }
 
 
@@ -279,6 +281,7 @@ public class Carrera extends javax.swing.JPanel {
         txtPK.setText(null);
         Guardar.setEnabled(true);
         Modificar.setEnabled(false);
+        Eliminar.setEnabled(false);
     }
     
     //Verifica que no exista una carrera con el mismo nombre en la BDD
@@ -325,6 +328,7 @@ public class Carrera extends javax.swing.JPanel {
     private void TablaCarrerasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaCarrerasMouseClicked
         Guardar.setEnabled(false);
         Modificar.setEnabled(true);
+        Eliminar.setEnabled(true);
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{

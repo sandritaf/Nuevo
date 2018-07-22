@@ -1,14 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Modelo;
 
-/**
- *
- * @author brenda
- */
 public class M_TutorIndustrial {
     
     private String nombre;
@@ -17,9 +8,14 @@ public class M_TutorIndustrial {
     private String telefono;
     private int id_empresa;
 
+    /*Esta clase permite manipular valores que se desean ingresar como un registro nuevo
+    en la tabla "tutor industrial" de la base de datos, de manera que los valores ingresados por
+    los usuarios se guardan en una instancia de M_TutorIndustrial y se reciben en el controlador
+    que es la clase desde donde se haran las consultas que insertaran los registros nuevos"
+    */
+    
     public M_TutorIndustrial() {
     }
-
     
     public M_TutorIndustrial(String nombre, String apellido, String cedula, String telefono, int id_empresa) {
         this.nombre = nombre;
