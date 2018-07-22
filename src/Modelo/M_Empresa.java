@@ -7,6 +7,12 @@ public class M_Empresa {
     private String gerente;
     private String telefono;
 
+    /*Esta clase permite manipular valores que se desean ingresar como un registro nuevo
+    en la tabla "empresa" de la base de datos, de manera que los valores ingresados por
+    los usuarios se guardan en una instancia de M_Empresa y se reciben en el controlador
+    que es la clase desde donde se haran las consultas que insertaran los registros nuevos"
+    */
+    
     public M_Empresa() {
     }
 

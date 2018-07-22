@@ -1,8 +1,6 @@
 package Main;
 
-
 import Vista.Menu;
-import Vista.Tesis;
 
 public class Main {
 

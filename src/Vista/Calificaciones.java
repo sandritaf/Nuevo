@@ -137,8 +137,6 @@ public class Calificaciones extends javax.swing.JPanel {
         CalificacionFinal.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         CalificacionFinal.setText("Calificación Final");
 
-        cmbNotaIndustrial.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-
         cmbNotaAcademico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 
         cmbNotaJurado1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
@@ -458,11 +456,11 @@ public class Calificaciones extends javax.swing.JPanel {
 //        System.out.println(sql1);
 
         String sql = "SELECT idtesis, titulo, status, id_tutorAcademico, id_tutorIndustrial,"
-                   + " id_jurado1, id_jurado2 FROM tesis INNER JOIN defensa "
-                   + "ON tesis.idtesis = defensa.id_tesis INNER JOIN tutor_industrial "
-                   + "ON tesis.id_tutorIndustrial = idtindustrial INNER JOIN profesor "
-                   + "ON tesis.id_tutorAcademico = profesor.idprofesor "
-                   + "WHERE tesis.status = 'Defendida'";
+                   + " id_jurado1, id_jurado2 FROM tesis "
+                   + "INNER JOIN defensa ON tesis.idtesis = defensa.id_tesis "
+                   + "INNER JOIN tutor_industrial ON tesis.id_tutorIndustrial = idtindustrial "
+                   + "INNER JOIN profesor ON tesis.id_tutorAcademico = profesor.idprofesor "
+                   + "WHERE tesis.status = 'Por Defender'";
 
         try{
             

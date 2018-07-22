@@ -5,7 +5,10 @@ import Modelo.M_Empresa;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 
 public class ControladorEmpresa {
@@ -13,6 +16,9 @@ public class ControladorEmpresa {
     public ControladorEmpresa() {
     }
     
+    /*Verifica que los valores que vengan de los datos ingresados por el usuario, 
+    no vengan vacios
+    */
     public boolean estaVacio(M_Empresa empresa){
         if (empresa.getNombre().isEmpty() || empresa.getRif().isEmpty() || empresa.getTelefono().isEmpty())
             return true;
@@ -155,5 +161,46 @@ public class ControladorEmpresa {
         }
     }
     
-    
+    //Cargan en la tabla los registros existentes en la base de datos
+    public void cargarTabla(JTable Tabla){
+        String sql = "SELECT idempresa, nombre, rif, gerente, telefono FROM empresa";
+        try{
+            DefaultTableModel modelo = new DefaultTableModel();
+            Tabla.setModel(modelo);
+
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+
+            Conexion conn = new Conexion();
+            Connection con = conn.getConection();
+            ps = (PreparedStatement) con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int cantidadColumnas = rsmd.getColumnCount();
+            
+            modelo.addColumn("Código");
+            modelo.addColumn("Nombre");
+            modelo.addColumn("RIF");
+            modelo.addColumn("Gerente");
+            modelo.addColumn("Teléfono");
+
+            while(rs.next()){ //Carga en la tabla
+                Object[] filas = new Object[cantidadColumnas];
+
+                for(int i=0; i<cantidadColumnas; i++){
+                    filas[i] = rs.getObject(i+1);
+                }
+                modelo.addRow(filas);
+            }
+
+            ps.close();
+            rs.close();
+            conn.CerrarConexion();
+            con.close();
+
+        }catch(Exception ex){
+            System.err.println(ex);
+        }
+    }
 }
