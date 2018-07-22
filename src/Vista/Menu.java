@@ -1,5 +1,4 @@
 package Vista;
-import Vista.LoginAdmin;
 import java.awt.BorderLayout;
 
 public class Menu extends javax.swing.JFrame {
@@ -38,6 +37,8 @@ public class Menu extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         btn4 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
+        btn11 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -320,6 +321,35 @@ public class Menu extends javax.swing.JFrame {
             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        btn11.setBackground(new java.awt.Color(102, 102, 102));
+        btn11.setName("btn6"); // NOI18N
+        btn11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btn11MousePressed(evt);
+            }
+        });
+
+        jLabel13.setFont(new java.awt.Font("Latha", 1, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/reporte50.png"))); // NOI18N
+        jLabel13.setText("Reportes");
+        jLabel13.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+
+        javax.swing.GroupLayout btn11Layout = new javax.swing.GroupLayout(btn11);
+        btn11.setLayout(btn11Layout);
+        btn11Layout.setHorizontalGroup(
+            btn11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btn11Layout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(89, Short.MAX_VALUE))
+        );
+        btn11Layout.setVerticalGroup(
+            btn11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout SidePanelLayout = new javax.swing.GroupLayout(SidePanel);
         SidePanel.setLayout(SidePanelLayout);
         SidePanelLayout.setHorizontalGroup(
@@ -333,11 +363,12 @@ public class Menu extends javax.swing.JFrame {
             .addComponent(btn9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btn10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btn4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btn11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         SidePanelLayout.setVerticalGroup(
             SidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SidePanelLayout.createSequentialGroup()
-                .addGap(99, 99, 99)
+                .addGap(52, 52, 52)
                 .addComponent(btn2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -355,6 +386,8 @@ public class Menu extends javax.swing.JFrame {
                 .addComponent(btn10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -496,6 +529,18 @@ public class Menu extends javax.swing.JFrame {
         PanelPrincipal.updateUI();
     }//GEN-LAST:event_btn10MousePressed
 
+    private void btn11MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn11MousePressed
+        Reportes reporte = new Reportes();
+        reporte.setVisible(true);
+        reporte.setLocation(0,0);
+        reporte.setSize(PanelPrincipal.getSize());
+        System.out.println("Añadido Reportes Panel");
+        PanelPrincipal.removeAll();
+        PanelPrincipal.add(reporte,BorderLayout.CENTER);
+        PanelPrincipal.updateUI();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn11MousePressed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -564,6 +609,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JPanel PanelPrincipal;
     private javax.swing.JPanel SidePanel;
     private javax.swing.JPanel btn10;
+    private javax.swing.JPanel btn11;
     private javax.swing.JPanel btn2;
     private javax.swing.JPanel btn3;
     private javax.swing.JPanel btn4;
@@ -575,6 +621,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
