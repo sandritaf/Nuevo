@@ -9,11 +9,11 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.view.JasperViewer;
+//import net.sf.jasperreports.engine.JasperFillManager;
+//import net.sf.jasperreports.engine.JasperPrint;
+//import net.sf.jasperreports.engine.JasperReport;
+//import net.sf.jasperreports.engine.util.JRLoader;
+//import net.sf.jasperreports.view.JasperViewer;
 
 public class Reportes extends javax.swing.JPanel {
 
@@ -431,25 +431,25 @@ public class Reportes extends javax.swing.JPanel {
     }//GEN-LAST:event_ListaTesisCarreraPeriodoActionPerformed
 
     private void GenerarPDF1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GenerarPDF1MouseClicked
-        try {
-        
-            Conexion conn = new Conexion();
-            Connection con = conn.getConection();
-            JasperReport reporte = null;
-            String report = "ReporteTesis.jasper";
-            String path = "src\\Reportes\\ReporteTesis.jasper";
-            
-            reporte = (JasperReport) JRLoader.loadObjectFromLocation(path);// loadObjectFromFile(path);
-            
-            JasperPrint jprint = JasperFillManager.fillReport(reporte, null, con);
-            JasperViewer view = new JasperViewer(jprint,false);
-            
-            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            
-            view.setVisible(true);
-            
-        } catch (Exception e) {
-        }
+//        try {
+//        
+//            Conexion conn = new Conexion();
+//            Connection con = conn.getConection();
+//            JasperReport reporte = null;
+//            String report = "ReporteTesis.jasper";
+//            String path = "src\\Reportes\\ReporteTesis.jasper";
+//            
+//            reporte = (JasperReport) JRLoader.loadObjectFromLocation(path);// loadObjectFromFile(path);
+//            
+//            JasperPrint jprint = JasperFillManager.fillReport(reporte, null, con);
+//            JasperViewer view = new JasperViewer(jprint,false);
+//            
+//            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+//            
+//            view.setVisible(true);
+//            
+//        } catch (Exception e) {
+//        }
         
 
         // TODO add your handling code here:

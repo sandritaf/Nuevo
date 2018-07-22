@@ -526,6 +526,7 @@ public class Tesis extends javax.swing.JPanel {
         Guardar.setEnabled(false);
         Modificar.setEnabled(true);
         Eliminar.setEnabled(true);
+        controlador.cargarAlumnosConTesis(cmbAlumno);
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
@@ -546,7 +547,7 @@ public class Tesis extends javax.swing.JPanel {
             while(rs.next()){
                 txtPK.setText(rs.getString("idtesis"));
                 txtTitulo.setText(rs.getString("titulo"));
-                controlador.setComboSelected(rs.getInt("estudiante.idestudiante"),cmbAlumno);
+                controlador.setComboSelected(rs.getInt("estudiante_tesis"),cmbAlumno);
                 controlador.setComboSelected(rs.getInt("id_tutorAcademico"),cmbTutor);
                 controlador.setComboSelected(rs.getInt("id_tutorIndustrial"),cmbTutor2);
                 controlador.setComboSelected(rs.getInt("estudiante.id_empresa"),cmbEmpresa);
@@ -555,6 +556,10 @@ public class Tesis extends javax.swing.JPanel {
                 txtFechaF.setText((rs.getDate("fecha_fin")).toString());
                 txtObservaciones.setText(rs.getString("observaciones"));
             }
+            ps.close();
+            rs.close();
+            con.close();
+            conn.CerrarConexion();
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, "Ocurrió un error: "+e);
         }
@@ -574,12 +579,13 @@ public class Tesis extends javax.swing.JPanel {
         Exportar.setEnabled(false);
         cmbTutor.setSelectedItem(0);
         cmbTutor2.setSelectedItem(0);
-        cmbAlumno.setSelectedItem(0);
         cmbDepartamento.setSelectedItem(0);
         cmbEmpresa.setSelectedItem(0);
         Guardar.setEnabled(true);
         Modificar.setEnabled(false);
         Eliminar.setEnabled(false);
+        controlador.cargarAlumnosSinTesis(cmbAlumno);
+        cmbAlumno.setSelectedItem(0);
     }
     
     public boolean txtVacio(JTextField txt){
