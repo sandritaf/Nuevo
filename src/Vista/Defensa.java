@@ -553,8 +553,8 @@ public class Defensa extends javax.swing.JPanel {
             int pk = getComboSelected(cmbTesis);
 //            controladortesis.modificarStatus(pk, status);
             
-              JOptionPane.showMessageDialog(null, "Status seleccionado: "+status);
-              JOptionPane.showMessageDialog(null, "PK: "+pk);
+//              JOptionPane.showMessageDialog(null, "Status seleccionado: "+status);
+//              JOptionPane.showMessageDialog(null, "PK: "+pk);
      
               //tesis.setStatus();
             defensa.actualizar(Date.valueOf(txtFecha.getText()), Time.valueOf(txtHora.getText()), 
