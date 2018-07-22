@@ -48,6 +48,36 @@ public class ControladorTesis {
         }
     }
     
+    //Carga en el combo box los estudiantes con tesis
+    public void cargarAlumnosConTesis(JComboBox cmbAlumno){
+        DefaultComboBoxModel aModel = new DefaultComboBoxModel();
+        String sql = "SELECT idestudiante, nombre, apellido FROM estudiante WHERE tesista=1";
+        String aux;
+        
+        try{
+            PreparedStatement ps;
+            ResultSet rs;
+            Conexion conn = new Conexion();
+            Connection con = conn.getConection();
+            cmbAlumno.setModel(aModel);
+            ps = (PreparedStatement) con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next() ){
+               aux = rs.getString("idestudiante") + "- " + rs.getString("nombre") 
+                       + " " + rs.getString("apellido");
+               aModel.addElement(aux);
+            }
+            //Cerrar conexiones
+            ps.close();
+            rs.close();
+            conn.CerrarConexion();
+            con.close();            
+        
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Ocurrió un error cargando estudiantes: "+ex);
+        }
+    }
+    
     //Carga todos los profesores existentes en la base de datos que puedan ser tutores academicos
     public void cargarProfesores(JComboBox cmbTutor){
         DefaultComboBoxModel aModel = new DefaultComboBoxModel();
@@ -170,6 +200,7 @@ public class ControladorTesis {
         }
     }
 
+    //Devuelve el codigo de la opcion seleccionada del comboBpx
     public int getComboSelected(JComboBox combito){
         String codigo = combito.getSelectedItem().toString(); 
         String codigoFinal = "";
