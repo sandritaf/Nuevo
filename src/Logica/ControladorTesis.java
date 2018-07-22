@@ -348,7 +348,6 @@ public class ControladorTesis {
             ps = con.prepareStatement("UPDATE tesis SET status=? WHERE idtesis=?");
             ps.setString(1, status); 
             ps.setInt(2, pk_tesis); 
-            JOptionPane.showMessageDialog(null, "este es el status: "+status);
             int res = ps.executeUpdate();
             
             if (res > 0){

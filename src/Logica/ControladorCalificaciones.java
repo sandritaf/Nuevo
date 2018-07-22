@@ -1,20 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Logica;
 
 import Conexion.Conexion;
 import Modelo.M_Calificaciones;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author brenda
- */
 public class ControladorCalificaciones {
 
     //Ingresa un estudiante en la tabla
@@ -116,5 +109,33 @@ public class ControladorCalificaciones {
             }
     }
 
+    public boolean encuentraTesis(int pk_tesis){
+        boolean b = false;
+        try {
+            Conexion c = new Conexion();
+            Connection con = c.getConection();
+            PreparedStatement ps;  
+            ResultSet rs;
+            ps = con.prepareStatement("SELECT id_tesis FROM notas WHERE id_tesis=?");
+            
+            ps.setInt(1, pk_tesis);
+            
+            rs = ps.executeQuery();
+            
+            if (rs.next()){
+                return true;
+            }else{
+                b = false;
+            }
+                        
+            c.CerrarConexion();
+            con.close();
+            ps.close();
+                 
+            } catch (Exception e) {
+                 JOptionPane.showMessageDialog(null, "Ocurrió un error en la modificacion: "+e);
+            }
+        return b;
+    }
     
 }
