@@ -154,6 +154,8 @@ public class Calificaciones extends javax.swing.JPanel {
         CalificacionFinal.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         CalificacionFinal.setText("Calificación Final");
 
+        cmbNotaIndustrial.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+
         cmbNotaAcademico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
 
         cmbNotaJurado1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
@@ -212,8 +214,7 @@ public class Calificaciones extends javax.swing.JPanel {
                                 .addGap(56, 56, 56)
                                 .addComponent(CalificacionFinal)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtNotaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(txtNotaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(NotaTutorIndustrial)
@@ -470,10 +471,10 @@ public class Calificaciones extends javax.swing.JPanel {
             int fila = TablaTesis.getSelectedRow();
             int codigo = (int)TablaTesis.getValueAt(fila, 0);
             ps = (PreparedStatement) con.prepareStatement("SELECT idtesis, status, id_tutorAcademico, id_tutorIndustrial, id_jurado1, id_jurado2"
-                                                        //+n+
+                                                        +","+n
                                                 + " FROM tesis INNER JOIN defensa ON defensa.id_tesis = tesis.idtesis "
                                                 + "INNER JOIN tutor_industrial ON tesis.id_tutorIndustrial = tutor_industrial.idtindustrial "
-                                                //+ "INNER JOIN notas ON tesis.idtesis = notas.id_tesis "
+                                                + "INNER JOIN notas ON tesis.idtesis = notas.id_tesis "
                                                 + "WHERE idtesis=?");
             
             ps.setInt(1, codigo);          
@@ -486,8 +487,11 @@ public class Calificaciones extends javax.swing.JPanel {
                 txtPKTutorI.setText(rs.getString(("id_tutorIndustrial")));
                 txtPKJurado1.setText(rs.getString(("id_jurado1")));
                 txtPKJurado2.setText(rs.getString(("id_jurado2")));
-//                if(txtStatus.getText().equals("Aprobada") || txtStatus.getText().equals("Reprobada"))
-//                    txtPKCalificaciones.setText(rs.getString(("idnotas")));
+                if(txtStatus.getText().equals("Aprobada") || txtStatus.getText().equals("Reprobada")){
+                    txtPKCalificaciones.setText(rs.getString(Integer.getInteger("idnotas")));
+                    JOptionPane.showMessageDialog(null, "hola");
+                }
+
 //            }
             }
             
@@ -630,6 +634,7 @@ public class Calificaciones extends javax.swing.JPanel {
             controlador.eliminar(txtPKCalificaciones.getText());
             controladortesis.modificarStatus(Integer.parseInt(txtPKTesis.getText()), "Defendida");
             limpiarCajas();
+            JOptionPane.showConfirmDialog(null, "Calificaciones eliminadas con éxito");
         }
     }//GEN-LAST:event_EliminarMouseClicked
     
