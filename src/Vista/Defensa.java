@@ -1,10 +1,12 @@
 package Vista;
 
 import Conexion.Conexion;
+import Logica.ControladorCalificaciones;
 import Modelo.M_Defensa;
 import Modelo.M_Tesis;
 import Logica.ControladorDefensa;
 import Logica.ControladorTesis;
+import Modelo.M_Calificaciones;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -24,12 +26,13 @@ public class Defensa extends javax.swing.JPanel {
     ControladorDefensa controlador;
     M_Tesis tesis;
     ControladorTesis controladortesis;
+    ControladorCalificaciones controladornotas;
     
     public Defensa() {
         initComponents();        
         controlador = new ControladorDefensa();
         defensa = new M_Defensa();
-        
+        Eliminar.setEnabled(false);
         txtPKTesis.setVisible(true);
         txtPKDefensa.setVisible(false);
         Modificar.setEnabled(false);
@@ -37,6 +40,7 @@ public class Defensa extends javax.swing.JPanel {
         controlador.cargarProfesores(cmbJurado1, cmbJurado2);
         txtPKTutorA.setVisible(false);
         controladortesis = new ControladorTesis();
+        controladornotas = new ControladorCalificaciones();
     }
   
     public void limpiarCajas(){
@@ -551,18 +555,18 @@ public class Defensa extends javax.swing.JPanel {
             else if(Defendida.isSelected()) status = "Defendida";
             
             int pk = getComboSelected(cmbTesis);
-//            controladortesis.modificarStatus(pk, status);
-            
-//              JOptionPane.showMessageDialog(null, "Status seleccionado: "+status);
-//              JOptionPane.showMessageDialog(null, "PK: "+pk);
-     
-              //tesis.setStatus();
             defensa.actualizar(Date.valueOf(txtFecha.getText()), Time.valueOf(txtHora.getText()), 
                     Integer.parseInt(txtAula.getText()), getPeriodo(Date.valueOf(txtFecha.getText())), 
                     getComboSelected(cmbTesis), getComboSelected(cmbJurado1),getComboSelected(cmbJurado2));
             controlador.ingresar(defensa);
-            controladortesis.modificarStatus(pk, status);
-            limpiarCajas();
+            
+            // Si el status seleccionado es Por defender o Defendida
+            if(status.equals("Por defender") || status.equals("Defendida")){
+                controladortesis.modificarStatus(pk, status); // cambia el status de la tesis
+                limpiarCajas();
+            }
+            else
+                JOptionPane.showMessageDialog(null, "No puede calificar de aprobada o reprobada a una tesis sin asociar primero notas");
         }
     }//GEN-LAST:event_GuardarMousePressed
     
@@ -630,7 +634,7 @@ public class Defensa extends javax.swing.JPanel {
         Guardar.setEnabled(false);
         Modificar.setEnabled(true);        
         controlador.cargarTesis(cmbTesis, true);
-        
+        Eliminar.setEnabled(false);
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
@@ -694,10 +698,13 @@ public class Defensa extends javax.swing.JPanel {
             defensa.actualizar(Date.valueOf(txtFecha.getText()), Time.valueOf(txtHora.getText()), 
                 Integer.parseInt(txtAula.getText()), getPeriodo(Date.valueOf(txtFecha.getText())), 
                 getComboSelected(cmbTesis), getComboSelected(cmbJurado1),getComboSelected(cmbJurado2));
-            controlador.modificar(defensa, txtPKDefensa.getText());
-            controladortesis.modificarStatus(pk, status);
             
-            limpiarCajas();
+            controlador.modificar(defensa, txtPKDefensa.getText());
+            
+            //si NO selecciona el status de aprobada o reprobada
+            if(!(status.equals("Aprobada") || status.equals("Reprobada"))) 
+                controladortesis.modificarStatus(pk, status); // cambia el status de la tesis
+            limpiarCajas();           
         }
     }//GEN-LAST:event_ModificarMouseClicked
 
