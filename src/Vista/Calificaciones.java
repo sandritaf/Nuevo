@@ -496,15 +496,12 @@ public class Calificaciones extends javax.swing.JPanel {
             
             while(rs.next()){
                 txtPKCalificaciones.setText(rs.getString("idnotas"));
-                //if(txtStatus.getText().equals("Aprobada") || txtStatus.getText().equals("Reprobada")){
                     txtPKCalificaciones.setText(rs.getString(("idnotas")));
                     setComboSelected(rs.getInt("jurado1"), cmbNotaJurado1);
                     setComboSelected(rs.getInt("jurado2"), cmbNotaJurado2);
                     setComboSelected(rs.getInt("tutor_industrial"), cmbNotaIndustrial);
                     setComboSelected(rs.getInt("tutor_academico"), cmbNotaAcademico);
                     txtNotaFinal.setText(rs.getString(("final")));
-                    //JOptionPane.showMessageDialog(null, rs.getInt("idnotas"));
-                //}
             }
             
             con.close();
