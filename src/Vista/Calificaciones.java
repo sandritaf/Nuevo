@@ -483,8 +483,6 @@ public class Calificaciones extends javax.swing.JPanel {
         try{
             Conexion conn = new Conexion();
             Connection con = conn.getConection();
-//            String sql = "SELECT idnotas, idtesis FROM notas INNER JOIN tesis ON notas.id_tesis = "
-//                       + "tesis.idtesis WHERE idtesis=?";
             String sql = "SELECT * FROM notas WHERE id_tesis=?";
             int fila = TablaTesis.getSelectedRow();
             int codigo = (int)TablaTesis.getValueAt(fila, 0);
