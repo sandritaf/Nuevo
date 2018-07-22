@@ -6,15 +6,12 @@ import Modelo.M_Defensa;
 import Modelo.M_Tesis;
 import Logica.ControladorDefensa;
 import Logica.ControladorTesis;
-import Modelo.M_Calificaciones;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Time;
-import java.text.SimpleDateFormat;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -45,6 +42,7 @@ public class Defensa extends javax.swing.JPanel {
   
     public void limpiarCajas(){
         Guardar.setEnabled(true);
+        Eliminar.setEnabled(false);
         Modificar.setEnabled(false);
         controlador.cargarTesis(cmbTesis, false);
         cmbTesis.setSelectedItem(0);
@@ -56,53 +54,6 @@ public class Defensa extends javax.swing.JPanel {
         cmbTesis.setEnabled(true);
     }
     
-    public String getPeriodo(Date Fecha){
-        String formato="yyyy";
-        SimpleDateFormat dateFormat = new SimpleDateFormat(formato);
-        String anio = (dateFormat.format(Fecha));
-        if (SemestreI.isSelected())
-            anio = anio + "-I";
-        else
-            anio = anio+"-II";
-        return anio;
-    }
-    
-    private void setComboSelected(int codigoPK, JComboBox combito){
-        //Obtengo la longitud de mi combo
-        int largoCombo = combito.getItemCount();
-        String textoCombo = "";
-        //Recorro el arraycollection
-        for (int i = 0; i < largoCombo; i++) {
-            textoCombo = combito.getItemAt(i).toString();
-            int limite = textoCombo.indexOf("-");
-           //Comparo los objetos de mi combo con el codigo del item que buscaba
-           if (Integer.parseInt(textoCombo.substring(0, limite)) == codigoPK)  {
-              //Si encuentra el item le asigno su index a mi combo
-              combito.setSelectedIndex(i);
-              break;
-           }
-        }
-    }
-    
-    private int getComboSelected(JComboBox combito){
-        String codigo = combito.getSelectedItem().toString(); 
-        String codigoFinal = "";
-        
-        int guion = codigo.indexOf("-");
-        codigoFinal = codigo.substring(0, guion);
-        return Integer.parseInt(codigoFinal);
-    }
-    
-    private int getSemestrePeriodo(String periodo){
-        String cadena = periodo; 
-        String cadenaFinal = "";
-        int largo = periodo.length();
-        int guion = cadena.indexOf("-");
-        cadenaFinal = cadena.substring(guion+1, largo);
-        return cadenaFinal.length();
-        
-    }
-    
     private boolean camposVacios(){
         if(txtAula.getText().isEmpty() || txtHora.getText().isEmpty() || txtFecha.getText().isEmpty() &&
                 (!SemestreI.isSelected() || !SemestreII.isSelected()))
@@ -111,8 +62,8 @@ public class Defensa extends javax.swing.JPanel {
     }
     
     private boolean juradosIguales(JComboBox c1, JComboBox c2){
-       int a = getComboSelected(c1);
-       int b = getComboSelected(c2);
+       int a = controlador.getComboSelected(c1);
+       int b = controlador.getComboSelected(c2);
        if(a == b)
            return true;
        return false;
@@ -121,8 +72,8 @@ public class Defensa extends javax.swing.JPanel {
     private boolean juradosIgualesTutor(){
         
         String pk_ta = txtPKTutorA.getText();
-        String ak = Integer.toString(getComboSelected(cmbJurado1));
-        String bk = Integer.toString(getComboSelected(cmbJurado2));
+        String ak = Integer.toString(controlador.getComboSelected(cmbJurado1));
+        String bk = Integer.toString(controlador.getComboSelected(cmbJurado2));
 
         if(pk_ta.equals(ak) || pk_ta.equals(bk))
             return true;
@@ -139,7 +90,6 @@ public class Defensa extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         ListadoTesis = new javax.swing.JLabel();
-        Añadir = new javax.swing.JLabel();
         Eliminar = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaDefensa = new javax.swing.JTable();
@@ -167,8 +117,6 @@ public class Defensa extends javax.swing.JPanel {
         SemestreII = new javax.swing.JRadioButton();
         Modificar = new javax.swing.JLabel();
         Limpiar = new javax.swing.JLabel();
-        Reprobada = new javax.swing.JRadioButton();
-        Aprobada = new javax.swing.JRadioButton();
         txtPKTutorA = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -211,10 +159,6 @@ public class Defensa extends javax.swing.JPanel {
             }
         });
 
-        Añadir.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        Añadir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/añadir_libro.png"))); // NOI18N
-        Añadir.setText("Añadir");
-
         Eliminar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         Eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/eliminar_libro.png"))); // NOI18N
         Eliminar.setText("Eliminar");
@@ -254,18 +198,15 @@ public class Defensa extends javax.swing.JPanel {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(69, 69, 69)
                         .addComponent(ListadoTesis)
-                        .addGap(18, 18, 18)
-                        .addComponent(Añadir)
-                        .addGap(33, 33, 33)
+                        .addGap(37, 37, 37)
                         .addComponent(Eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                    .addComponent(Añadir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(ListadoTesis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(Eliminar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -401,17 +342,6 @@ public class Defensa extends javax.swing.JPanel {
             }
         });
 
-        Reprobada.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(Reprobada);
-        Reprobada.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        Reprobada.setSelected(true);
-        Reprobada.setText("Reprobada");
-
-        Aprobada.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(Aprobada);
-        Aprobada.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        Aprobada.setText("Aprobada");
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -440,53 +370,35 @@ public class Defensa extends javax.swing.JPanel {
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jurado1)
                                     .addComponent(jurado2, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(fechaDefensa, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addComponent(Reprobada)))
+                                    .addComponent(fechaDefensa, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cmbJurado2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(SemestreII))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(8, 8, 8)
+                                        .addComponent(SemestreI))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(cmbJurado1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(cmbJurado2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(SemestreII))
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(8, 8, 8)
-                                                .addComponent(SemestreI))
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(cmbJurado1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(txtPKTutorA, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(txtAula, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGap(28, 28, 28)
-                                        .addComponent(Aprobada)))))
+                                        .addComponent(txtPKTutorA, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtAula, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 23, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Reprobada)
-                            .addComponent(Aprobada))))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jurado1)
-                        .addComponent(cmbJurado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(txtPKTutorA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 23, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jurado1)
+                    .addComponent(cmbJurado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPKTutorA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jurado2)
                     .addComponent(cmbJurado2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -548,25 +460,28 @@ public class Defensa extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Llene todos los campos para guardar");
         }
         else{
-            String status="";
-            if(PorDefender.isSelected()) status = "Por defender";
+            String status = "Por Defender";
+           /* if(PorDefender.isSelected()) status = "Por defender";
             else if(Aprobada.isSelected()) status = "Aprobada";
             else if(Reprobada.isSelected()) status = "Reprobada";
-            else if(Defendida.isSelected()) status = "Defendida";
+            else if(Defendida.isSelected()) status = "Defendida"; */
             
-            int pk = getComboSelected(cmbTesis);
+            int pk = controlador.getComboSelected(cmbTesis);
             defensa.actualizar(Date.valueOf(txtFecha.getText()), Time.valueOf(txtHora.getText()), 
-                    Integer.parseInt(txtAula.getText()), getPeriodo(Date.valueOf(txtFecha.getText())), 
-                    getComboSelected(cmbTesis), getComboSelected(cmbJurado1),getComboSelected(cmbJurado2));
+                    Integer.parseInt(txtAula.getText()), 
+                    controlador.getPeriodo(Date.valueOf(txtFecha.getText()), SemestreI), 
+                    controlador.getComboSelected(cmbTesis), controlador.getComboSelected(cmbJurado1),
+                    controlador.getComboSelected(cmbJurado2));
             controlador.ingresar(defensa);
             
-            // Si el status seleccionado es Por defender o Defendida
+           /* // Si el status seleccionado es Por defender o Defendida
             if(status.equals("Por defender") || status.equals("Defendida")){
                 controladortesis.modificarStatus(pk, status); // cambia el status de la tesis
                 limpiarCajas();
             }
             else
-                JOptionPane.showMessageDialog(null, "No puede calificar de aprobada o reprobada a una tesis sin asociar primero notas");
+                JOptionPane.showMessageDialog(null, "No puede calificar de aprobada o "
+                                    + "reprobada a una tesis sin asociar primero notas");*/
         }
     }//GEN-LAST:event_GuardarMousePressed
     
@@ -580,12 +495,8 @@ public class Defensa extends javax.swing.JPanel {
                 + "FROM defensa INNER JOIN tesis ON tesis.idtesis = defensa.id_tesis";
         if (PorDefender.isSelected())
             sql = sql + " WHERE status='Por defender'";
-        else if (Reprobada.isSelected())
-            sql = sql + " WHERE status='Reprobada'";
         else if (Defendida.isSelected())
             sql = sql + " WHERE status='Defendida'";
-        else if (Aprobada.isSelected())
-            sql = sql + " WHERE status='Aprobada'";
 
         try{
             DefaultTableModel modelo = new DefaultTableModel();
@@ -634,7 +545,7 @@ public class Defensa extends javax.swing.JPanel {
         Guardar.setEnabled(false);
         Modificar.setEnabled(true);        
         controlador.cargarTesis(cmbTesis, true);
-        Eliminar.setEnabled(false);
+        Eliminar.setEnabled(true);
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
@@ -657,11 +568,11 @@ public class Defensa extends javax.swing.JPanel {
                 txtFecha.setText(rs.getString("fecha"));
                 txtHora.setText(rs.getString("hora"));
                 txtAula.setText(rs.getString("aula"));
-                setComboSelected(rs.getInt("id_jurado1"), cmbJurado1);
-                setComboSelected(rs.getInt("id_jurado2"), cmbJurado2);
-                setComboSelected(rs.getInt("id_tesis"), cmbTesis);
+                controlador.setComboSelected(rs.getInt("id_jurado1"), cmbJurado1);
+                controlador.setComboSelected(rs.getInt("id_jurado2"), cmbJurado2);
+                controlador.setComboSelected(rs.getInt("id_tesis"), cmbTesis);
                 txtPKTutorA.setText(rs.getString("id_tutorAcademico"));
-                if (getSemestrePeriodo(rs.getString("periodo"))==1)
+                if (controlador.getSemestrePeriodo(rs.getString("periodo"))==1)
                     SemestreI.setSelected(true);
                 else 
                     SemestreII.setSelected(true);
@@ -669,6 +580,7 @@ public class Defensa extends javax.swing.JPanel {
             con.close();
             conn.CerrarConexion();
             ps.close();
+            rs.close();
             
         }catch(Exception e){
             System.out.println(e);
@@ -687,23 +599,24 @@ public class Defensa extends javax.swing.JPanel {
                     + " no puede ser Jurado");
         }
         else {
-            String status="";
-            if(PorDefender.isSelected()) status = "Por defender";
+            String status="Por Defender";
+         /*   if(PorDefender.isSelected()) status = "Por defender";
             if(Aprobada.isSelected()) status = "Aprobada";
             if(Reprobada.isSelected()) status = "Reprobada";
-            if(Defendida.isSelected()) status = "Defendida";
+            if(Defendida.isSelected()) status = "Defendida";*/
             
             int pk = Integer.parseInt(txtPKTesis.getText());
 
             defensa.actualizar(Date.valueOf(txtFecha.getText()), Time.valueOf(txtHora.getText()), 
-                Integer.parseInt(txtAula.getText()), getPeriodo(Date.valueOf(txtFecha.getText())), 
-                getComboSelected(cmbTesis), getComboSelected(cmbJurado1),getComboSelected(cmbJurado2));
+                Integer.parseInt(txtAula.getText()), controlador.getPeriodo(Date.valueOf(txtFecha.getText()), SemestreI), 
+                controlador.getComboSelected(cmbTesis), controlador.getComboSelected(cmbJurado1),
+                controlador.getComboSelected(cmbJurado2));
             
             controlador.modificar(defensa, txtPKDefensa.getText());
             
-            //si NO selecciona el status de aprobada o reprobada
+         /*   //si NO selecciona el status de aprobada o reprobada
             if(!(status.equals("Aprobada") || status.equals("Reprobada"))) 
-                controladortesis.modificarStatus(pk, status); // cambia el status de la tesis
+                controladortesis.modificarStatus(pk, status); // cambia el status de la tesis*/
             limpiarCajas();           
         }
     }//GEN-LAST:event_ModificarMouseClicked
@@ -723,8 +636,6 @@ public class Defensa extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton Aprobada;
-    private javax.swing.JLabel Añadir;
     private javax.swing.JRadioButton Defendida;
     private javax.swing.JLabel Eliminar;
     private javax.swing.JLabel Guardar;
@@ -732,7 +643,6 @@ public class Defensa extends javax.swing.JPanel {
     private javax.swing.JLabel ListadoTesis;
     private javax.swing.JLabel Modificar;
     private javax.swing.JRadioButton PorDefender;
-    private javax.swing.JRadioButton Reprobada;
     private javax.swing.JRadioButton SemestreI;
     private javax.swing.JRadioButton SemestreII;
     private javax.swing.JTable TablaDefensa;

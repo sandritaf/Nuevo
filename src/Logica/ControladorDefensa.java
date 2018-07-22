@@ -4,15 +4,66 @@ package Logica;
 import Conexion.Conexion;
 import Modelo.M_Defensa;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 
 public class ControladorDefensa {
 
     public ControladorDefensa() {
+    }
+    
+    /*HAY QUE IDEAR UN METODO PARA CAMBIAR EL STATUS DE UNA TESIS DE POR DEFENDER>DEFENDIDA */
+    
+    public String getPeriodo(Date Fecha, JRadioButton SemestreI){
+        String formato="yyyy";
+        SimpleDateFormat dateFormat = new SimpleDateFormat(formato);
+        String anio = (dateFormat.format(Fecha));
+        if (SemestreI.isSelected())
+            anio = anio + "-I";
+        else
+            anio = anio+"-II";
+        return anio;
+    }
+    
+    public void setComboSelected(int codigoPK, JComboBox combito){
+        //Obtengo la longitud de mi combo
+        int largoCombo = combito.getItemCount();
+        String textoCombo = "";
+        //Recorro el arraycollection
+        for (int i = 0; i < largoCombo; i++) {
+            textoCombo = combito.getItemAt(i).toString();
+            int limite = textoCombo.indexOf("-");
+           //Comparo los objetos de mi combo con el codigo del item que buscaba
+           if (Integer.parseInt(textoCombo.substring(0, limite)) == codigoPK)  {
+              //Si encuentra el item le asigno su index a mi combo
+              combito.setSelectedIndex(i);
+              break;
+           }
+        }
+    }
+    
+    public int getComboSelected(JComboBox combito){
+        String codigo = combito.getSelectedItem().toString(); 
+        String codigoFinal = "";
+        
+        int guion = codigo.indexOf("-");
+        codigoFinal = codigo.substring(0, guion);
+        return Integer.parseInt(codigoFinal);
+    }
+    
+    public int getSemestrePeriodo(String periodo){
+        String cadena = periodo; 
+        String cadenaFinal = "";
+        int largo = periodo.length();
+        int guion = cadena.indexOf("-");
+        cadenaFinal = cadena.substring(guion+1, largo);
+        return cadenaFinal.length();
     }
     
     public void cargarTesis(JComboBox combito, boolean conDefensa){
@@ -122,6 +173,7 @@ public class ControladorDefensa {
 
         if (res > 0){
             JOptionPane.showMessageDialog(null, "Tesis actualizada con éxito");
+            borrarNotas(PK);
         }else{
             JOptionPane.showMessageDialog(null, "No se pudo modificar");
         }
@@ -238,4 +290,30 @@ public class ControladorDefensa {
         }
     }
        
+    //Dada una clave primaria, se elimina una defensa
+    private void borrarNotas(String pk_tesis){
+        try {
+            Conexion c = new Conexion();
+            Connection con = c.getConection();     
+            PreparedStatement ps;
+            
+            ps = con.prepareStatement("DELETE FROM notas WHERE id_tesis="+pk_tesis);
+                        
+            int res = ps.executeUpdate();
+            
+            if (res > 0){
+                JOptionPane.showMessageDialog(null, "Borradas sus notas asociadas con éxito");
+            }else{
+                JOptionPane.showMessageDialog(null, "No se pudieron borrar sus notas");
+              }
+                        
+            c.CerrarConexion();
+            con.close();
+            ps.close();
+                 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Ocurrió un error: "+e);
+        }
+        
+    }
 }

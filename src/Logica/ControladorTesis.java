@@ -296,7 +296,7 @@ public class ControladorTesis {
     
     //Dada una clave primaria, se elimina una tesis
     public void eliminar(String pk_tesis){
-        
+        eliminar_notas_defensa(pk_tesis);
         try {
             Conexion c = new Conexion();
             Connection con = c.getConection();
@@ -345,11 +345,20 @@ public class ControladorTesis {
             int pk = Integer.parseInt(pk_tesis);
             PreparedStatement ps;
             
-            ps = con.prepareStatement("UPDATE tesis SET status=?, titulo=?, observaciones=? WHERE idtesis="+pk_tesis);
+            ps = con.prepareStatement("UPDATE tesis SET status=?, titulo=?, observaciones=?,"
+                    + "fecha_inicio=?, fecha_fin=?, departamento=?, id_tutorAcademico=?,"
+                    + "id_tutorIndustrial=?, estudiante_tesis=? "
+                    + "WHERE idtesis="+pk_tesis);
             
             ps.setString(1, tesis.getStatus()); 
             ps.setString(2, tesis.getTitulo());
-            ps.setString(3,tesis.getObservaciones());
+            ps.setString(3, tesis.getObservaciones());
+            ps.setDate(4, Date.valueOf(tesis.getF_inicio()));
+            ps.setDate(5, Date.valueOf(tesis.getF_fin()));
+            ps.setString(6, tesis.getDepartamento());
+            ps.setInt(7, tesis.getId_tutorAcademico());
+            ps.setInt(8, tesis.getId_tutorIndustrial());
+            ps.setInt(9, tesis.getEstudiante_tesis());
             
             int res = ps.executeUpdate();
             
@@ -437,5 +446,37 @@ public class ControladorTesis {
         }catch(Exception ex){
             JOptionPane.showMessageDialog(null, "Ocurrió un error: "+ex);
         }
+    }
+    
+    private void eliminar_notas_defensa(String pk_tesis){
+       try {
+            Conexion c = new Conexion();
+            Connection con = c.getConection();
+            String pk = pk_tesis;
+            int pkEstudiante=0;    
+            ResultSet res = null;
+            PreparedStatement ps1=null;
+            PreparedStatement ps2=null;
+            
+            ps1 = con.prepareStatement("DELETE FROM notas WHERE id_tesis="+pk_tesis);
+            ps2 = con.prepareStatement("DELETE FROM defensa WHERE id_tesis="+pk_tesis);
+                       
+            int res1 = ps1.executeUpdate();
+            int res2 = ps2.executeUpdate();        
+                        
+            if (res1 > 0 && res2>0){
+                JOptionPane.showMessageDialog(null, "Notas y defensa eliminadas con éxito");
+            }else{
+                JOptionPane.showMessageDialog(null, "No se pudo eliminar defensa o notas");
+              }
+                        
+            c.CerrarConexion();
+            con.close();
+            ps1.close();
+            ps2.close();
+                 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Ocurrió un error eliminando: "+e);
+        } 
     }
 }

@@ -494,7 +494,6 @@ public class Tesis extends javax.swing.JPanel {
                 controlador.getComboSelected(cmbAlumno), controlador.getComboSelected(cmbEmpresa));
         controlador.ingresar(tesis);
         limpiarCajas();
-        controlador.cargarAlumnosSinTesis(cmbAlumno); 
     }//GEN-LAST:event_GuardarMouseClicked
 
     private void ExportarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ExportarMouseClicked
@@ -517,8 +516,7 @@ public class Tesis extends javax.swing.JPanel {
         } else {
             controlador.eliminar(txtPK.getText());
         }
-        limpiarCajas();
-        controlador.cargarAlumnosSinTesis(cmbAlumno);    
+        limpiarCajas();    
     }//GEN-LAST:event_EliminarMouseClicked
 
     //Carga en los ComboBox y las cajas de texto los valores de un registro de tesis seleccionado
@@ -567,7 +565,17 @@ public class Tesis extends javax.swing.JPanel {
 
     //Falta programar
     private void ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModificarMouseClicked
-        
+        //Verifica que haya un registro seleccionado
+        if(txtPK.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Seleccione una tesis");
+        } else {        
+            tesis.actualizar("En desarrollo", txtTitulo.getText(), txtFechaI.getText(),
+                txtFechaF.getText(), txtObservaciones.getText(), cmbDepartamento.getSelectedItem().toString(), 
+                controlador.getComboSelected(cmbTutor),  controlador.getComboSelected(cmbTutor2), 
+                controlador.getComboSelected(cmbAlumno), controlador.getComboSelected(cmbEmpresa));
+            controlador.modificar(tesis, txtPK.getText()); 
+        }
+        limpiarCajas();
     }//GEN-LAST:event_ModificarMouseClicked
     
     public void limpiarCajas(){
