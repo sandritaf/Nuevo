@@ -8,7 +8,7 @@ public class Main {
 
     public static void main(String[] args) {   
         
-        ManejadorFecha mf = new ManejadorFecha();
+//        ManejadorFecha mf = new ManejadorFecha();
         
 //        if(mf.rangoCorrectoTesis("2021-05-24", "2025-09-24"))
 //            JOptionPane.showMessageDialog(null, "bien");

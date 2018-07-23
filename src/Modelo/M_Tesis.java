@@ -29,14 +29,6 @@ public class M_Tesis {
         this.observaciones = observaciones;
     }
     
-    /*public float nota_final(){
-        float n_ti = (float) (nota_tindustrial*0.35);
-        float n_ta = (float) (nota_tacademico*0.25);
-        float n_defensa = (float) (nota_defensa*0.40); 
-        
-        return nota_final = n_ti + n_ta + n_defensa;
-    }*/
-
     public M_Tesis(String status, String titulo, String f_inicio, String f_fin, String observaciones, 
             String departamento, int id_tutorAcademico, int id_tutorIndustrial, int estudiante_tesis) {
         this.status = status;

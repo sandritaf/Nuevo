@@ -106,12 +106,19 @@
                   <Component id="btn10" alignment="0" max="32767" attributes="0"/>
                   <Component id="btn4" alignment="0" max="32767" attributes="0"/>
                   <Component id="btn11" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                      <Component id="jLabel1" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btn2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btn3" min="-2" max="-2" attributes="0"/>
@@ -131,7 +138,7 @@
                       <Component id="btn4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btn11" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="58" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -176,7 +183,7 @@
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/Recursos/aula50.png"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Profesor"/>
+                    <Property name="text" type="java.lang.String" value="Gestionar Profesores"/>
                     <Property name="horizontalTextPosition" type="int" value="4"/>
                   </Properties>
                 </Component>
@@ -221,7 +228,7 @@
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/Recursos/doc50.png"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Defensa"/>
+                    <Property name="text" type="java.lang.String" value="Gestionar Defensas"/>
                     <Property name="horizontalTextPosition" type="int" value="4"/>
                   </Properties>
                 </Component>
@@ -311,7 +318,7 @@
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/Recursos/estudiantebirrete50.png"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Estudiante"/>
+                    <Property name="text" type="java.lang.String" value="Gestionar Estudiantes"/>
                     <Property name="horizontalTextPosition" type="int" value="4"/>
                   </Properties>
                 </Component>
@@ -360,7 +367,7 @@
                     <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="SidePanel"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Empresa"/>
+                    <Property name="text" type="java.lang.String" value="Gestionar Empresa"/>
                     <Property name="horizontalTextPosition" type="int" value="4"/>
                   </Properties>
                 </Component>
@@ -409,7 +416,7 @@
                     <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="SidePanel"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Calificaciones"/>
+                    <Property name="text" type="java.lang.String" value="Calificar Tesis"/>
                     <Property name="horizontalTextPosition" type="int" value="4"/>
                   </Properties>
                 </Component>
@@ -507,7 +514,7 @@
                     <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
                       <ComponentRef name="SidePanel"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Carrera"/>
+                    <Property name="text" type="java.lang.String" value="Gestionar Carreras"/>
                     <Property name="horizontalTextPosition" type="int" value="4"/>
                   </Properties>
                 </Component>
@@ -605,6 +612,15 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JLabel" name="jLabel1">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Century Gothic" size="18" style="3"/>
+                </Property>
+                <Property name="horizontalAlignment" type="int" value="0"/>
+                <Property name="text" type="java.lang.String" value="UNIVERSIDAD DE LAS AM&#xc9;RICAS"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>

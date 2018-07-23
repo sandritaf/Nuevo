@@ -4,6 +4,7 @@ import Conexion.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -42,8 +43,7 @@ public class ControladorConsultaTesis {
                       break;
                    }
                 }
-            }
-            
+            }            
             ps.close();
             rs.close();
             conn.CerrarConexion();
@@ -54,6 +54,7 @@ public class ControladorConsultaTesis {
         }
     }
 
+    //Carga un tutor industrial de una tesis seleccionada en una caja de texto
     public void cargarTutorInd(JTextField tutor, int PK_tesis){
         try {
             Conexion conn = new Conexion();
@@ -82,6 +83,36 @@ public class ControladorConsultaTesis {
         }
     }
     
+    //Carga un tutor industrial de una tesis seleccionada en una caja de texto
+    public void cargarPeriodo(JComboBox cmbPeriodo){
+        DefaultComboBoxModel aModel = new DefaultComboBoxModel();
+        String sql = "SELECT DISTINCT periodo FROM defensa";
+        String aux;
+        
+        try{
+            PreparedStatement ps;
+            ResultSet rs;
+            Conexion conn = new Conexion();
+            Connection con = conn.getConection();
+            cmbPeriodo.setModel(aModel);
+            ps = (PreparedStatement) con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next() ){
+               aux = rs.getString("periodo");
+               aModel.addElement(aux);
+            }
+            //Cerrar conexiones
+            ps.close();
+            rs.close();
+            conn.CerrarConexion();
+            con.close();            
+        
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Ocurrió un error cargando periodo: "+ex);
+        }
+    }
+    
+    //Carga un tutor academico de una tesis seleccionada en una caja de texto
     public void cargarTutorAcad(JTextField tutor, int PK_tesis){
         try {
             Conexion conn = new Conexion();
@@ -110,6 +141,7 @@ public class ControladorConsultaTesis {
         }
     }
     
+    //Carga la fecha inicial de una tesis en una cjaa de texto
     public void cargarFecha_Inicial(JTextField fecha, int PK_tesis){
         fecha.setEnabled(false);
         try {
@@ -138,6 +170,7 @@ public class ControladorConsultaTesis {
         }
     }  
     
+    //Carga la fecha final de una tesis en una caja de texto
     public void cargarFecha_Final(JTextField fecha, int PK_tesis){
         fecha.setEnabled(false);
         try {
@@ -166,6 +199,7 @@ public class ControladorConsultaTesis {
         }
     }
 
+    //Carga la cedula de un registro seleccionado en una caja de texto
     public void cargarCedula(JTextField cedula, int PK_tesis){
         cedula.setEnabled(false);
         try {

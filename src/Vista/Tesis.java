@@ -212,6 +212,9 @@ public class Tesis extends javax.swing.JPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ModificarMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ModificarMouseEntered(evt);
+            }
         });
 
         Limpiar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -513,7 +516,6 @@ public class Tesis extends javax.swing.JPanel {
                 controlador.getComboSelected(cmbAlumno), controlador.getComboSelected(cmbEmpresa));
         controlador.ingresar(tesis);
         limpiarCajas();
-        controlador.cargarAlumnosSinTesis(cmbAlumno);
         }
     }//GEN-LAST:event_GuardarMouseClicked
 
@@ -537,8 +539,7 @@ public class Tesis extends javax.swing.JPanel {
         } else {
             controlador.eliminar(txtPK.getText());
         }
-        limpiarCajas();
-        controlador.cargarAlumnosSinTesis(cmbAlumno);    
+        limpiarCajas();    
     }//GEN-LAST:event_EliminarMouseClicked
 
     //Carga en los ComboBox y las cajas de texto los valores de un registro de tesis seleccionado
@@ -585,7 +586,7 @@ public class Tesis extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_TablaTesisMouseClicked
 
-    //Falta programar
+    //Invoca al controlador y le envia valores nuevos que modificar , asociados a la tesis
     private void ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModificarMouseClicked
         if(!verificarFechaMayor()){
             JOptionPane.showMessageDialog(null, "La tesis debe realizarse entre mínimo 4 y máximo 6 meses. Ingrese fechas que cumplan esta condición");
@@ -604,7 +605,22 @@ public class Tesis extends javax.swing.JPanel {
         controlador.cargarAlumnosSinTesis(cmbAlumno);
             
         }
+        //Verifica que haya un registro seleccionado
+        if(txtPK.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Seleccione una tesis");
+        } else {        
+            tesis.actualizar("En desarrollo", txtTitulo.getText(), txtFechaI.getText(),
+                txtFechaF.getText(), txtObservaciones.getText(), cmbDepartamento.getSelectedItem().toString(), 
+                controlador.getComboSelected(cmbTutor),  controlador.getComboSelected(cmbTutor2), 
+                controlador.getComboSelected(cmbAlumno), controlador.getComboSelected(cmbEmpresa));
+            controlador.modificar(tesis, txtPK.getText()); 
+        }
+        limpiarCajas();
     }//GEN-LAST:event_ModificarMouseClicked
+
+    private void ModificarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModificarMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ModificarMouseEntered
     
     public void limpiarCajas(){
         txtFechaF.setText(null);

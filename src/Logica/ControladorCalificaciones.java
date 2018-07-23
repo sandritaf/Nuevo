@@ -212,21 +212,7 @@ public class ControladorCalificaciones {
 
     //Selecciona en un combo un valor correspondiente a una calificacion nada
     public void setComboSelected(int nota, JComboBox combito){
-      /*  //Obtengo la longitud de mi combo
-        int largoCombo = combito.getItemCount();
-        String textoCombo = "";
-        //Recorro el arraycollection
-        for (int i = 0; i < largoCombo; i++) {
-            textoCombo = combito.getItemAt(i).toString();
-            //int limite = textoCombo.indexOf("-");
-           //Comparo los objetos de mi combo con el codigo del item que buscaba
-           if (Integer.parseInt(textoCombo.substring(0)) == nota)  {
-              //Si encuentra el item le asigno su index a mi combo
-              combito.setSelectedIndex(i);
-              break;
-           }
-        }*/
-      combito.setSelectedIndex(nota-1);
+       combito.setSelectedIndex(nota-1);
     }
     
 }
