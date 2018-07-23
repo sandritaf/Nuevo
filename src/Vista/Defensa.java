@@ -35,16 +35,19 @@ public class Defensa extends javax.swing.JPanel {
         initComponents();        
         controlador = new ControladorDefensa();
         defensa = new M_Defensa();
-        Eliminar.setEnabled(false);
-        txtPKTesis.setVisible(true);
-        txtPKDefensa.setVisible(false);
-        Modificar.setEnabled(false);
-        controlador.cargarTesis(cmbTesis, false);
-        controlador.cargarProfesores(cmbJurado1, cmbJurado2);
-        txtPKTutorA.setVisible(false);
         controladortesis = new ControladorTesis();
         controladornotas = new ControladorCalificaciones();
         manejador = new ManejadorFecha();
+        
+        Eliminar.setEnabled(false);
+        txtPKTesis.setVisible(false);
+        txtPKDefensa.setVisible(false);
+        txtStatus.setVisible(false);
+        Modificar.setEnabled(false);        
+        txtPKTutorA.setVisible(false);
+        
+        controlador.cargarTesis(cmbTesis, false);
+        controlador.cargarProfesores(cmbJurado1, cmbJurado2);        
     }
   
     public void limpiarCajas(){
@@ -62,73 +65,25 @@ public class Defensa extends javax.swing.JPanel {
         cmbTesis.setEnabled(true);
     }
     
-    public String getPeriodo(Date Fecha){
-        String formato="yyyy";
-        SimpleDateFormat dateFormat = new SimpleDateFormat(formato);
-        String anio = (dateFormat.format(Fecha));
-        if (SemestreI.isSelected())
-            anio = anio + "-I";
-        else
-            anio = anio+"-II";
-        return anio;
-    }
-    
-    private void setComboSelected(int codigoPK, JComboBox combito){
-        //Obtengo la longitud de mi combo
-        int largoCombo = combito.getItemCount();
-        String textoCombo = "";
-        //Recorro el arraycollection
-        for (int i = 0; i < largoCombo; i++) {
-            textoCombo = combito.getItemAt(i).toString();
-            int limite = textoCombo.indexOf("-");
-           //Comparo los objetos de mi combo con el codigo del item que buscaba
-           if (Integer.parseInt(textoCombo.substring(0, limite)) == codigoPK)  {
-              //Si encuentra el item le asigno su index a mi combo
-              combito.setSelectedIndex(i);
-              break;
-           }
-        }
-    }
-    
-    private int getComboSelected(JComboBox combito){
-        String codigo = combito.getSelectedItem().toString(); 
-        String codigoFinal = "";
-        
-        int guion = codigo.indexOf("-");
-        codigoFinal = codigo.substring(0, guion);
-        return Integer.parseInt(codigoFinal);
-    }
-    
-    private int getSemestrePeriodo(String periodo){
-        String cadena = periodo; 
-        String cadenaFinal = "";
-        int largo = periodo.length();
-        int guion = cadena.indexOf("-");
-        cadenaFinal = cadena.substring(guion+1, largo);
-        return cadenaFinal.length();
-        
-    }
-    
     private boolean camposVacios(){
-        if(txtAula.getText().isEmpty() || txtHora.getText().isEmpty() || txtFechaDefensa.getText().isEmpty() &&
-                (!SemestreI.isSelected() || !SemestreII.isSelected()))
+        if(txtAula.getText().isEmpty() || txtHora.getText().isEmpty() || txtFechaDefensa.getText().isEmpty() ||
+                (!SemestreI.isSelected() && !SemestreII.isSelected()))
             return true;
         return false;
     }
     
     private boolean juradosIguales(JComboBox c1, JComboBox c2){
-       int a = getComboSelected(c1);
-       int b = getComboSelected(c2);
+       int a = controlador.getComboSelected(c1);
+       int b = controlador.getComboSelected(c2);
        if(a == b)
            return true;
        return false;
     }
 
     private boolean juradosIgualesTutor(){
-        
         String pk_ta = txtPKTutorA.getText();
-        String ak = Integer.toString(getComboSelected(cmbJurado1));
-        String bk = Integer.toString(getComboSelected(cmbJurado2));
+        String ak = Integer.toString(controlador.getComboSelected(cmbJurado1));
+        String bk = Integer.toString(controlador.getComboSelected(cmbJurado2));
 
         if(pk_ta.equals(ak) || pk_ta.equals(bk))
             return true;
@@ -172,7 +127,6 @@ public class Defensa extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         ListadoTesis = new javax.swing.JLabel();
-        Añadir = new javax.swing.JLabel();
         Eliminar = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaDefensa = new javax.swing.JTable();
@@ -191,18 +145,19 @@ public class Defensa extends javax.swing.JPanel {
         txtPKDefensa = new javax.swing.JTextField();
         cmbTesis = new javax.swing.JComboBox<>();
         Todas = new javax.swing.JRadioButton();
-        Guardar = new javax.swing.JLabel();
         fechaDefensa1 = new javax.swing.JLabel();
         txtHora = new javax.swing.JTextField();
         fechaDefensa2 = new javax.swing.JLabel();
         txtAula = new javax.swing.JTextField();
         SemestreI = new javax.swing.JRadioButton();
         SemestreII = new javax.swing.JRadioButton();
-        Modificar = new javax.swing.JLabel();
-        Limpiar = new javax.swing.JLabel();
         txtPKTutorA = new javax.swing.JTextField();
         txtStatus = new javax.swing.JTextField();
         txtFechaFin = new javax.swing.JTextField();
+        fechaDefensa3 = new javax.swing.JLabel();
+        Guardar = new javax.swing.JLabel();
+        Modificar = new javax.swing.JLabel();
+        Limpiar = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(884, 497));
@@ -244,10 +199,6 @@ public class Defensa extends javax.swing.JPanel {
             }
         });
 
-        Añadir.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        Añadir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/añadir_libro.png"))); // NOI18N
-        Añadir.setText("Añadir");
-
         Eliminar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         Eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/eliminar_libro.png"))); // NOI18N
         Eliminar.setText("Eliminar");
@@ -287,18 +238,15 @@ public class Defensa extends javax.swing.JPanel {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(69, 69, 69)
                         .addComponent(ListadoTesis)
-                        .addGap(18, 18, 18)
-                        .addComponent(Añadir)
-                        .addGap(33, 33, 33)
+                        .addGap(47, 47, 47)
                         .addComponent(Eliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                    .addComponent(Añadir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(ListadoTesis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(Eliminar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -342,7 +290,11 @@ public class Defensa extends javax.swing.JPanel {
         Defendida.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         Defendida.setText("Defendida");
 
-        cmbTesis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbTesis.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbTesisItemStateChanged(evt);
+            }
+        });
 
         Todas.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup1.add(Todas);
@@ -375,29 +327,17 @@ public class Defensa extends javax.swing.JPanel {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(cmbTesis, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(Titulo)
-                        .addComponent(txtPKTesis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtPKDefensa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Titulo)
+                    .addComponent(txtPKTesis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPKDefensa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbTesis, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(PorDefender)
                     .addComponent(Defendida)
                     .addComponent(Todas)))
         );
-
-        Guardar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        Guardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/guardar.png"))); // NOI18N
-        Guardar.setText("Guardar");
-        Guardar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                GuardarMousePressed(evt);
-            }
-        });
 
         fechaDefensa1.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
         fechaDefensa1.setText("Hora");
@@ -415,6 +355,107 @@ public class Defensa extends javax.swing.JPanel {
         buttonGroup2.add(SemestreII);
         SemestreII.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         SemestreII.setText("Semestre II");
+
+        txtFechaFin.setEditable(false);
+
+        fechaDefensa3.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
+        fechaDefensa3.setText("Fecha Finalizacion");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(112, 112, 112))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fechaDefensa2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jurado1)
+                                    .addComponent(jurado2, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(fechaDefensa, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cmbJurado2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(cmbJurado1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtPKTutorA, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(txtFechaFin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+                                            .addComponent(txtAula, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtHora, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtFechaDefensa, javax.swing.GroupLayout.Alignment.LEADING))
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                                .addGap(49, 49, 49)
+                                                .addComponent(SemestreI))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                                .addGap(45, 45, 45)
+                                                .addComponent(SemestreII)))))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fechaDefensa1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fechaDefensa3, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 23, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jurado1)
+                        .addComponent(cmbJurado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtPKTutorA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jurado2)
+                    .addComponent(cmbJurado2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fechaDefensa)
+                    .addComponent(txtFechaDefensa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SemestreI))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fechaDefensa1)
+                    .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SemestreII))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fechaDefensa2)
+                    .addComponent(txtAula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fechaDefensa3)
+                    .addComponent(txtFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29))
+        );
+
+        Guardar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        Guardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/guardar.png"))); // NOI18N
+        Guardar.setText("Guardar");
+        Guardar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                GuardarMousePressed(evt);
+            }
+        });
 
         Modificar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         Modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/editar.png"))); // NOI18N
@@ -434,103 +475,6 @@ public class Defensa extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(112, 112, 112))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(fechaDefensa1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(Guardar)
-                                    .addComponent(fechaDefensa2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(14, 14, 14)
-                                .addComponent(Modificar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(Limpiar))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jurado1)
-                                    .addComponent(jurado2, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(fechaDefensa, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(cmbJurado2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(txtFechaDefensa, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(8, 8, 8)
-                                        .addComponent(SemestreI)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(cmbJurado1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtPKTutorA, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(SemestreII))
-                                            .addComponent(txtAula, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtFechaFin)))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 23, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jurado1)
-                        .addComponent(cmbJurado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(txtPKTutorA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jurado2)
-                    .addComponent(cmbJurado2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fechaDefensa)
-                    .addComponent(txtFechaDefensa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(SemestreI)
-                    .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(fechaDefensa1)
-                            .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(SemestreII))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(fechaDefensa2)
-                            .addComponent(txtAula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(txtFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Guardar)
-                    .addComponent(Modificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -538,8 +482,17 @@ public class Defensa extends javax.swing.JPanel {
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(Guardar)
+                        .addGap(14, 14, 14)
+                        .addComponent(Modificar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Limpiar)
+                        .addGap(30, 30, 30)))
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -550,8 +503,14 @@ public class Defensa extends javax.swing.JPanel {
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(43, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Guardar)
+                            .addComponent(Modificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -570,11 +529,6 @@ public class Defensa extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "La fecha de la defensa debe ser posterior a la fecha final de la tesis, es decir, luego de: "+txtFechaFin.getText());
         }
         else{
-            String status = "Por Defender";
-           /* if(PorDefender.isSelected()) status = "Por defender";
-            else if(Aprobada.isSelected()) status = "Aprobada";
-            else if(Reprobada.isSelected()) status = "Reprobada";
-            else if(Defendida.isSelected()) status = "Defendida"; */
             
             int pk = controlador.getComboSelected(cmbTesis);
             defensa.actualizar(Date.valueOf(txtFechaDefensa.getText()), Time.valueOf(txtHora.getText()), 
@@ -582,16 +536,7 @@ public class Defensa extends javax.swing.JPanel {
                     controlador.getPeriodo(Date.valueOf(txtFechaDefensa.getText()), SemestreI), 
                     controlador.getComboSelected(cmbTesis), controlador.getComboSelected(cmbJurado1),
                     controlador.getComboSelected(cmbJurado2));
-            controlador.ingresar(defensa);
-            
-           /* // Si el status seleccionado es Por defender o Defendida
-            if(status.equals("Por defender") || status.equals("Defendida")){
-                controladortesis.modificarStatus(pk, status); // cambia el status de la tesis
-                limpiarCajas();
-            }
-            else
-                JOptionPane.showMessageDialog(null, "No puede calificar de aprobada o "
-                                    + "reprobada a una tesis sin asociar primero notas");*/
+            controlador.ingresar(defensa, Defendida);
         }
     }//GEN-LAST:event_GuardarMousePressed
     
@@ -654,7 +599,7 @@ public class Defensa extends javax.swing.JPanel {
         Guardar.setEnabled(false);
         Modificar.setEnabled(true);        
         controlador.cargarTesis(cmbTesis, true);
-        Eliminar.setEnabled(false);
+        Eliminar.setEnabled(true);
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
@@ -677,19 +622,18 @@ public class Defensa extends javax.swing.JPanel {
                 txtFechaDefensa.setText(rs.getString("fecha"));
                 txtHora.setText(rs.getString("hora"));
                 txtAula.setText(rs.getString("aula"));
-                setComboSelected(rs.getInt("id_jurado1"), cmbJurado1);
-                setComboSelected(rs.getInt("id_jurado2"), cmbJurado2);
-                setComboSelected(rs.getInt("id_tesis"), cmbTesis);
+                controlador.setComboSelected(rs.getInt("id_jurado1"), cmbJurado1);
+                controlador.setComboSelected(rs.getInt("id_jurado2"), cmbJurado2);
+                controlador.setComboSelected(rs.getInt("id_tesis"), cmbTesis);
                 txtPKTutorA.setText(rs.getString("id_tutorAcademico"));
-                //txtStatus.setText(rs.getString("status"));
                 txtFechaFin.setText(rs.getString("fecha_fin"));
-                if (getSemestrePeriodo(rs.getString("periodo"))==1)
+                if (controlador.getSemestrePeriodo(rs.getString("periodo"))==1)
                     SemestreI.setSelected(true);
                 else 
                     SemestreII.setSelected(true);
             }
             
-            //obtenerStatus();
+            obtenerStatus();
             
             con.close();
             conn.CerrarConexion();
@@ -715,39 +659,21 @@ public class Defensa extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "La fecha de la defensa debe ser posterior a la fecha final de la tesis, es decir, luego de: "+txtFechaFin.getText());
         }
         else {
-            String status="Por defender";
-//            if(PorDefender.isSelected()) status = "Por defender";
-//            if(Aprobada.isSelected()) status = "Aprobada";
-//            if(Reprobada.isSelected()) status = "Reprobada";
-//            if(Defendida.isSelected()) status = "Defendida";
-//            if(Todas.isSelected()) status = s;
-            
-            int pk = Integer.parseInt(txtPKDefensa.getText());
             
             defensa.actualizar(Date.valueOf(txtFechaDefensa.getText()), Time.valueOf(txtHora.getText()), 
                 Integer.parseInt(txtAula.getText()), controlador.getPeriodo(Date.valueOf(txtFechaDefensa.getText()), SemestreI), 
                 controlador.getComboSelected(cmbTesis), controlador.getComboSelected(cmbJurado1),
                 controlador.getComboSelected(cmbJurado2));
             
-            controlador.modificar(defensa, txtPKDefensa.getText());
-            
-            //si NO selecciona el status de aprobada o reprobada Y el status que tiene es diferente a Aprobada o Reprobada
-//            else if(!(s.equals("Aprobada") || s.equals("Reprobada")) && !(status.equals("Aprobada") || status.equals("Reprobada"))){
-//                defensa.actualizar(Date.valueOf(txtFechaDefensa.getText()), Time.valueOf(txtHora.getText()), 
-//                Integer.parseInt(txtAula.getText()), getPeriodo(Date.valueOf(txtFechaDefensa.getText())), 
-//                getComboSelected(cmbTesis), getComboSelected(cmbJurado1),getComboSelected(cmbJurado2));
-//                controlador.modificar(defensa, txtPKDefensa.getText());
-//                controladortesis.modificarStatus(pk, status); // cambia el status de la tesis
+            controlador.modificar(defensa, txtPKDefensa.getText(), Defendida);
                 limpiarCajas();
-            }
-//        }           
+            }        
     }//GEN-LAST:event_ModificarMouseClicked
     
     private boolean FechaDefensaMayorFechaFin(){
         if(txtVacio(txtFechaDefensa) || txtVacio(txtFechaFin))
-            JOptionPane.showMessageDialog(null, "NO pueden haber campos vacíos");
+            JOptionPane.showMessageDialog(null, "NO pueden haber campos vacíos (fechas vacias)");
         else{
-            JOptionPane.showMessageDialog(null, "toy aqui");
             return manejador.fechasCorrectas(txtFechaFin.getText(), txtFechaDefensa.getText());
         }
         return false;
@@ -765,6 +691,10 @@ public class Defensa extends javax.swing.JPanel {
         }
         limpiarCajas();
     }//GEN-LAST:event_EliminarMouseClicked
+
+    private void cmbTesisItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbTesisItemStateChanged
+        controlador.getFechaFinal(cmbTesis, txtFechaFin);
+    }//GEN-LAST:event_cmbTesisItemStateChanged
    
     public boolean txtVacio(JTextField txt){
         if(txt.getText().isEmpty())
@@ -773,7 +703,6 @@ public class Defensa extends javax.swing.JPanel {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Añadir;
     private javax.swing.JRadioButton Defendida;
     private javax.swing.JLabel Eliminar;
     private javax.swing.JLabel Guardar;
@@ -794,6 +723,7 @@ public class Defensa extends javax.swing.JPanel {
     private javax.swing.JLabel fechaDefensa;
     private javax.swing.JLabel fechaDefensa1;
     private javax.swing.JLabel fechaDefensa2;
+    private javax.swing.JLabel fechaDefensa3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

@@ -11,6 +11,7 @@ import java.sql.ResultSetMetaData;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 public class ConsultaTesis extends javax.swing.JPanel {
 
@@ -325,6 +326,7 @@ public class ConsultaTesis extends javax.swing.JPanel {
         Defendida.setText("Defendida");
 
         txtFechaF.setEditable(false);
+        txtFechaF.setBackground(new java.awt.Color(255, 255, 255));
         txtFechaF.setFont(new java.awt.Font("Century Gothic", 3, 12)); // NOI18N
         txtFechaF.setForeground(new java.awt.Color(102, 102, 102));
         txtFechaF.addActionListener(new java.awt.event.ActionListener() {
@@ -334,6 +336,7 @@ public class ConsultaTesis extends javax.swing.JPanel {
         });
 
         txtFechaI.setEditable(false);
+        txtFechaI.setBackground(new java.awt.Color(255, 255, 255));
         txtFechaI.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         txtFechaI.setForeground(new java.awt.Color(102, 102, 102));
         txtFechaI.addActionListener(new java.awt.event.ActionListener() {
@@ -421,18 +424,17 @@ public class ConsultaTesis extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtPK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(PorPeriodo)
+                        .addComponent(PorCarrera))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtPK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(PorPeriodo)
-                            .addComponent(PorCarrera))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(52, 52, 52)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel6)
-                                .addComponent(jLabel11)
-                                .addComponent(cmbCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(cmbPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel11)
+                            .addComponent(cmbCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmbPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -587,10 +589,15 @@ public class ConsultaTesis extends javax.swing.JPanel {
 
             while(rs.next()){ //Carga en la tabla
                 Object[] filas = new Object[cantidadColumnas];
-
                 for(int i=0; i<cantidadColumnas; i++){
                     filas[i] = rs.getObject(i+1);
                 }
+                
+                TableColumnModel columnModel = TablaTesis.getColumnModel();
+                columnModel.getColumn(0).setPreferredWidth(2);
+                columnModel.getColumn(3).setPreferredWidth(5);
+                columnModel.getColumn(4).setPreferredWidth(5);
+                
                 modelo.addRow(filas);
             }
 

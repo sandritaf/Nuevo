@@ -33,9 +33,8 @@ public class Tesis extends javax.swing.JPanel {
         
     private boolean verificarFechaMayor(){
         if(txtVacio(txtFechaI) || txtVacio(txtFechaF))
-            JOptionPane.showMessageDialog(null, "NO pueden haber campos vacíos");
+            JOptionPane.showMessageDialog(null, "NO pueden haber campos vacíos (fechas vacias)");
         else{
-            JOptionPane.showMessageDialog(null, "toy aqui");
             return manejador.rangoCorrectoTesis(txtFechaI.getText(), txtFechaF.getText());
         }
         return false;
@@ -43,9 +42,8 @@ public class Tesis extends javax.swing.JPanel {
     
     private boolean FechaFinMayorFechaInicio(){
         if(txtVacio(txtFechaI) || txtVacio(txtFechaF))
-            JOptionPane.showMessageDialog(null, "NO pueden haber campos vacíos");
+            JOptionPane.showMessageDialog(null, "NO pueden haber campos vacíos (fechas vacias) ");
         else{
-            JOptionPane.showMessageDialog(null, "toy aqui");
             return manejador.fechasCorrectas(txtFechaI.getText(), txtFechaF.getText());
         }
         return false;
@@ -378,7 +376,7 @@ public class Tesis extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
-        TablaTesis.setSelectionBackground(new java.awt.Color(102, 204, 153));
+        TablaTesis.setSelectionBackground(new java.awt.Color(244, 179, 80));
         TablaTesis.setShowHorizontalLines(false);
         TablaTesis.setShowVerticalLines(false);
         TablaTesis.addMouseListener(new java.awt.event.MouseAdapter() {

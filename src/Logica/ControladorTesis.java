@@ -473,7 +473,7 @@ public class ControladorTesis {
             if (res1 > 0 && res2>0){
                 JOptionPane.showMessageDialog(null, "Notas y defensa eliminadas con éxito");
             }else{
-                JOptionPane.showMessageDialog(null, "No se pudo eliminar defensa o notas");
+                JOptionPane.showMessageDialog(null, "No se eliminaron defensas o notas");
               }
                         
             c.CerrarConexion();

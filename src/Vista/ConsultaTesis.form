@@ -214,20 +214,18 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="txtPK" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="PorPeriodo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="PorCarrera" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="txtPK" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="PorPeriodo" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="PorCarrera" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cmbCarrera" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cmbPeriodo" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cmbCarrera" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cmbPeriodo" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" attributes="0">
@@ -666,6 +664,9 @@
         <Component class="javax.swing.JTextField" name="txtFechaF">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Century Gothic" size="12" style="3"/>
             </Property>
@@ -680,6 +681,9 @@
         <Component class="javax.swing.JTextField" name="txtFechaI">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Century Gothic" size="12" style="1"/>
             </Property>
