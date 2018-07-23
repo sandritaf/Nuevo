@@ -177,7 +177,7 @@ public class ControladorProfesor {
             ps.close();
                  
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Ocurrió un error");
+            JOptionPane.showMessageDialog(null, "Ocurrió un error: "+e);
         }
     }
     

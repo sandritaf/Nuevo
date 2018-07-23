@@ -110,9 +110,7 @@ public class ManejadorFecha {
         Date fechafin = deStringToDate(ffin);
         
         int n = diferenciasDeFechas(fechainicio, fechafin);
-        
-        JOptionPane.showMessageDialog(null, n);
-        
+
         if(n>=0)
             return true;
         return false;
@@ -123,8 +121,6 @@ public class ManejadorFecha {
         Date fechafin = deStringToDate(ffin);
         
         int n = diferenciasDeFechas(fechainicio, fechafin);
-        
-        JOptionPane.showMessageDialog(null, "este es n: "+n);
         
         if(n>=120 && n<=180)
             return true;

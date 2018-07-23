@@ -7,6 +7,7 @@ import Modelo.M_Tesis;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -23,14 +24,32 @@ public class Tesis extends javax.swing.JPanel {
         txtPK.setVisible(false);
         Modificar.setEnabled(false);
         Eliminar.setEnabled(false);
+        txtPKIndustrial.setVisible(false);
+        txtPKEmpresa.setVisible(false);
         controlador.cargarAlumnosSinTesis(cmbAlumno);
-        controlador.cargarProfesores(cmbTutor);
-        controlador.cargarTutores(cmbTutor2);
+        controlador.cargarProfesores(cmbTutorA);
+        //controlador.cargarTutores(cmbTutorI);
         controlador.cargarEmpresas(cmbEmpresa);
         manejador = new ManejadorFecha();
     }
     
-    private void verificarTutorConEmpresa(){
+    //Devuelve el codigo de la opcion seleccionada en un combo
+    public int getComboSelected(JComboBox combito){
+        String codigo = combito.getSelectedItem().toString(); 
+        String codigoFinal = "";
+        
+        int guion = codigo.indexOf("-");
+        codigoFinal = codigo.substring(0, guion);
+        
+        return Integer.parseInt(codigoFinal);
+    }
+    
+    private boolean verificarTutorEmpresa(){
+        
+//        int pk_industrial = Integer.parseInt(pk_ti);
+        int pk_empresa = getComboSelected(cmbEmpresa);
+        int pk_industrial = getComboSelected(cmbTutorI);
+        
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
@@ -38,21 +57,66 @@ public class Tesis extends javax.swing.JPanel {
             Connection con = conn.getConection();
             
             int fila = TablaTesis.getSelectedRow();
+//            int codigo = getComboSelected(cmbTutorI);
             int codigo = (int)TablaTesis.getValueAt(fila, 0);
             
-            ps = (PreparedStatement) con.prepareStatement("SELECT idtindustrial FROM tutor_industrial WHERE"
+            ps = (PreparedStatement) con.prepareStatement("SELECT id_empresa, idtindustrial FROM tutor_industrial"
+                                                        + " INNER JOIN tesis ON tesis.id_tutorIndustrial = tutor_industrial.idtindustrial "
+                                                        + " WHERE idtesis=?");
+            ps.setInt(1, codigo);          
+            rs = ps.executeQuery();                            
+            
+            while(rs.next()){
+                txtPKIndustrial.setText(rs.getString("idtindustrial"));
+                txtPKEmpresa.setText(rs.getString("id_empresa"));
+            }
+            
+            ps.close();
+            rs.close();
+            con.close();
+            conn.CerrarConexion();
+            
+            int a = Integer.parseInt(txtPKEmpresa.getText());
+            
+            if(a == pk_empresa){
+//                JOptionPane.showMessageDialog(null, "El tutor seleccionado ESTÁ ASOCIADO");
+                return true;
+            }
+            else
+                return false;
+                //JOptionPane.showMessageDialog(null, "NO ESTÁ ASOCIADO");
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Ocurrió un error: "+e);
+        }
+        return false;
+    }
+    
+    private void cargarTutorConEmpresa(){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try{
+            Conexion conn = new Conexion();
+            Connection con = conn.getConection();
+            
+            int fila = TablaTesis.getSelectedRow();
+            int codigo = getComboSelected(cmbTutorI);
+            
+            ps = (PreparedStatement) con.prepareStatement("SELECT id_empresa FROM tutor_industrial WHERE"
                                                         + " id_empresa=?");
             
             ps.setInt(1, codigo);          
             rs = ps.executeQuery();                            
             
             while(rs.next()){
-            
+                txtPKIndustrial.setText(rs.getString("idtindustrial"));
+                txtPKEmpresa.setText(rs.getString("id_empresa"));
             }
+            
             ps.close();
             rs.close();
             con.close();
             conn.CerrarConexion();
+            
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, "Ocurrió un error: "+e);
         }
@@ -88,8 +152,8 @@ public class Tesis extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         txtTitulo = new javax.swing.JTextField();
         cmbAlumno = new javax.swing.JComboBox<>();
-        cmbTutor = new javax.swing.JComboBox<>();
-        cmbTutor2 = new javax.swing.JComboBox<>();
+        cmbTutorA = new javax.swing.JComboBox<>();
+        cmbTutorI = new javax.swing.JComboBox<>();
         cmbEmpresa = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -160,16 +224,26 @@ public class Tesis extends javax.swing.JPanel {
 
         cmbAlumno.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
 
-        cmbTutor.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        cmbTutor.addActionListener(new java.awt.event.ActionListener() {
+        cmbTutorA.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        cmbTutorA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbTutorActionPerformed(evt);
+                cmbTutorAActionPerformed(evt);
             }
         });
 
-        cmbTutor2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        cmbTutorI.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
 
         cmbEmpresa.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        cmbEmpresa.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbEmpresaItemStateChanged(evt);
+            }
+        });
+        cmbEmpresa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cmbEmpresaMouseClicked(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel5.setText("Estudiante");
@@ -297,8 +371,8 @@ public class Tesis extends javax.swing.JPanel {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cmbTutor, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cmbTutor2, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cmbTutorA, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cmbTutorI, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(cmbEmpresa, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(cmbDepartamento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -344,11 +418,11 @@ public class Tesis extends javax.swing.JPanel {
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmbTutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbTutorA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmbTutor2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbTutorI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -534,9 +608,9 @@ public class Tesis extends javax.swing.JPanel {
        
     }//GEN-LAST:event_txtObservacionesActionPerformed
 
-    private void cmbTutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTutorActionPerformed
+    private void cmbTutorAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTutorAActionPerformed
       
-    }//GEN-LAST:event_cmbTutorActionPerformed
+    }//GEN-LAST:event_cmbTutorAActionPerformed
 
     /*Falta asegurarse de que no se ingresan campos vacíos*/
     private void GuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GuardarMouseClicked
@@ -546,10 +620,13 @@ public class Tesis extends javax.swing.JPanel {
         else if(!FechaFinMayorFechaInicio()){
             JOptionPane.showMessageDialog(null, "La fecha inicial debe ser menor a la fecha final");
         }
+//        else if(!verificarTutorEmpresa()){
+//            JOptionPane.showMessageDialog(null, "El tutor seleccionado no está asociado a la empresa");
+//        }
         else{
         tesis.actualizar("En desarrollo", txtTitulo.getText(), txtFechaI.getText(),
                 txtFechaF.getText(), txtObservaciones.getText(), cmbDepartamento.getSelectedItem().toString(), 
-                controlador.getComboSelected(cmbTutor),  controlador.getComboSelected(cmbTutor2), 
+                controlador.getComboSelected(cmbTutorA),  controlador.getComboSelected(cmbTutorI), 
                 controlador.getComboSelected(cmbAlumno), controlador.getComboSelected(cmbEmpresa));
         controlador.ingresar(tesis);
         limpiarCajas();
@@ -606,8 +683,9 @@ public class Tesis extends javax.swing.JPanel {
                 txtPK.setText(rs.getString("idtesis"));
                 txtTitulo.setText(rs.getString("titulo"));
                 controlador.setComboSelected(rs.getInt("estudiante_tesis"),cmbAlumno);
-                controlador.setComboSelected(rs.getInt("id_tutorAcademico"),cmbTutor);
-                controlador.setComboSelected(rs.getInt("id_tutorIndustrial"),cmbTutor2);
+                controlador.setComboSelected(rs.getInt("id_tutorAcademico"),cmbTutorA);
+                controlador.cargarTutores(cmbTutorI, rs.getInt("estudiante.id_empresa"));
+                controlador.setComboSelected(rs.getInt("id_tutorIndustrial"),cmbTutorI);
                 controlador.setComboSelected(rs.getInt("estudiante.id_empresa"),cmbEmpresa);
                 controlador.setComboSelected(rs.getString("departamento"),cmbDepartamento);
                 txtFechaI.setText((rs.getDate("fecha_inicio")).toString());
@@ -618,6 +696,9 @@ public class Tesis extends javax.swing.JPanel {
             rs.close();
             con.close();
             conn.CerrarConexion();
+            
+//            verificarTutorEmpresa();
+            
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, "Ocurrió un error: "+e);
         }
@@ -625,39 +706,55 @@ public class Tesis extends javax.swing.JPanel {
 
     //Invoca al controlador y le envia valores nuevos que modificar , asociados a la tesis
     private void ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModificarMouseClicked
+        //Verifica que haya un registro seleccionado
+        if(txtPK.getText().isEmpty())
+            JOptionPane.showMessageDialog(null, "Seleccione una tesis");
         if(!verificarFechaMayor()){
             JOptionPane.showMessageDialog(null, "La tesis debe realizarse entre mínimo 4 y máximo 6 meses. Ingrese fechas que cumplan esta condición");
         }
         else if(!FechaFinMayorFechaInicio()){
             JOptionPane.showMessageDialog(null, "La fecha inicial debe ser menor a la fecha final");
         }
+//        else if(!verificarTutorEmpresa()){
+//            JOptionPane.showMessageDialog(null, "El tutor seleccionado no está asociado a la empresa");
+//        }
         else{
             
         tesis.actualizar("En desarrollo", txtTitulo.getText(), txtFechaI.getText(),
                 txtFechaF.getText(), txtObservaciones.getText(), cmbDepartamento.getSelectedItem().toString(), 
-                controlador.getComboSelected(cmbTutor),  controlador.getComboSelected(cmbTutor2), 
+                controlador.getComboSelected(cmbTutorA),  controlador.getComboSelected(cmbTutorI), 
                 controlador.getComboSelected(cmbAlumno), controlador.getComboSelected(cmbEmpresa));
         controlador.modificar(tesis, txtPK.getText());
         limpiarCajas();
-        controlador.cargarAlumnosSinTesis(cmbAlumno);
+        //controlador.cargarAlumnosSinTesis(cmbAlumno);
             
         }
-        //Verifica que haya un registro seleccionado
-        if(txtPK.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Seleccione una tesis");
-        } else {        
-            tesis.actualizar("En desarrollo", txtTitulo.getText(), txtFechaI.getText(),
-                txtFechaF.getText(), txtObservaciones.getText(), cmbDepartamento.getSelectedItem().toString(), 
-                controlador.getComboSelected(cmbTutor),  controlador.getComboSelected(cmbTutor2), 
-                controlador.getComboSelected(cmbAlumno), controlador.getComboSelected(cmbEmpresa));
-            controlador.modificar(tesis, txtPK.getText()); 
-        }
-        limpiarCajas();
+//        //Verifica que haya un registro seleccionado
+//        if(txtPK.getText().isEmpty()){
+//            JOptionPane.showMessageDialog(null, "Seleccione una tesis");
+//        } else {        
+//            tesis.actualizar("En desarrollo", txtTitulo.getText(), txtFechaI.getText(),
+//                txtFechaF.getText(), txtObservaciones.getText(), cmbDepartamento.getSelectedItem().toString(), 
+//                controlador.getComboSelected(cmbTutorA),  controlador.getComboSelected(cmbTutorI), 
+//                controlador.getComboSelected(cmbAlumno), controlador.getComboSelected(cmbEmpresa));
+//            controlador.modificar(tesis, txtPK.getText()); 
+//        }
+//        limpiarCajas();
     }//GEN-LAST:event_ModificarMouseClicked
 
     private void ModificarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModificarMouseEntered
         // TODO add your handling code here:
     }//GEN-LAST:event_ModificarMouseEntered
+
+    private void cmbEmpresaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbEmpresaItemStateChanged
+        
+        controlador.cargarTutores(cmbTutorI, controlador.getComboSelected(cmbEmpresa));
+    }//GEN-LAST:event_cmbEmpresaItemStateChanged
+
+    private void cmbEmpresaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbEmpresaMouseClicked
+        //controlador.cargarTutores(cmbTutorI, controlador.getComboSelected(cmbEmpresa));
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbEmpresaMouseClicked
     
     public void limpiarCajas(){
         txtFechaF.setText(null);
@@ -666,8 +763,8 @@ public class Tesis extends javax.swing.JPanel {
         txtTitulo.setText(null);
         txtPK.setText(null);
         Exportar.setEnabled(false);
-        cmbTutor.setSelectedItem(0);
-        cmbTutor2.setSelectedItem(0);
+        cmbTutorA.setSelectedItem(0);
+        cmbTutorI.setSelectedItem(0);
         cmbDepartamento.setSelectedItem(0);
         cmbEmpresa.setSelectedItem(0);
         Guardar.setEnabled(true);
@@ -675,6 +772,8 @@ public class Tesis extends javax.swing.JPanel {
         Eliminar.setEnabled(false);
         controlador.cargarAlumnosSinTesis(cmbAlumno);
         cmbAlumno.setSelectedItem(0);
+        txtPKEmpresa.setText(null);
+        txtPKIndustrial.setText(null);
     }
     
     public boolean txtVacio(JTextField txt){
@@ -696,8 +795,8 @@ public class Tesis extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> cmbAlumno;
     private javax.swing.JComboBox<String> cmbDepartamento;
     private javax.swing.JComboBox<String> cmbEmpresa;
-    private javax.swing.JComboBox<String> cmbTutor;
-    private javax.swing.JComboBox<String> cmbTutor2;
+    private javax.swing.JComboBox<String> cmbTutorA;
+    private javax.swing.JComboBox<String> cmbTutorI;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel13;

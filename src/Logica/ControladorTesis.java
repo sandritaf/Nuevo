@@ -126,9 +126,10 @@ public class ControladorTesis {
     }
     
     //Carga en una tabla todos los posibles tutores industriales que pueden atender la tesis
-    public void cargarTutores(JComboBox cmbTutor2){
+    public void cargarTutores(JComboBox cmbTutor2, int id_empresa){
         DefaultComboBoxModel aModel = new DefaultComboBoxModel();
-        String sql = "SELECT idtindustrial, nombre, apellido FROM tutor_industrial";
+        //int codigoTutor = getComboSelected(cmbTutor2);
+        String sql = "SELECT idtindustrial, nombre, apellido FROM tutor_industrial where id_empresa="+id_empresa;
         String aux;
         
         try{
@@ -138,6 +139,9 @@ public class ControladorTesis {
             Connection con = conn.getConection();
             cmbTutor2.setModel(aModel);
             ps = (PreparedStatement) con.prepareStatement(sql);
+            
+            
+            
             rs = ps.executeQuery();
             while(rs.next() ){
                aux = rs.getString("idtindustrial") + "- " + rs.getString("nombre") + " " + rs.getString("apellido");
@@ -160,15 +164,19 @@ public class ControladorTesis {
         String sql = "SELECT idempresa, nombre FROM empresa";
         String aux;
         
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
         try{
-            PreparedStatement ps;
-            ResultSet rs;
+            //JOptionPane.showMessageDialog(null, "entre");
+            
             Conexion conn = new Conexion();
             Connection con = conn.getConection();
             cmbEmpresa.setModel(aModel);
             ps = (PreparedStatement) con.prepareStatement(sql);
             rs = ps.executeQuery();
             while(rs.next() ){
+               //JOptionPane.showMessageDialog(null, "entre en el while");
                aux = rs.getString("idempresa") + "- " + rs.getString("nombre");
                aModel.addElement(aux);
             }

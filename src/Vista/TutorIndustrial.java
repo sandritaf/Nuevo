@@ -16,6 +16,7 @@ public class TutorIndustrial extends javax.swing.JPanel {
     public TutorIndustrial() {
         initComponents();
         controlador = new ControladorTutorIndustrial();
+        tutor = new M_TutorIndustrial();
         txtPK.setVisible(false);
         controlador.cargarEmpresas(cmbEmpresa);
         Modificar.setEnabled(false);

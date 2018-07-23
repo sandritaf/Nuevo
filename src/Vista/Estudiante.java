@@ -28,7 +28,38 @@ public class Estudiante extends javax.swing.JPanel {
         txtPKCarrera.setVisible(false);
         txtCantSemestres.setVisible(false);
     }
-
+    
+    public void setSemestreValido(int codigo){
+        
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try{
+            Conexion conn = new Conexion();
+            Connection con = conn.getConection();
+            
+//            int fila = TablaAlumno.getSelectedRow();
+//            int codigo = (int) TablaAlumno.getValueAt(fila, 5);
+            
+            ps = (PreparedStatement) con.prepareStatement("SELECT semestres, id_carrera FROM carrera WHERE id_carrera=?");
+            ps.setInt(1, codigo);          
+            rs = ps.executeQuery();                            
+            
+            while(rs.next()){
+                txtCantSemestres.setText(rs.getString("semestres"));
+                txtPKCarrera.setText(rs.getString("id_carrera"));
+            }
+            
+            conn.CerrarConexion();
+            con.close();
+            ps.close();
+            rs.close();
+            
+        }catch(Exception e){
+            System.out.println(e);
+        }
+    }
+    
     public void semestreValido(){
         
         PreparedStatement ps = null;
@@ -257,6 +288,11 @@ public class Estudiante extends javax.swing.JPanel {
         });
 
         cmbCarrera.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbCarrera.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbCarreraItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
@@ -681,6 +717,10 @@ public class Estudiante extends javax.swing.JPanel {
     private void LimpiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LimpiarMouseClicked
         limpiarCajas();
     }//GEN-LAST:event_LimpiarMouseClicked
+
+    private void cmbCarreraItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbCarreraItemStateChanged
+            setSemestreValido(controlador.getComboSelected(cmbCarrera));
+    }//GEN-LAST:event_cmbCarreraItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
