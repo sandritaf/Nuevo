@@ -177,7 +177,6 @@ public class Tesis extends javax.swing.JPanel {
         Eliminar = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaTesis = new javax.swing.JTable();
-        Exportar = new javax.swing.JLabel();
         txtPK = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -499,15 +498,6 @@ public class Tesis extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(TablaTesis);
 
-        Exportar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        Exportar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/pdf50.png"))); // NOI18N
-        Exportar.setText("Exportar a PDF");
-        Exportar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ExportarMouseClicked(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -515,19 +505,14 @@ public class Tesis extends javax.swing.JPanel {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(4, 4, 4)
                 .addComponent(txtPK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(10, 10, 10)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(22, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(Cargar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Exportar, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Eliminar)
-                        .addContainerGap())))
+                        .addGap(2, 2, 2)
+                        .addComponent(Eliminar))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -535,8 +520,7 @@ public class Tesis extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Eliminar)
-                    .addComponent(Cargar)
-                    .addComponent(Exportar))
+                    .addComponent(Cargar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
@@ -632,10 +616,6 @@ public class Tesis extends javax.swing.JPanel {
         limpiarCajas();
         }
     }//GEN-LAST:event_GuardarMouseClicked
-
-    private void ExportarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ExportarMouseClicked
-        
-    }//GEN-LAST:event_ExportarMouseClicked
 
     //Llama al controlador para cargar todas las tesis en la tabka
     private void CargarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CargarMouseClicked
@@ -762,7 +742,7 @@ public class Tesis extends javax.swing.JPanel {
         txtObservaciones.setText(null);
         txtTitulo.setText(null);
         txtPK.setText(null);
-        Exportar.setEnabled(false);
+//        Exportar.setEnabled(false);
         cmbTutorA.setSelectedItem(0);
         cmbTutorI.setSelectedItem(0);
         cmbDepartamento.setSelectedItem(0);
@@ -785,7 +765,6 @@ public class Tesis extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Cargar;
     private javax.swing.JLabel Eliminar;
-    private javax.swing.JLabel Exportar;
     private javax.swing.JLabel Guardar;
     private javax.swing.JLabel Limpiar;
     private javax.swing.JLabel Modificar;
