@@ -25,9 +25,55 @@ public class Estudiante extends javax.swing.JPanel {
         txtID.setVisible(false);      
         Modificar.setEnabled(false); 
         Eliminar.setEnabled(false);
+        txtPKCarrera.setVisible(false);
+        txtCantSemestres.setVisible(false);
     }
 
+    public void semestreValido(){
+        
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try{
+            Conexion conn = new Conexion();
+            Connection con = conn.getConection();
+            
+            int fila = TablaAlumno.getSelectedRow();
+            int codigo = (int) TablaAlumno.getValueAt(fila, 5);
+            
+            ps = (PreparedStatement) con.prepareStatement("SELECT semestres, id_carrera FROM carrera WHERE id_carrera=?");
+            ps.setInt(1, codigo);          
+            rs = ps.executeQuery();                            
+            
+            while(rs.next()){
+                txtCantSemestres.setText(rs.getString("semestres"));
+                txtPKCarrera.setText(rs.getString("id_carrera"));
+            }
+            
+            conn.CerrarConexion();
+            con.close();
+            ps.close();
+            rs.close();
+            
+        }catch(Exception e){
+            System.out.println(e);
+        }
+    }
     
+    public boolean semestreValido(String semestresEstudiante){
+        int semestresE = Integer.parseInt(semestresEstudiante);
+        int cant_semestres = Integer.parseInt(txtCantSemestres.getText());
+
+        //JOptionPane.showMessageDialog(null, "semestresE: "+semestresE+" cant: "+cant_semestres);
+        if((semestresE > 0) && (semestresE <= cant_semestres)){
+            //JOptionPane.showMessageDialog(null, "ta bueno");
+            return true;
+        }
+        else if(semestresE == 0){
+            return false;
+        }
+        return false;
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -61,6 +107,8 @@ public class Estudiante extends javax.swing.JPanel {
         botonFiltroCarrera = new javax.swing.JRadioButton();
         botonFiltroCedula = new javax.swing.JRadioButton();
         txtCedulaFiltro = new javax.swing.JTextField();
+        txtCantSemestres = new javax.swing.JTextField();
+        txtPKCarrera = new javax.swing.JTextField();
 
         setPreferredSize(new java.awt.Dimension(979, 527));
 
@@ -353,7 +401,12 @@ public class Estudiante extends javax.swing.JPanel {
                                 .addGap(53, 53, 53)
                                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(txtCedulaFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(botonFiltroCedula))))
+                                    .addComponent(botonFiltroCedula)))
+                            .addGroup(jPanel13Layout.createSequentialGroup()
+                                .addGap(59, 59, 59)
+                                .addComponent(txtCantSemestres, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(3, 3, 3)
+                                .addComponent(txtPKCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
                         .addComponent(Limpiar)
@@ -388,7 +441,11 @@ public class Estudiante extends javax.swing.JPanel {
                             .addComponent(txtCedulaFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtCantSemestres, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPKCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -416,6 +473,8 @@ public class Estudiante extends javax.swing.JPanel {
         Guardar.setEnabled(true); 
         Modificar.setEnabled(false); 
         Eliminar.setEnabled(false); 
+        txtCantSemestres.setText(null);
+        txtPKCarrera.setText(null);
     }  
     
     //Retorna como filtro la carrera que se selecciono
@@ -486,12 +545,15 @@ public class Estudiante extends javax.swing.JPanel {
         //No permite añadir usuarios cuya cedula ya existe en la base de datos ni con campos vacios
         if(controlador.idExiste(txtCedula.getText())){
             JOptionPane.showMessageDialog(null, "Ya existe un alumno registrado con esa cedula");
-        } else {            
+        }else if(!semestreValido(txtSemestre.getText())){
+            JOptionPane.showMessageDialog(null, "La cantidad de semestres mínima es 1 y máximo "+txtCantSemestres.getText());
+        }
+        else {            
             alumno.actualizar(txtNombre.getText(), txtApellido.getText(),
                 controlador.getComboSelected(cmbCarrera), txtSemestre.getText(), txtCedula.getText());
             controlador.ingresar(alumno);
+            limpiarCajas();
         }
-        limpiarCajas();
     }//GEN-LAST:event_GuardarMouseClicked
 
     //Llama a la funcion Modificar de ControladorEstudiante y le envia los valores ingresador
@@ -499,12 +561,16 @@ public class Estudiante extends javax.swing.JPanel {
         //Verifica que haya un registro seleccionado
         if(txtID.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Error en la modificación");
-        } else {        
+        }else if(!semestreValido(txtSemestre.getText())){
+            JOptionPane.showMessageDialog(null, "La cantidad de semestres mínima es 1 y máximo "+txtCantSemestres.getText());
+        } 
+        else {        
             alumno.actualizar(txtNombre.getText(), txtApellido.getText(),
                 controlador.getComboSelected(cmbCarrera), txtSemestre.getText(), txtCedula.getText());
             controlador.modificar(alumno, txtID.getText()); 
+            limpiarCajas();
         }
-        limpiarCajas();
+        
     }//GEN-LAST:event_ModificarMouseClicked
 
     //Llama a la funcion Eliminar de ControladorEstudiante y le envia los valores ingresador
@@ -600,6 +666,13 @@ public class Estudiante extends javax.swing.JPanel {
                 txtSemestre.setText(rs.getString("semestre"));
                 controlador.getComboSelected(rs.getInt("id_carrera"),cmbCarrera);
             }
+            conn.CerrarConexion();
+            con.close();
+            ps.close();
+            rs.close();
+            
+            semestreValido();
+            
         }catch(Exception e){
             System.out.println(e);
         }
@@ -634,10 +707,12 @@ public class Estudiante extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel20;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTextField txtApellido;
+    private javax.swing.JTextField txtCantSemestres;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtCedulaFiltro;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtPKCarrera;
     private javax.swing.JTextField txtSemestre;
     // End of variables declaration//GEN-END:variables
 }
