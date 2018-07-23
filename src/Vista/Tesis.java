@@ -30,6 +30,33 @@ public class Tesis extends javax.swing.JPanel {
         manejador = new ManejadorFecha();
     }
     
+    private void verificarTutorConEmpresa(){
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try{
+            Conexion conn = new Conexion();
+            Connection con = conn.getConection();
+            
+            int fila = TablaTesis.getSelectedRow();
+            int codigo = (int)TablaTesis.getValueAt(fila, 0);
+            
+            ps = (PreparedStatement) con.prepareStatement("SELECT idtindustrial FROM tutor_industrial WHERE"
+                                                        + " id_empresa=?");
+            
+            ps.setInt(1, codigo);          
+            rs = ps.executeQuery();                            
+            
+            while(rs.next()){
+            
+            }
+            ps.close();
+            rs.close();
+            con.close();
+            conn.CerrarConexion();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Ocurrió un error: "+e);
+        }
+    }
         
     private boolean verificarFechaMayor(){
         if(txtVacio(txtFechaI) || txtVacio(txtFechaF))
@@ -81,6 +108,8 @@ public class Tesis extends javax.swing.JPanel {
         Guardar = new javax.swing.JLabel();
         Modificar = new javax.swing.JLabel();
         Limpiar = new javax.swing.JLabel();
+        txtPKEmpresa = new javax.swing.JTextField();
+        txtPKIndustrial = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         Cargar = new javax.swing.JLabel();
         Eliminar = new javax.swing.JLabel();
@@ -292,6 +321,12 @@ public class Tesis extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                         .addComponent(Limpiar)))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addComponent(txtPKEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtPKIndustrial, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -337,7 +372,11 @@ public class Tesis extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
                     .addComponent(txtObservaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(54, 54, 54))
+                .addGap(23, 23, 23)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPKEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPKIndustrial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -467,7 +506,7 @@ public class Tesis extends javax.swing.JPanel {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -681,6 +720,8 @@ public class Tesis extends javax.swing.JPanel {
     private javax.swing.JTextField txtFechaI;
     private javax.swing.JTextField txtObservaciones;
     private javax.swing.JTextField txtPK;
+    private javax.swing.JTextField txtPKEmpresa;
+    private javax.swing.JTextField txtPKIndustrial;
     private javax.swing.JTextField txtTitulo;
     // End of variables declaration//GEN-END:variables
 }
