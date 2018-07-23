@@ -41,7 +41,7 @@ public class Tesis extends javax.swing.JPanel {
         return false;
     }
     
-    private boolean FechaInicioMayorFechaFin(){
+    private boolean FechaFinMayorFechaInicio(){
         if(txtVacio(txtFechaI) || txtVacio(txtFechaF))
             JOptionPane.showMessageDialog(null, "NO pueden haber campos vacíos");
         else{
@@ -506,7 +506,7 @@ public class Tesis extends javax.swing.JPanel {
         if(!verificarFechaMayor()){
             JOptionPane.showMessageDialog(null, "La tesis debe realizarse entre mínimo 4 y máximo 6 meses. Ingrese fechas que cumplan esta condición");
         }
-        else if(!FechaInicioMayorFechaFin()){
+        else if(!FechaFinMayorFechaInicio()){
             JOptionPane.showMessageDialog(null, "La fecha inicial debe ser menor a la fecha final");
         }
         else{
@@ -591,7 +591,7 @@ public class Tesis extends javax.swing.JPanel {
         if(!verificarFechaMayor()){
             JOptionPane.showMessageDialog(null, "La tesis debe realizarse entre mínimo 4 y máximo 6 meses. Ingrese fechas que cumplan esta condición");
         }
-        else if(!FechaInicioMayorFechaFin()){
+        else if(!FechaFinMayorFechaInicio()){
             JOptionPane.showMessageDialog(null, "La fecha inicial debe ser menor a la fecha final");
         }
         else{
