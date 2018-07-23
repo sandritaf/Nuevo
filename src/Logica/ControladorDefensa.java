@@ -12,6 +12,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 
 public class ControladorDefensa {
 
@@ -19,6 +20,33 @@ public class ControladorDefensa {
     }
     
     /*HAY QUE IDEAR UN METODO PARA CAMBIAR EL STATUS DE UNA TESIS DE POR DEFENDER>DEFENDIDA */
+    
+    public void getFechaFinal(JComboBox tesis, JTextField fecha){
+        int codigo = getComboSelected(tesis);
+        String sql = "SELECT fecha_fin FROM tesis WHERE idtesis="+codigo;
+        
+        try{
+            PreparedStatement ps;
+            ResultSet rs;
+            Conexion conn = new Conexion();
+            Connection con = conn.getConection();
+            ps = (PreparedStatement) con.prepareStatement(sql);
+            rs = ps.executeQuery();
+           
+            while(rs.next()){
+                fecha.setText(String.valueOf(rs.getDate("fecha_fin")));
+            }
+            
+            //Cerrar conexiones
+            ps.close();
+            rs.close();
+            conn.CerrarConexion();
+            con.close();            
+        
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Ocurrió un error cargando Profesores: "+ex);
+        }
+    }
     
     //Dada una fecha y un semestre, forma el periodo en el que se debe dar la defensa y lo devuelve
     public String getPeriodo(Date Fecha, JRadioButton SemestreI){
@@ -138,14 +166,17 @@ public class ControladorDefensa {
     }
     
     //Cambia el status de una tesis a "Por defender"
-    private void porDefenderTesis(int pk){
+    private void porDefenderTesis(int pk, JRadioButton defendida){
         try {
         Conexion c = new Conexion();
         Connection con = c.getConection();
         PreparedStatement ps;            
         ps = con.prepareStatement("UPDATE tesis SET status=? WHERE idtesis=?");
 
-        ps.setString(1, "Por defender");
+        if (defendida.isSelected())
+           ps.setString(1, "Defendida");
+        else
+           ps.setString(1, "Por defender"); 
         ps.setInt(2, pk);
 
         int res = ps.executeUpdate();
@@ -196,7 +227,7 @@ public class ControladorDefensa {
     }
     
     //Ingresa una defensa en la tabla
-    public void ingresar(M_Defensa defensa){
+    public void ingresar(M_Defensa defensa, JRadioButton defendida){
         try {
             Conexion conn = new Conexion();
             Connection con = conn.getConection();
@@ -219,7 +250,7 @@ public class ControladorDefensa {
 
             if (res > 0){
                 JOptionPane.showMessageDialog(null, "Defensa guardada con éxito");
-                porDefenderTesis(PK_Tesis);
+                porDefenderTesis(PK_Tesis, defendida);
             }else{
                 JOptionPane.showMessageDialog(null, "No se pudo guardar");
             }
@@ -264,7 +295,7 @@ public class ControladorDefensa {
     }
     
     //Se modifican datos de una defensa dada su clave primaria
-    public void modificar(M_Defensa defensa, String pk_defensa){
+    public void modificar(M_Defensa defensa, String pk_defensa, JRadioButton defendida){
         try {
             Conexion c = new Conexion();
             Connection con = c.getConection();
@@ -284,6 +315,7 @@ public class ControladorDefensa {
             int res = ps.executeUpdate();
 
             if (res > 0){
+                porDefenderTesis(defensa.getId_tesis(), defendida);
                 JOptionPane.showMessageDialog(null, "Defensa modificada con éxito");
             }else{
                 JOptionPane.showMessageDialog(null, "No se pudo modificar la defensa");

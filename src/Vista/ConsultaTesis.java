@@ -11,6 +11,7 @@ import java.sql.ResultSetMetaData;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 public class ConsultaTesis extends javax.swing.JPanel {
 
@@ -76,18 +77,45 @@ public class ConsultaTesis extends javax.swing.JPanel {
            return "status='Reprobada' ";
         else if (Aprobada.isSelected())
             return "status='Aprobada' ";
-        else if (EnDesarrollo.isSelected())
-            return "status='En desarrollo' ";
-        else if (PorDefender.isSelected())
-            return "status='Por defender' ";
         else 
-            return "status='Defendida' ";
+            return "status='Defendida'";
     }
      
     private String getFiltroPeriodo(){
         String cadena = cmbPeriodo.getSelectedItem().toString(); 
         System.out.println("periodo="+cadena);
         return "periodo='"+cadena+"'";
+    }
+    
+    private String getConsulta(){
+        String sql = "SELECT idtesis, titulo, status, "
+                + "estudiante.nombre, estudiante.apellido, observaciones, empresa.nombre, "
+                + "departamento, periodo"; 
+        if (PorStatus.isSelected()){
+            if (Aprobada.isSelected() || Reprobada.isSelected())
+                sql = sql + ", notas.final ";
+        }
+        
+        sql = sql+ " FROM tesis INNER JOIN "
+                + "estudiante ON estudiante.idestudiante = tesis.estudiante_tesis "
+                + "INNER JOIN empresa ON estudiante.id_empresa = empresa.idempresa "
+                + "INNER JOIN defensa ON defensa.id_tesis = tesis.idtesis ";
+        
+        if (PorStatus.isSelected()){
+            if (Aprobada.isSelected() || Reprobada.isSelected())
+                sql = sql + " INNER JOIN notas ON notas.id_tesis = tesis.idtesis WHERE 1";
+        }
+        
+        if (PorPeriodo.isSelected())        
+            sql = sql + " AND "+getFiltroPeriodo();  
+        if (PorCarrera.isSelected())
+            sql = sql + " AND estudiante."+filtroCarrera();
+        if (PorStatus.isSelected())
+            sql = sql + " AND tesis."+getStatusSelected();
+        if (PorCedula.isSelected())
+            sql = sql + " AND estudiante."+filtroCedula();
+        
+        return sql;
     }
         
     @SuppressWarnings("unchecked")
@@ -105,8 +133,6 @@ public class ConsultaTesis extends javax.swing.JPanel {
         jLabel12 = new javax.swing.JLabel();
         Reprobada = new javax.swing.JRadioButton();
         Aprobada = new javax.swing.JRadioButton();
-        PorDefender = new javax.swing.JRadioButton();
-        EnDesarrollo = new javax.swing.JRadioButton();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaTesis = new javax.swing.JTable();
@@ -179,16 +205,6 @@ public class ConsultaTesis extends javax.swing.JPanel {
         buttonGroup1.add(Aprobada);
         Aprobada.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         Aprobada.setText("Aprobada");
-
-        PorDefender.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(PorDefender);
-        PorDefender.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        PorDefender.setText("Por Defender");
-
-        EnDesarrollo.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(EnDesarrollo);
-        EnDesarrollo.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        EnDesarrollo.setText("En desarrollo");
 
         jLabel11.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel11.setText("Carrera");
@@ -288,7 +304,6 @@ public class ConsultaTesis extends javax.swing.JPanel {
         });
 
         PorPeriodo.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup4.add(PorPeriodo);
         PorPeriodo.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         PorPeriodo.setText("Filtrar por Periodo");
         PorPeriodo.addActionListener(new java.awt.event.ActionListener() {
@@ -298,17 +313,14 @@ public class ConsultaTesis extends javax.swing.JPanel {
         });
 
         PorCarrera.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup4.add(PorCarrera);
         PorCarrera.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         PorCarrera.setText("Filtrar por Carrera");
 
         PorStatus.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup4.add(PorStatus);
         PorStatus.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         PorStatus.setText("Filtrar por Status");
 
         PorCedula.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup4.add(PorCedula);
         PorCedula.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         PorCedula.setText("Filtrar por Cédula");
 
@@ -325,6 +337,7 @@ public class ConsultaTesis extends javax.swing.JPanel {
         Defendida.setText("Defendida");
 
         txtFechaF.setEditable(false);
+        txtFechaF.setBackground(new java.awt.Color(255, 255, 255));
         txtFechaF.setFont(new java.awt.Font("Century Gothic", 3, 12)); // NOI18N
         txtFechaF.setForeground(new java.awt.Color(102, 102, 102));
         txtFechaF.addActionListener(new java.awt.event.ActionListener() {
@@ -334,6 +347,7 @@ public class ConsultaTesis extends javax.swing.JPanel {
         });
 
         txtFechaI.setEditable(false);
+        txtFechaI.setBackground(new java.awt.Color(255, 255, 255));
         txtFechaI.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         txtFechaI.setForeground(new java.awt.Color(102, 102, 102));
         txtFechaI.addActionListener(new java.awt.event.ActionListener() {
@@ -391,17 +405,11 @@ public class ConsultaTesis extends javax.swing.JPanel {
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(jLabel12)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                                        .addComponent(PorDefender)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                        .addComponent(EnDesarrollo))
-                                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                                        .addComponent(Aprobada)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(Reprobada)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(Defendida)))))
+                                                .addComponent(Aprobada)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(Reprobada)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(Defendida)))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(PorCedula)
@@ -421,37 +429,31 @@ public class ConsultaTesis extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtPK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(PorPeriodo)
+                        .addComponent(PorCarrera))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel11)
+                            .addComponent(cmbCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmbPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtPK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(PorPeriodo)
-                            .addComponent(PorCarrera))
+                            .addComponent(PorStatus)
+                            .addComponent(PorCedula))
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(52, 52, 52)
+                            .addGap(51, 51, 51)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel6)
-                                .addComponent(jLabel11)
-                                .addComponent(cmbCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(cmbPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(PorStatus)
-                                .addComponent(PorCedula))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(51, 51, 51)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel12)
-                                    .addComponent(Reprobada)
-                                    .addComponent(Defendida)
-                                    .addComponent(Aprobada)
-                                    .addComponent(jLabel8)
-                                    .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(PorDefender)
-                            .addComponent(EnDesarrollo))))
-                .addGap(46, 46, 46)
+                                .addComponent(jLabel12)
+                                .addComponent(Reprobada)
+                                .addComponent(Defendida)
+                                .addComponent(Aprobada)
+                                .addComponent(jLabel8)
+                                .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(76, 76, 76)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel9)
@@ -539,27 +541,6 @@ public class ConsultaTesis extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CargarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CargarMouseClicked
-        String sql = "SELECT idtesis, titulo, status, "
-                + "estudiante.nombre, estudiante.apellido, observaciones, empresa.nombre, "
-                + "departamento";
-        if (PorPeriodo.isSelected())
-            sql = sql + ", periodo "; 
-        
-        sql = sql+ " FROM tesis INNER JOIN "
-                + "estudiante ON estudiante.idestudiante = tesis.estudiante_tesis "
-                + "INNER JOIN empresa ON estudiante.id_empresa = empresa.idempresa";
-        
-        if (PorPeriodo.isSelected())        
-            sql = sql + " INNER JOIN defensa ON defensa.id_tesis = tesis.idtesis WHERE "+getFiltroPeriodo();  
-        if (PorCarrera.isSelected())
-            sql = sql + " WHERE estudiante."+filtroCarrera();
-        if (PorStatus.isSelected())
-            sql = sql + " WHERE tesis."+getStatusSelected();
-        if (PorCedula.isSelected())
-            sql = sql + " WHERE estudiante."+filtroCedula();
-        
-        /* + "/*INNER JOIN notas ON notas.id_tesis = tesis.idtesis";*/
-
         try{
             DefaultTableModel modelo = new DefaultTableModel();
             TablaTesis.setModel(modelo);
@@ -569,7 +550,7 @@ public class ConsultaTesis extends javax.swing.JPanel {
 
             Conexion conn = new Conexion();
             Connection con = conn.getConection();
-            ps = (PreparedStatement) con.prepareStatement(sql);
+            ps = (PreparedStatement) con.prepareStatement(getConsulta());
             rs = ps.executeQuery();
 
             ResultSetMetaData rsmd = rs.getMetaData();
@@ -582,15 +563,24 @@ public class ConsultaTesis extends javax.swing.JPanel {
             modelo.addColumn("Apellido autor");
             modelo.addColumn("Observaciones");
             modelo.addColumn("Empresa");
+            modelo.addColumn("Periodo");
             modelo.addColumn("Departamento");
-            //modelo.addColumn("Calificacion");
+            modelo.addColumn("Calificacion");
 
             while(rs.next()){ //Carga en la tabla
                 Object[] filas = new Object[cantidadColumnas];
-
                 for(int i=0; i<cantidadColumnas; i++){
                     filas[i] = rs.getObject(i+1);
                 }
+                
+                TableColumnModel columnModel = TablaTesis.getColumnModel();
+                columnModel.getColumn(0).setPreferredWidth(1);
+                columnModel.getColumn(2).setPreferredWidth(7);
+                columnModel.getColumn(3).setPreferredWidth(3);
+                columnModel.getColumn(4).setPreferredWidth(5);
+                columnModel.getColumn(8).setPreferredWidth(2);
+                columnModel.getColumn(9).setPreferredWidth(2);
+                
                 modelo.addRow(filas);
             }
 
@@ -669,11 +659,9 @@ public class ConsultaTesis extends javax.swing.JPanel {
     private javax.swing.JRadioButton Aprobada;
     private javax.swing.JLabel Cargar;
     private javax.swing.JRadioButton Defendida;
-    private javax.swing.JRadioButton EnDesarrollo;
     private javax.swing.JLabel Limpiar;
     private javax.swing.JRadioButton PorCarrera;
     private javax.swing.JRadioButton PorCedula;
-    private javax.swing.JRadioButton PorDefender;
     private javax.swing.JRadioButton PorPeriodo;
     private javax.swing.JRadioButton PorStatus;
     private javax.swing.JRadioButton Reprobada;
