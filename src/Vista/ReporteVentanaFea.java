@@ -23,7 +23,7 @@ public class ReporteVentanaFea extends javax.swing.JPanel {
     public ReporteVentanaFea(String path){
         // Components loading (Carga de componentes)
         initComponents();
-        pathFilesImport = "C:\\Users\\brenda\\Desktop\\plugin";
+        pathFilesImport = path;
         initJTable();
         // Load the files in the table (Cargamos los ficheros en la tabla).
         loadTableModelFiles(tableModelFiles,
