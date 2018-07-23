@@ -182,6 +182,7 @@ public class ControladorCalificaciones {
             ResultSetMetaData rsmd = rs.getMetaData();
             int cantidadColumnas = rsmd.getColumnCount();
             
+            // Columnas para los datos solicitados
             modelo.addColumn("Código");
             modelo.addColumn("Título");
             modelo.addColumn("Status");

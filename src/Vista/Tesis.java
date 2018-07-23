@@ -27,17 +27,29 @@ public class Tesis extends javax.swing.JPanel {
         controlador.cargarProfesores(cmbTutor);
         controlador.cargarTutores(cmbTutor2);
         controlador.cargarEmpresas(cmbEmpresa);
+        manejador = new ManejadorFecha();
     }
     
         
-    /*private boolean verificarFechaMayor(){
+    private boolean verificarFechaMayor(){
         if(txtVacio(txtFechaI) || txtVacio(txtFechaF))
             JOptionPane.showMessageDialog(null, "NO pueden haber campos vacíos");
         else{
-            manejador.fechasCorrectas(txtFechaI.getText(), txtFechaF.getText());
+            JOptionPane.showMessageDialog(null, "toy aqui");
+            return manejador.rangoCorrectoTesis(txtFechaI.getText(), txtFechaF.getText());
         }
         return false;
-    }*/
+    }
+    
+    private boolean FechaInicioMayorFechaFin(){
+        if(txtVacio(txtFechaI) || txtVacio(txtFechaF))
+            JOptionPane.showMessageDialog(null, "NO pueden haber campos vacíos");
+        else{
+            JOptionPane.showMessageDialog(null, "toy aqui");
+            return manejador.fechasCorrectas(txtFechaI.getText(), txtFechaF.getText());
+        }
+        return false;
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -488,13 +500,21 @@ public class Tesis extends javax.swing.JPanel {
 
     /*Falta asegurarse de que no se ingresan campos vacíos*/
     private void GuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GuardarMouseClicked
+        if(!verificarFechaMayor()){
+            JOptionPane.showMessageDialog(null, "La tesis debe realizarse entre mínimo 4 y máximo 6 meses. Ingrese fechas que cumplan esta condición");
+        }
+        else if(!FechaInicioMayorFechaFin()){
+            JOptionPane.showMessageDialog(null, "La fecha inicial debe ser menor a la fecha final");
+        }
+        else{
         tesis.actualizar("En desarrollo", txtTitulo.getText(), txtFechaI.getText(),
                 txtFechaF.getText(), txtObservaciones.getText(), cmbDepartamento.getSelectedItem().toString(), 
                 controlador.getComboSelected(cmbTutor),  controlador.getComboSelected(cmbTutor2), 
                 controlador.getComboSelected(cmbAlumno), controlador.getComboSelected(cmbEmpresa));
         controlador.ingresar(tesis);
         limpiarCajas();
-        controlador.cargarAlumnosSinTesis(cmbAlumno); 
+        controlador.cargarAlumnosSinTesis(cmbAlumno);
+        }
     }//GEN-LAST:event_GuardarMouseClicked
 
     private void ExportarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ExportarMouseClicked
@@ -567,7 +587,23 @@ public class Tesis extends javax.swing.JPanel {
 
     //Falta programar
     private void ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModificarMouseClicked
-        
+        if(!verificarFechaMayor()){
+            JOptionPane.showMessageDialog(null, "La tesis debe realizarse entre mínimo 4 y máximo 6 meses. Ingrese fechas que cumplan esta condición");
+        }
+        else if(!FechaInicioMayorFechaFin()){
+            JOptionPane.showMessageDialog(null, "La fecha inicial debe ser menor a la fecha final");
+        }
+        else{
+            
+        tesis.actualizar("En desarrollo", txtTitulo.getText(), txtFechaI.getText(),
+                txtFechaF.getText(), txtObservaciones.getText(), cmbDepartamento.getSelectedItem().toString(), 
+                controlador.getComboSelected(cmbTutor),  controlador.getComboSelected(cmbTutor2), 
+                controlador.getComboSelected(cmbAlumno), controlador.getComboSelected(cmbEmpresa));
+        controlador.modificar(tesis, txtPK.getText());
+        limpiarCajas();
+        controlador.cargarAlumnosSinTesis(cmbAlumno);
+            
+        }
     }//GEN-LAST:event_ModificarMouseClicked
     
     public void limpiarCajas(){

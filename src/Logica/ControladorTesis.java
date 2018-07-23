@@ -258,7 +258,7 @@ public class ControladorTesis {
                 ps.setString(1, tesis.getStatus());
                 ps.setString(2, tesis.getTitulo());
                 ps.setDate(3, Date.valueOf(tesis.getF_inicio()));
-                ps.setDate(4, Date.valueOf(tesis.getF_inicio()));
+                ps.setDate(4, Date.valueOf(tesis.getF_fin()));
                 ps.setString(5, tesis.getObservaciones());
                 ps.setString(6, tesis.getDepartamento());
                 ps.setInt(7, tesis.getId_tutorAcademico());
@@ -343,30 +343,45 @@ public class ControladorTesis {
             Conexion c = new Conexion();
             Connection con = c.getConection();
             int pk = Integer.parseInt(pk_tesis);
-            PreparedStatement ps;
-            
-            ps = con.prepareStatement("UPDATE tesis SET status=?, titulo=?, observaciones=? WHERE idtesis="+pk_tesis);
-            
-            ps.setString(1, tesis.getStatus()); 
+            PreparedStatement ps=null, ps1=null;
+
+            ps = con.prepareStatement("UPDATE tesis SET status=?, titulo=?, observaciones=?,"
+            + "fecha_inicio=?, fecha_fin=?, departamento=?, id_tutorAcademico=?,"
+            + "id_tutorIndustrial=?, estudiante_tesis=? "
+            + "WHERE idtesis="+pk_tesis);
+
+            ps1 = con.prepareCall("UPDATE estudiante SET id_empresa=? WHERE idestudiante=?");
+
+            ps.setString(1, tesis.getStatus());
             ps.setString(2, tesis.getTitulo());
-            ps.setString(3,tesis.getObservaciones());
-            
+            ps.setString(3, tesis.getObservaciones());
+            ps.setDate(4, Date.valueOf(tesis.getF_inicio()));
+            ps.setDate(5, Date.valueOf(tesis.getF_fin()));
+            ps.setString(6, tesis.getDepartamento());
+            ps.setInt(7, tesis.getId_tutorAcademico());
+            ps.setInt(8, tesis.getId_tutorIndustrial());
+            ps.setInt(9, tesis.getEstudiante_tesis());
+
+            ps1.setInt(1, tesis.getEmpresa());
+            ps1.setInt(2, tesis.getEstudiante_tesis());
+
             int res = ps.executeUpdate();
-            
-            if (res > 0){
-                JOptionPane.showMessageDialog(null, "Tesis modificada con éxito");
+            int res2 = ps1.executeUpdate();
+
+            if (res > 0 && res2 > 0){
+            JOptionPane.showMessageDialog(null, "Tesis modificada con éxito");
             }else{
-                JOptionPane.showMessageDialog(null, "No se pudo modificar la tesis");
+            JOptionPane.showMessageDialog(null, "No se pudo modificar la tesis");
             }
-                        
-            c.CerrarConexion();
-            con.close();
-            ps.close();
-                 
+
+        c.CerrarConexion();
+        con.close();
+        ps.close();
+
         } catch (Exception e) {
-             JOptionPane.showMessageDialog(null, "Ocurrió un error: "+e);
+        JOptionPane.showMessageDialog(null, "Ocurrió un error: "+e);
         }
-    }
+}
     
     //Modifica el status de una tesis dada su clave primaria
     public void modificarStatus(int pk_tesis, String status){

@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import javax.swing.JOptionPane;
 //@author  Henry Joe Wong Urquiza
 public class ManejadorFecha {
 
@@ -14,7 +15,7 @@ public class ManejadorFecha {
     //@return Retorna un <b>STRING</b> con la fecha actual formato "dd-MM-yyyy"
     public static String getFechaActual() {
         Date ahora = new Date();
-        SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formateador = new SimpleDateFormat("yyyy-MM-dd");
         return formateador.format(ahora);
     }
 
@@ -78,7 +79,8 @@ public class ManejadorFecha {
     //@param La fecha a convertir a formato date
     //@return Retorna la fecha en formato Date
     public static synchronized java.util.Date deStringToDate(String fecha) {
-        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd-MM-yyyy");
+        //SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
         Date fechaEnviar = null;
         try {
             fechaEnviar = formatoDelTexto.parse(fecha);
@@ -109,7 +111,22 @@ public class ManejadorFecha {
         
         int n = diferenciasDeFechas(fechainicio, fechafin);
         
+        JOptionPane.showMessageDialog(null, n);
+        
         if(n>=0)
+            return true;
+        return false;
+    }
+    
+    public boolean rangoCorrectoTesis(String finicio, String ffin){
+        Date fechainicio = deStringToDate(finicio);
+        Date fechafin = deStringToDate(ffin);
+        
+        int n = diferenciasDeFechas(fechainicio, fechafin);
+        
+        JOptionPane.showMessageDialog(null, "este es n: "+n);
+        
+        if(n>=120 && n<=180)
             return true;
         return false;
     }

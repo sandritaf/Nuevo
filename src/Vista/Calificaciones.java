@@ -497,8 +497,9 @@ public class Calificaciones extends javax.swing.JPanel {
             ps = (PreparedStatement) con.prepareStatement(sql);
 
             ps.setInt(1, codigo);          
-            rs = ps.executeQuery();                            
+            rs = ps.executeQuery(); // realizamos la consulta                            
             
+            //Cargamos datos en el panel, para auxiliar 
             while(rs.next()){
                 txtPKTesis.setText(rs.getString("idtesis"));
                 txtStatus.setText(rs.getString("status"));
@@ -508,10 +509,10 @@ public class Calificaciones extends javax.swing.JPanel {
                 txtPKJurado2.setText(rs.getString(("id_jurado2")));
             }
             
-            if (!txtStatus.getText().equals("Defendida")){
-                Modificar.setEnabled(true);
-                Eliminar.setEnabled(true);
-                cargarCalificaciones(txtPKTesis.getText());
+            if (!txtStatus.getText().equals("Defendida")){ // Si la tesis ya tiene notas asociadas
+                Modificar.setEnabled(true); // se puede modificar
+                Eliminar.setEnabled(true); // y se puede eliminar
+                cargarCalificaciones(txtPKTesis.getText()); // entonces cargamos las notas en los combo box
             }
             else Guardar.setEnabled(true);
             

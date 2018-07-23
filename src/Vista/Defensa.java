@@ -6,6 +6,7 @@ import Modelo.M_Defensa;
 import Modelo.M_Tesis;
 import Logica.ControladorDefensa;
 import Logica.ControladorTesis;
+import Logica.ManejadorFecha;
 import Modelo.M_Calificaciones;
 import java.sql.Connection;
 import java.sql.Date;
@@ -17,6 +18,7 @@ import java.text.SimpleDateFormat;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -27,6 +29,7 @@ public class Defensa extends javax.swing.JPanel {
     M_Tesis tesis;
     ControladorTesis controladortesis;
     ControladorCalificaciones controladornotas;
+    ManejadorFecha manejador;
     
     public Defensa() {
         initComponents();        
@@ -41,6 +44,7 @@ public class Defensa extends javax.swing.JPanel {
         txtPKTutorA.setVisible(false);
         controladortesis = new ControladorTesis();
         controladornotas = new ControladorCalificaciones();
+        manejador = new ManejadorFecha();
     }
   
     public void limpiarCajas(){
@@ -50,7 +54,7 @@ public class Defensa extends javax.swing.JPanel {
         cmbTesis.setSelectedItem(0);
         txtPKTesis.setText(null);
         txtPKDefensa.setText(null);
-        txtFecha.setText(null);
+        txtFechaDefensa.setText(null);
         txtHora.setText(null);
         txtAula.setText(null);
         cmbTesis.setEnabled(true);
@@ -104,7 +108,7 @@ public class Defensa extends javax.swing.JPanel {
     }
     
     private boolean camposVacios(){
-        if(txtAula.getText().isEmpty() || txtHora.getText().isEmpty() || txtFecha.getText().isEmpty() &&
+        if(txtAula.getText().isEmpty() || txtHora.getText().isEmpty() || txtFechaDefensa.getText().isEmpty() &&
                 (!SemestreI.isSelected() || !SemestreII.isSelected()))
             return true;
         return false;
@@ -176,7 +180,7 @@ public class Defensa extends javax.swing.JPanel {
         jurado1 = new javax.swing.JLabel();
         cmbJurado2 = new javax.swing.JComboBox<>();
         cmbJurado1 = new javax.swing.JComboBox<>();
-        txtFecha = new javax.swing.JTextField();
+        txtFechaDefensa = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         Titulo = new javax.swing.JLabel();
         PorDefender = new javax.swing.JRadioButton();
@@ -198,6 +202,7 @@ public class Defensa extends javax.swing.JPanel {
         Aprobada = new javax.swing.JRadioButton();
         txtPKTutorA = new javax.swing.JTextField();
         txtStatus = new javax.swing.JTextField();
+        txtFechaFin = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(884, 497));
@@ -475,14 +480,10 @@ public class Defensa extends javax.swing.JPanel {
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(cmbJurado2, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(SemestreII))
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(txtFechaDefensa, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(8, 8, 8)
                                                 .addComponent(SemestreI)
                                                 .addGap(18, 18, 18)
@@ -491,7 +492,15 @@ public class Defensa extends javax.swing.JPanel {
                                                 .addComponent(cmbJurado1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(txtPKTutorA, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(txtAula, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                                        .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                        .addComponent(SemestreII))
+                                                    .addComponent(txtAula, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(txtFechaFin))))
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addGap(28, 28, 28)
                                         .addComponent(Aprobada)))))
@@ -523,18 +532,23 @@ public class Defensa extends javax.swing.JPanel {
                 .addGap(20, 20, 20)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fechaDefensa)
-                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFechaDefensa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(SemestreI)
                     .addComponent(txtStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fechaDefensa1)
-                    .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(SemestreII))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(fechaDefensa2)
-                    .addComponent(txtAula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(fechaDefensa1)
+                            .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(SemestreII))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(fechaDefensa2)
+                            .addComponent(txtAula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(txtFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Guardar)
@@ -586,8 +600,8 @@ public class Defensa extends javax.swing.JPanel {
             else if(Defendida.isSelected()) status = "Defendida";
             
             int pk = getComboSelected(cmbTesis);
-            defensa.actualizar(Date.valueOf(txtFecha.getText()), Time.valueOf(txtHora.getText()), 
-                    Integer.parseInt(txtAula.getText()), getPeriodo(Date.valueOf(txtFecha.getText())), 
+            defensa.actualizar(Date.valueOf(txtFechaDefensa.getText()), Time.valueOf(txtHora.getText()), 
+                    Integer.parseInt(txtAula.getText()), getPeriodo(Date.valueOf(txtFechaDefensa.getText())), 
                     getComboSelected(cmbTesis), getComboSelected(cmbJurado1),getComboSelected(cmbJurado2));
             controlador.ingresar(defensa);
             
@@ -675,7 +689,7 @@ public class Defensa extends javax.swing.JPanel {
             int fila = TablaDefensa.getSelectedRow();
             int codigo = (int)TablaDefensa.getValueAt(fila, 0);
             ps = (PreparedStatement) con.prepareStatement("SELECT id_tesis, iddefensa, fecha, hora, aula, "
-                                                + "id_jurado1, id_jurado2, periodo, id_tutorAcademico,status FROM "
+                                                + "id_jurado1, id_jurado2, periodo, id_tutorAcademico,status, fecha_fin FROM "
                                                 + "defensa INNER JOIN tesis ON defensa.id_tesis = tesis.idtesis "
                                                 + "WHERE iddefensa=?");
             
@@ -685,7 +699,7 @@ public class Defensa extends javax.swing.JPanel {
             while(rs.next()){
                 txtPKTesis.setText(rs.getString("id_tesis"));
                 txtPKDefensa.setText(rs.getString("iddefensa"));
-                txtFecha.setText(rs.getString("fecha"));
+                txtFechaDefensa.setText(rs.getString("fecha"));
                 txtHora.setText(rs.getString("hora"));
                 txtAula.setText(rs.getString("aula"));
                 setComboSelected(rs.getInt("id_jurado1"), cmbJurado1);
@@ -693,6 +707,7 @@ public class Defensa extends javax.swing.JPanel {
                 setComboSelected(rs.getInt("id_tesis"), cmbTesis);
                 txtPKTutorA.setText(rs.getString("id_tutorAcademico"));
                 txtStatus.setText(rs.getString("status"));
+                txtFechaFin.setText(rs.getString("fecha_fin"));
                 if (getSemestrePeriodo(rs.getString("periodo"))==1)
                     SemestreI.setSelected(true);
                 else 
@@ -732,11 +747,14 @@ public class Defensa extends javax.swing.JPanel {
             if(Todas.isSelected()) status = s;
             
             int pk = Integer.parseInt(txtPKTesis.getText());
-
+            
+            if(!FechaDefensaMayorFechaFin()){
+                JOptionPane.showMessageDialog(null, "La fecha de la defensa debe ser posterior a la fecha final de la tesis, es decir, luego de: "+txtFechaFin.getText());
+            }
             //si NO selecciona el status de aprobada o reprobada Y el status que tiene es diferente a Aprobada o Reprobada
-            if(!(s.equals("Aprobada") || s.equals("Reprobada")) && !(status.equals("Aprobada") || status.equals("Reprobada"))){
-                defensa.actualizar(Date.valueOf(txtFecha.getText()), Time.valueOf(txtHora.getText()), 
-                Integer.parseInt(txtAula.getText()), getPeriodo(Date.valueOf(txtFecha.getText())), 
+            else if(!(s.equals("Aprobada") || s.equals("Reprobada")) && !(status.equals("Aprobada") || status.equals("Reprobada"))){
+                defensa.actualizar(Date.valueOf(txtFechaDefensa.getText()), Time.valueOf(txtHora.getText()), 
+                Integer.parseInt(txtAula.getText()), getPeriodo(Date.valueOf(txtFechaDefensa.getText())), 
                 getComboSelected(cmbTesis), getComboSelected(cmbJurado1),getComboSelected(cmbJurado2));
                 controlador.modificar(defensa, txtPKDefensa.getText());
                 controladortesis.modificarStatus(pk, status); // cambia el status de la tesis
@@ -760,8 +778,23 @@ public class Defensa extends javax.swing.JPanel {
         }
         limpiarCajas();
     }//GEN-LAST:event_EliminarMouseClicked
-
-
+   
+    private boolean FechaDefensaMayorFechaFin(){
+        if(txtVacio(txtFechaDefensa))
+            JOptionPane.showMessageDialog(null, "NO pueden haber campos vacíos");
+        else{
+            JOptionPane.showMessageDialog(null, "toy aqui");
+            return manejador.fechasCorrectas(txtFechaFin.getText(), txtFechaDefensa.getText());
+        }
+        return false;
+    }
+    
+    public boolean txtVacio(JTextField txt){
+        if(txt.getText().isEmpty())
+            return true;
+        return false;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton Aprobada;
     private javax.swing.JLabel Añadir;
@@ -795,7 +828,8 @@ public class Defensa extends javax.swing.JPanel {
     private javax.swing.JLabel jurado1;
     private javax.swing.JLabel jurado2;
     private javax.swing.JTextField txtAula;
-    private javax.swing.JTextField txtFecha;
+    private javax.swing.JTextField txtFechaDefensa;
+    private javax.swing.JTextField txtFechaFin;
     private javax.swing.JTextField txtHora;
     private javax.swing.JTextField txtPKDefensa;
     private javax.swing.JTextField txtPKTesis;
