@@ -26,12 +26,18 @@ public class Calificaciones extends javax.swing.JPanel {
         controlador = new ControladorCalificaciones();
         controladortesis = new ControladorTesis();
         calificaciones = new M_Calificaciones();
-        txtPKEstudiante.setVisible(false);
-        //txtPKCalificaciones.setVisible(false);
         Guardar.setEnabled(false);
         Modificar.setEnabled(false);
         Eliminar.setEnabled(false);
         formato ="";
+        txtPKCalificaciones.setVisible(false);
+        txtPKEstudiante.setVisible(false);
+        txtPKJurado1.setVisible(false);
+        txtPKJurado2.setVisible(false);
+        txtPKTutorA.setVisible(false);
+        txtPKTutorI.setVisible(false);
+        txtStatus.setVisible(false);
+        txtPKTesis.setVisible(false);
     }
 
     @SuppressWarnings("unchecked")

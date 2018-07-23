@@ -45,6 +45,11 @@ public class Defensa extends javax.swing.JPanel {
         controladortesis = new ControladorTesis();
         controladornotas = new ControladorCalificaciones();
         manejador = new ManejadorFecha();
+        txtPKDefensa.setVisible(false);
+        txtPKTesis.setVisible(false);
+        txtPKTutorA.setVisible(false);
+        txtStatus.setVisible(false);
+        txtFechaFin.setVisible(false);
     }
   
     public void limpiarCajas(){

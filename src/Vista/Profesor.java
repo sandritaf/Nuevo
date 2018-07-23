@@ -28,6 +28,7 @@ public class Profesor extends javax.swing.JPanel {
         Modificar.setEnabled(false);
         Eliminar.setEnabled(false);
         controlador.cargarCarreras(cmbCarrera);
+        txtPK.setVisible(false);
     }
   
     @SuppressWarnings("unchecked")

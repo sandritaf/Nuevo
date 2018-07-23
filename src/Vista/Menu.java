@@ -541,7 +541,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_btn10MousePressed
 
     private void btn11MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn11MousePressed
-        Reportes reporte = new Reportes();
+        ReporteVentanaFea reporte = new ReporteVentanaFea();
         reporte.setVisible(true);
         reporte.setLocation(0,0);
         reporte.setSize(PanelPrincipal.getSize());
