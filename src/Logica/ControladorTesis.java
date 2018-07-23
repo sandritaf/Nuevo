@@ -244,54 +244,54 @@ public class ControladorTesis {
     //Agrega una tesis a la tabla tesis
     public void ingresar(M_Tesis tesis){
         try {
-                Conexion conn = new Conexion();
-                Connection con = conn.getConection();
-                PreparedStatement ps = null;    
-                PreparedStatement ps2 = null;    
-                
-                ps = con.prepareCall("INSERT INTO tesis (status,titulo,fecha_inicio, fecha_fin,"
-                        + "observaciones,departamento,id_tutorAcademico,id_tutorIndustrial,"
-                        + "estudiante_tesis) VALUES (?,?,?,?,?,?,?,?,?)");
-                
-                ps2 = con.prepareCall("UPDATE estudiante SET id_empresa=?, tesista=? WHERE idestudiante=?");
-                  
-                ps.setString(1, tesis.getStatus());
-                ps.setString(2, tesis.getTitulo());
-                ps.setDate(3, Date.valueOf(tesis.getF_inicio()));
-                ps.setDate(4, Date.valueOf(tesis.getF_inicio()));
-                ps.setString(5, tesis.getObservaciones());
-                ps.setString(6, tesis.getDepartamento());
-                ps.setInt(7, tesis.getId_tutorAcademico());
-                ps.setInt(8, tesis.getId_tutorIndustrial());
-                ps.setInt(9, tesis.getEstudiante_tesis());
-                
-                ps2.setInt(1, tesis.getEmpresa());
-                ps2.setInt(2, 1);
-                ps2.setInt(3, tesis.getEstudiante_tesis());
-                
-                
-                int res = ps.executeUpdate(); //Ejecutar la consulta
-                int rs2 = ps2.executeUpdate();
+            Conexion conn = new Conexion();
+            Connection con = conn.getConection();
+            PreparedStatement ps = null;    
+            PreparedStatement ps2 = null;    
 
-                if (res > 0){
-                    JOptionPane.showMessageDialog(null, "Tesis guardada con éxito");
-                }else{
-                    JOptionPane.showMessageDialog(null, "No se pudo tesis");
-                }
-                
-                if (rs2 > 0){
-                    JOptionPane.showMessageDialog(null, "Alumno afiliado a tesis con éxito");
-                }else{
-                    JOptionPane.showMessageDialog(null, "No se pudo guardar alumno");
-                }
-                //Cerrar las conexiones
-                ps.close();
-                conn.CerrarConexion();
-                con.close();
+            ps = con.prepareCall("INSERT INTO tesis (status,titulo,fecha_inicio, fecha_fin,"
+                    + "observaciones,departamento,id_tutorAcademico,id_tutorIndustrial,"
+                    + "estudiante_tesis) VALUES (?,?,?,?,?,?,?,?,?)");
 
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Ocurrió un error: "+e);
+            ps2 = con.prepareCall("UPDATE estudiante SET id_empresa=?, tesista=? WHERE idestudiante=?");
+
+            ps.setString(1, tesis.getStatus());
+            ps.setString(2, tesis.getTitulo());
+            ps.setDate(3, Date.valueOf(tesis.getF_inicio()));
+            ps.setDate(4, Date.valueOf(tesis.getF_fin()));
+            ps.setString(5, tesis.getObservaciones());
+            ps.setString(6, tesis.getDepartamento());
+            ps.setInt(7, tesis.getId_tutorAcademico());
+            ps.setInt(8, tesis.getId_tutorIndustrial());
+            ps.setInt(9, tesis.getEstudiante_tesis());
+
+            ps2.setInt(1, tesis.getEmpresa());
+            ps2.setInt(2, 1);
+            ps2.setInt(3, tesis.getEstudiante_tesis());
+
+
+            int res = ps.executeUpdate(); //Ejecutar la consulta
+            int rs2 = ps2.executeUpdate();
+
+            if (res > 0){
+                JOptionPane.showMessageDialog(null, "Tesis guardada con éxito");
+            }else{
+                JOptionPane.showMessageDialog(null, "No se pudo tesis");
             }
+
+            if (rs2 > 0){
+                JOptionPane.showMessageDialog(null, "Alumno afiliado a tesis con éxito");
+            }else{
+                JOptionPane.showMessageDialog(null, "No se pudo guardar alumno");
+            }
+            //Cerrar las conexiones
+            ps.close();
+            conn.CerrarConexion();
+            con.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Ocurrió un error: "+e);
+        }
     }
     
     //Dada una clave primaria, se elimina una tesis
@@ -343,12 +343,14 @@ public class ControladorTesis {
             Conexion c = new Conexion();
             Connection con = c.getConection();
             int pk = Integer.parseInt(pk_tesis);
-            PreparedStatement ps;
+            PreparedStatement ps=null, ps1=null;
             
             ps = con.prepareStatement("UPDATE tesis SET status=?, titulo=?, observaciones=?,"
                     + "fecha_inicio=?, fecha_fin=?, departamento=?, id_tutorAcademico=?,"
                     + "id_tutorIndustrial=?, estudiante_tesis=? "
                     + "WHERE idtesis="+pk_tesis);
+            
+            ps1 = con.prepareCall("UPDATE estudiante SET id_empresa=? WHERE idestudiante=?");
             
             ps.setString(1, tesis.getStatus()); 
             ps.setString(2, tesis.getTitulo());
@@ -360,9 +362,13 @@ public class ControladorTesis {
             ps.setInt(8, tesis.getId_tutorIndustrial());
             ps.setInt(9, tesis.getEstudiante_tesis());
             
-            int res = ps.executeUpdate();
+            ps1.setInt(1, tesis.getEmpresa());
+            ps1.setInt(2, tesis.getEstudiante_tesis());
             
-            if (res > 0){
+            int res = ps.executeUpdate();
+            int res2 = ps1.executeUpdate();
+            
+            if (res > 0 && res2 > 0){
                 JOptionPane.showMessageDialog(null, "Tesis modificada con éxito");
             }else{
                 JOptionPane.showMessageDialog(null, "No se pudo modificar la tesis");
@@ -382,7 +388,6 @@ public class ControladorTesis {
         try {
             Conexion c = new Conexion();
             Connection con = c.getConection();
-//            int pk = Integer.parseInt(pk_tesis);
             PreparedStatement ps;
             
             ps = con.prepareStatement("UPDATE tesis SET status=? WHERE idtesis=?");
@@ -448,6 +453,7 @@ public class ControladorTesis {
         }
     }
     
+    //Se eliminan las notas y defensa asociada a una tesis
     private void eliminar_notas_defensa(String pk_tesis){
        try {
             Conexion c = new Conexion();

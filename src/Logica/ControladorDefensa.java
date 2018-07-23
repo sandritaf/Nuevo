@@ -20,6 +20,7 @@ public class ControladorDefensa {
     
     /*HAY QUE IDEAR UN METODO PARA CAMBIAR EL STATUS DE UNA TESIS DE POR DEFENDER>DEFENDIDA */
     
+    //Dada una fecha y un semestre, forma el periodo en el que se debe dar la defensa y lo devuelve
     public String getPeriodo(Date Fecha, JRadioButton SemestreI){
         String formato="yyyy";
         SimpleDateFormat dateFormat = new SimpleDateFormat(formato);
@@ -31,6 +32,7 @@ public class ControladorDefensa {
         return anio;
     }
     
+    //Selecciona en el comboBox una opcion en particular, correspondiente a un codigo dado
     public void setComboSelected(int codigoPK, JComboBox combito){
         //Obtengo la longitud de mi combo
         int largoCombo = combito.getItemCount();
@@ -48,6 +50,7 @@ public class ControladorDefensa {
         }
     }
     
+    //Devuelve el codigo de la opcio seleccionada en el combo box
     public int getComboSelected(JComboBox combito){
         String codigo = combito.getSelectedItem().toString(); 
         String codigoFinal = "";
@@ -57,6 +60,7 @@ public class ControladorDefensa {
         return Integer.parseInt(codigoFinal);
     }
     
+    //Devuelve I o II dependiendo del semestre al que corresponda el periodo recibido
     public int getSemestrePeriodo(String periodo){
         String cadena = periodo; 
         String cadenaFinal = "";
@@ -66,6 +70,7 @@ public class ControladorDefensa {
         return cadenaFinal.length();
     }
     
+    //Carga las tesis en una tabla, dependiendo si tienen defensa asociada o no
     public void cargarTesis(JComboBox combito, boolean conDefensa){
         DefaultComboBoxModel aModel = new DefaultComboBoxModel();
         String sql = "SELECT idtesis, titulo FROM tesis ";
@@ -100,6 +105,7 @@ public class ControladorDefensa {
         }
     }
 
+    //Carga los profesores en los combo box
     public void cargarProfesores(JComboBox cmbJurado1, JComboBox cmbJurado2){
         DefaultComboBoxModel aModel = new DefaultComboBoxModel();
         DefaultComboBoxModel bModel = new DefaultComboBoxModel();
@@ -131,7 +137,8 @@ public class ControladorDefensa {
         }
     }
     
-    public void porDefenderTesis(int pk){
+    //Cambia el status de una tesis a "Por defender"
+    private void porDefenderTesis(int pk){
         try {
         Conexion c = new Conexion();
         Connection con = c.getConection();
@@ -158,7 +165,8 @@ public class ControladorDefensa {
         }
     }
     
-    public void enDesarrolloTesis(String PK){
+    //Cambia el status de la tesis a "en desarrollo"
+    private void enDesarrolloTesis(String PK){
         try {
         Conexion c = new Conexion();
         Connection con = c.getConection();
@@ -258,32 +266,32 @@ public class ControladorDefensa {
     //Se modifican datos de una defensa dada su clave primaria
     public void modificar(M_Defensa defensa, String pk_defensa){
         try {
-        Conexion c = new Conexion();
-        Connection con = c.getConection();
-        int pk = Integer.parseInt(pk_defensa);
-        PreparedStatement ps;            
-        ps = con.prepareStatement("UPDATE defensa SET fecha=?, hora=?, aula=?, periodo=?, id_jurado1=?, "
-                + "id_jurado2=?  WHERE iddefensa=?");
+            Conexion c = new Conexion();
+            Connection con = c.getConection();
+            int pk = Integer.parseInt(pk_defensa);
+            PreparedStatement ps;            
+            ps = con.prepareStatement("UPDATE defensa SET fecha=?, hora=?, aula=?, periodo=?, id_jurado1=?, "
+                    + "id_jurado2=?  WHERE iddefensa=?");
 
-        ps.setDate(1, defensa.getFecha());
-        ps.setTime(2, defensa.getHora());
-        ps.setInt(3, defensa.getAula());
-        ps.setString(4, defensa.getPeriodo());
-        ps.setInt(5, defensa.getId_jurado1());
-        ps.setInt(6, defensa.getId_jurad2());
-        ps.setInt(7, pk);
+            ps.setDate(1, defensa.getFecha());
+            ps.setTime(2, defensa.getHora());
+            ps.setInt(3, defensa.getAula());
+            ps.setString(4, defensa.getPeriodo());
+            ps.setInt(5, defensa.getId_jurado1());
+            ps.setInt(6, defensa.getId_jurad2());
+            ps.setInt(7, pk);
 
-        int res = ps.executeUpdate();
+            int res = ps.executeUpdate();
 
-        if (res > 0){
-            JOptionPane.showMessageDialog(null, "Defensa modificada con éxito");
-        }else{
-            JOptionPane.showMessageDialog(null, "No se pudo modificar la defensa");
-        }
+            if (res > 0){
+                JOptionPane.showMessageDialog(null, "Defensa modificada con éxito");
+            }else{
+                JOptionPane.showMessageDialog(null, "No se pudo modificar la defensa");
+            }
 
-        c.CerrarConexion();
-        con.close();
-        ps.close();
+            c.CerrarConexion();
+            con.close();
+            ps.close();
 
         } catch (Exception e) {
              JOptionPane.showMessageDialog(null, "Ocurrió un error en la modificacion: "+e);

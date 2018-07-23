@@ -200,6 +200,9 @@ public class Tesis extends javax.swing.JPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ModificarMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ModificarMouseEntered(evt);
+            }
         });
 
         Limpiar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -563,7 +566,7 @@ public class Tesis extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_TablaTesisMouseClicked
 
-    //Falta programar
+    //Invoca al controlador y le envia valores nuevos que modificar , asociados a la tesis
     private void ModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModificarMouseClicked
         //Verifica que haya un registro seleccionado
         if(txtPK.getText().isEmpty()){
@@ -577,6 +580,10 @@ public class Tesis extends javax.swing.JPanel {
         }
         limpiarCajas();
     }//GEN-LAST:event_ModificarMouseClicked
+
+    private void ModificarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ModificarMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ModificarMouseEntered
     
     public void limpiarCajas(){
         txtFechaF.setText(null);

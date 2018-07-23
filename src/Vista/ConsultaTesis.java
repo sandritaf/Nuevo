@@ -23,6 +23,7 @@ public class ConsultaTesis extends javax.swing.JPanel {
         tesis = new M_Tesis();
         txtPK.setVisible(false);
         cargarCarreras();
+        controlador.cargarPeriodo(cmbPeriodo);
     }
     
     public String filtroCarrera(){        
@@ -84,16 +85,10 @@ public class ConsultaTesis extends javax.swing.JPanel {
     }
      
     private String getFiltroPeriodo(){
-        String semestre = "";
-        String anio = txtAnio.getText();
-        System.out.println(anio);
-        if (SemestreI.isSelected())
-            semestre = "-I";
-        else 
-            semestre = "-II";
-        return "periodo = '" + anio + semestre+"'";
+        String cadena = cmbPeriodo.getSelectedItem().toString(); 
+        System.out.println("periodo="+cadena);
+        return "periodo='"+cadena+"'";
     }
-    
         
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -104,10 +99,9 @@ public class ConsultaTesis extends javax.swing.JPanel {
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
         buttonGroup3 = new javax.swing.ButtonGroup();
+        buttonGroup4 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        txtAnio = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         Reprobada = new javax.swing.JRadioButton();
         Aprobada = new javax.swing.JRadioButton();
@@ -130,13 +124,12 @@ public class ConsultaTesis extends javax.swing.JPanel {
         PorCarrera = new javax.swing.JRadioButton();
         PorStatus = new javax.swing.JRadioButton();
         PorCedula = new javax.swing.JRadioButton();
-        SemestreI = new javax.swing.JRadioButton();
-        SemestreII = new javax.swing.JRadioButton();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         Defendida = new javax.swing.JRadioButton();
         txtFechaF = new javax.swing.JTextField();
         txtFechaI = new javax.swing.JTextField();
+        cmbPeriodo = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -173,17 +166,6 @@ public class ConsultaTesis extends javax.swing.JPanel {
 
         jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel6.setText("Año");
-
-        txtAnio.setFont(new java.awt.Font("Century Gothic", 2, 12)); // NOI18N
-        txtAnio.setText("yyyy");
-        txtAnio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAnioActionPerformed(evt);
-            }
-        });
-
-        jLabel7.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jLabel7.setText("Semestre");
 
         jLabel12.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel12.setText("Status");
@@ -266,7 +248,6 @@ public class ConsultaTesis extends javax.swing.JPanel {
         });
 
         cmbCarrera.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        cmbCarrera.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbCarrera.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbCarreraActionPerformed(evt);
@@ -307,6 +288,7 @@ public class ConsultaTesis extends javax.swing.JPanel {
         });
 
         PorPeriodo.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup4.add(PorPeriodo);
         PorPeriodo.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         PorPeriodo.setText("Filtrar por Periodo");
         PorPeriodo.addActionListener(new java.awt.event.ActionListener() {
@@ -316,26 +298,19 @@ public class ConsultaTesis extends javax.swing.JPanel {
         });
 
         PorCarrera.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup4.add(PorCarrera);
         PorCarrera.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         PorCarrera.setText("Filtrar por Carrera");
 
         PorStatus.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup4.add(PorStatus);
         PorStatus.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         PorStatus.setText("Filtrar por Status");
 
         PorCedula.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup4.add(PorCedula);
         PorCedula.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         PorCedula.setText("Filtrar por Cédula");
-
-        SemestreI.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup3.add(SemestreI);
-        SemestreI.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        SemestreI.setText("I");
-
-        SemestreII.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup3.add(SemestreII);
-        SemestreII.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        SemestreII.setText("II");
 
         jLabel13.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel13.setText("Fecha Inicio");
@@ -397,27 +372,19 @@ public class ConsultaTesis extends javax.swing.JPanel {
                                             .addComponent(jLabel10)
                                             .addComponent(txtTutorAcad, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel6)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(cmbPeriodo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addComponent(PorPeriodo))
+                                        .addGap(44, 44, 44)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(PorCarrera)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                                        .addComponent(jLabel6)
-                                                        .addGap(8, 8, 8)
-                                                        .addComponent(txtAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                    .addComponent(PorPeriodo))
-                                                .addGap(18, 18, 18)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(PorCarrera)
-                                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                                        .addComponent(jLabel11)
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                        .addComponent(cmbCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jLabel7)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(SemestreI, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel11)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(SemestreII, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(cmbCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(PorStatus)
@@ -454,24 +421,18 @@ public class ConsultaTesis extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtPK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(PorPeriodo)
-                                .addComponent(PorCarrera))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(52, 52, 52)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel6)
-                                    .addComponent(txtAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel11)
-                                    .addComponent(cmbCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(18, 18, 18)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(SemestreI)
-                            .addComponent(SemestreII)))
+                            .addComponent(txtPK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(PorPeriodo)
+                            .addComponent(PorCarrera))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(52, 52, 52)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel6)
+                                .addComponent(jLabel11)
+                                .addComponent(cmbCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cmbPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -490,7 +451,7 @@ public class ConsultaTesis extends javax.swing.JPanel {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(PorDefender)
                             .addComponent(EnDesarrollo))))
-                .addGap(35, 35, 35)
+                .addGap(46, 46, 46)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel9)
@@ -576,10 +537,6 @@ public class ConsultaTesis extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtAnioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAnioActionPerformed
-      
-    }//GEN-LAST:event_txtAnioActionPerformed
 
     private void CargarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CargarMouseClicked
         String sql = "SELECT idtesis, titulo, status, "
@@ -695,12 +652,11 @@ public class ConsultaTesis extends javax.swing.JPanel {
     }//GEN-LAST:event_txtFechaIActionPerformed
     
     public void limpiarCajas(){
-        txtAnio.setText("yyyy-mm-dd");
-        txtAnio.setEnabled(true);
         txtCedula.setText(null);
         txtCedula.setEnabled(true);
         txtPK.setText(null);
         cmbCarrera.setSelectedItem(0);
+        cmbPeriodo.setSelectedItem(0);
         txtTutorAcad.setText(null);
         txtTutorInd.setText(null);
         txtFechaI.setText(null);
@@ -721,13 +677,13 @@ public class ConsultaTesis extends javax.swing.JPanel {
     private javax.swing.JRadioButton PorPeriodo;
     private javax.swing.JRadioButton PorStatus;
     private javax.swing.JRadioButton Reprobada;
-    private javax.swing.JRadioButton SemestreI;
-    private javax.swing.JRadioButton SemestreII;
     private javax.swing.JTable TablaTesis;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.JComboBox<String> cmbCarrera;
+    private javax.swing.JComboBox<String> cmbPeriodo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -736,7 +692,6 @@ public class ConsultaTesis extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -744,7 +699,6 @@ public class ConsultaTesis extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField txtAnio;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtFechaF;
     private javax.swing.JTextField txtFechaI;
