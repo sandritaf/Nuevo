@@ -98,12 +98,15 @@ public class ControladorEstudiante {
             Connection con = c.getConection();
             String pk = pk_alumno;      
             PreparedStatement ps;
+            PreparedStatement ps1;
             
             ps = con.prepareStatement("DELETE FROM estudiante WHERE idestudiante="+pk);
-                        
-            int res = ps.executeUpdate();
+            ps1 = con.prepareStatement("DELETE FROM tesis WHERE estudiante_tesis="+pk);
             
-            if (res > 0){
+            int res = ps.executeUpdate();
+            int res1 = ps1.executeUpdate();
+            
+            if (res > 0 && res1 > 0){
                 JOptionPane.showMessageDialog(null, "Persona eliminada con éxito");
             }else{
                 JOptionPane.showMessageDialog(null, "No se pudieron realizar los cambios");
@@ -114,7 +117,7 @@ public class ControladorEstudiante {
             ps.close();
                  
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Ocurrió un error");
+            JOptionPane.showMessageDialog(null, "Ocurrió un error al querer eliminar"+e);
         }
     }
     

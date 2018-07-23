@@ -390,8 +390,6 @@ public class Estudiante extends javax.swing.JPanel {
             .addComponent(Guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        txtID.setEditable(false);
-
         Limpiar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         Limpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Recursos/escoba.png"))); // NOI18N
         Limpiar.setText("Limpiar");
@@ -428,8 +426,8 @@ public class Estudiante extends javax.swing.JPanel {
                                 .addGroup(jPanel13Layout.createSequentialGroup()
                                     .addGap(68, 68, 68)
                                     .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGap(18, 18, 18)
+                                    .addComponent(txtID)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
                                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(botonFiltroCarrera)
@@ -719,7 +717,7 @@ public class Estudiante extends javax.swing.JPanel {
     }//GEN-LAST:event_LimpiarMouseClicked
 
     private void cmbCarreraItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbCarreraItemStateChanged
-            setSemestreValido(controlador.getComboSelected(cmbCarrera));
+        setSemestreValido(controlador.getComboSelected(cmbCarrera));
     }//GEN-LAST:event_cmbCarreraItemStateChanged
 
 
