@@ -104,9 +104,9 @@ public class ControladorEstudiante {
             ps1 = con.prepareStatement("DELETE FROM tesis WHERE estudiante_tesis="+pk);
             
             int res = ps.executeUpdate();
-            int res1 = ps1.executeUpdate();
+            //int res1 = ps1.executeUpdate();
             
-            if (res > 0 && res1 > 0){
+            if (res > 0 /*&& res1 > 0*/){
                 JOptionPane.showMessageDialog(null, "Persona eliminada con éxito");
             }else{
                 JOptionPane.showMessageDialog(null, "No se pudieron realizar los cambios");
